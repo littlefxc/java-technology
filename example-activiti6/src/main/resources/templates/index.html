@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>申请</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" />
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="/main.js"></script>
+    <style>
+        body {
+            margin: 10px 10px 100px 10px;
+        }
+
+        * {
+            font-family: "微软雅黑";
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+<a href="?lang=en_US">English</a>
+<a href="?lang=zh_CN">中文</a>
+<div class="container">
+    <div class="row">
+        <div class="col-md">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div>
+                        <button class="btn btn-primary" onclick="writeForm()">填写请假单</button>
+                        <button class="btn btn-danger" onclick="logout()">退出</button>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover table-condensed" th:if="${forms.size()}>0">
+                        <thead>
+                        <tr>
+                            <td th:text="#{index.table.thead.title}">请假标题</td>
+                            <td>请假内容</td>
+                            <td>请假人</td>
+                            <td>状态</td>
+                            <td>操作</td>
+                        </tr>
+                        </thead>
+                        <tr th:each="form:${forms}">
+                            <td th:text="${form.title}"></td>
+                            <td th:text="${form.content}"></td>
+                            <td th:text="${form.applicant}"></td>
+                            <td th:text="${form.state}"></td>
+                            <td>
+                                <button class="btn btn-primary" th:if="${form.state} == '填写请假单'" th:onclick="|javascript:apply(${form.id})|">申请请假</button>
+                                <button class="btn btn-danger" th:if="${form.state} == '填写请假单'" th:onclick="|javascript:giveup(${form.id})|">放弃请假</button>
+                                <button class="btn btn-default" th:onclick="|javascript:checkState(${form.id})|" data-toggle="modal" data-target="#myModal">查看流程</button>
+                            </td>
+                        </tr>
+                    </table>
+                    <div th:if="${forms.size()}==0" th:utext="#{index.notVacation}">
+                        <br/>暂无请假数据
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">流程</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

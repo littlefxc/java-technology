@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com.example.atomikos.service"/>
+    <context:component-scan base-package="com.example.atomikos.dao"/>
+
+    <context:property-placeholder location="classpath:application.properties"/>
+
+    <!-- 配置Atomikos数据源与Druid的XA实现 -->
+    <bean id="oneDataSource" primary="true" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
+        <property name="uniqueResourceName" value="${spring.jta.atomikos.datasource.one.unique-resource-name}"/>
+        <property name="maxPoolSize" value="${spring.jta.atomikos.datasource.one.max-pool-size}"/>
+        <property name="poolSize" value="${spring.jta.atomikos.datasource.one.pool-size}" />
+        <property name="minPoolSize" value="${spring.jta.atomikos.datasource.one.min-pool-size}" />
+        <property name="xaDataSourceClassName" value="${spring.jta.atomikos.datasource.one.xa-data-source-class-name}"/>
+        <property name="xaProperties">
+            <props>
+                <prop key="url">${spring.jta.atomikos.datasource.one.xa-properties.url}</prop>
+                <prop key="username">${spring.jta.atomikos.datasource.one.xa-properties.username}</prop>
+                <prop key="password">${spring.jta.atomikos.datasource.one.xa-properties.password}</prop>
+                <prop key="filters">${spring.jta.atomikos.datasource.one.xa-properties.filters}</prop>
+                <prop key="initialSize">${spring.jta.atomikos.datasource.one.xa-properties.initialSize}</prop>
+                <prop key="maxActive">${spring.jta.atomikos.datasource.one.xa-properties.maxActive}</prop>
+                <prop key="minIdle">${spring.jta.atomikos.datasource.one.xa-properties.minIdle}</prop>
+                <prop key="testOnBorrow">${spring.jta.atomikos.datasource.one.xa-properties.testOnBorrow}</prop>
+                <prop key="testWhileIdle">${spring.jta.atomikos.datasource.one.xa-properties.testWhileIdle}</prop>
+                <!--<prop key="connectionProperties">${spring.jta.atomikos.datasource.one.xa-properties.connectionProperties}</prop>-->
+            </props>
+        </property>
+    </bean>
+
+    <!-- 配置Mybatis的会话工厂 -->
+    <bean id="oneSqlSessionFactory" primary="true" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="oneDataSource" />
+    </bean>
+
+    <!-- 配置Mybatis(oneSqlSessionFactory)的包扫描 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.example.atomikos.dao.one" />
+        <property name="sqlSessionFactoryBeanName" value="oneSqlSessionFactory" />
+    </bean>
+
+    <bean id="twoDataSource" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
+        <property name="uniqueResourceName" value="${spring.jta.atomikos.datasource.two.unique-resource-name}"/>
+        <property name="maxPoolSize" value="${spring.jta.atomikos.datasource.two.max-pool-size}"/>
+        <property name="poolSize" value="${spring.jta.atomikos.datasource.two.pool-size}" />
+        <property name="minPoolSize" value="${spring.jta.atomikos.datasource.two.min-pool-size}" />
+        <property name="xaDataSourceClassName" value="${spring.jta.atomikos.datasource.two.xa-data-source-class-name}"/>
+        <property name="xaProperties">
+            <props>
+                <prop key="url">${spring.jta.atomikos.datasource.two.xa-properties.url}</prop>
+                <prop key="username">${spring.jta.atomikos.datasource.two.xa-properties.username}</prop>
+                <prop key="password">${spring.jta.atomikos.datasource.two.xa-properties.password}</prop>
+                <prop key="filters">${spring.jta.atomikos.datasource.two.xa-properties.filters}</prop>
+                <prop key="initialSize">${spring.jta.atomikos.datasource.two.xa-properties.initialSize}</prop>
+                <prop key="maxActive">${spring.jta.atomikos.datasource.two.xa-properties.maxActive}</prop>
+                <prop key="minIdle">${spring.jta.atomikos.datasource.two.xa-properties.minIdle}</prop>
+                <prop key="testOnBorrow">${spring.jta.atomikos.datasource.two.xa-properties.testOnBorrow}</prop>
+                <prop key="testWhileIdle">${spring.jta.atomikos.datasource.two.xa-properties.testWhileIdle}</prop>
+                <!--<prop key="connectionProperties">${spring.jta.atomikos.datasource.two.xa-properties.connectionProperties}</prop>-->
+            </props>
+        </property>
+    </bean>
+
+    <bean id="twoSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="twoDataSource" />
+    </bean>
+
+    <!-- 配置Mybatis(oneSqlSessionFactory)的包扫描 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.example.atomikos.dao.two" />
+        <property name="sqlSessionFactoryBeanName" value="twoSqlSessionFactory" />
+    </bean>
+
+    <import resource="spring-tx.xml"/>
+    <!--<import resource="spring-mvc.xml"/>-->
+</beans>

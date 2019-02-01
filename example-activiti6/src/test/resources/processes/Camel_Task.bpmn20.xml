@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="leaveWithCamel" name="Camel Task" isExecutable="true">
+    <documentation>在流程中调用Camel</documentation>
+    <startEvent id="startEvent1"></startEvent>
+    <serviceTask id="invokeCamel" name="调用Camel服务" activiti:type="camel"></serviceTask>
+    <userTask id="部门经理审批" name="部门经理审批" activiti:assignee="部门经理"></userTask>
+    <userTask id="直接领导审批" name="直接领导审批" activiti:assignee="直接领导"></userTask>
+    <userTask id="销假" name="销假" activiti:assignee="${leaderId}"></userTask>
+    <endEvent id="end"></endEvent>
+    <sequenceFlow id="sid-7EB5BE76-62AC-4C71-ACC3-7A25F120F148" sourceRef="销假" targetRef="end"></sequenceFlow>
+    <sequenceFlow id="sid-4D427BA8-09BB-4AC4-915C-981F86D7AD18" sourceRef="部门经理审批" targetRef="销假"></sequenceFlow>
+    <sequenceFlow id="sid-C352F7E0-0999-4F1C-A63E-73E058F45E8D" sourceRef="直接领导审批" targetRef="销假"></sequenceFlow>
+    <sequenceFlow id="sid-DBAAB847-A05B-4F37-994B-738C49FFFE2F" sourceRef="startEvent1" targetRef="invokeCamel"></sequenceFlow>
+    <sequenceFlow id="sid-FC63C346-5EAC-4CA3-A255-5AC3E746C30B" name="请假天数大于3" sourceRef="invokeCamel" targetRef="部门经理审批">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${deptLeaderAudit}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-59D5D382-ED1A-4DEE-965F-1DD9ABF8A45C" name="请假天数小于3" sourceRef="invokeCamel" targetRef="直接领导审批">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${!deptLeaderAudit}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+</definitions>

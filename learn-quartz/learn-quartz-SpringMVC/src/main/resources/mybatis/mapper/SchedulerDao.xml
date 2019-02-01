@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.littlefxc.example.quartz.dao.SchedulerDao">
+
+    <resultMap id="SchedulerJobMap" type="SchedulerJob">
+        <id property="id" column="id"/>
+        <result property="cronExpression" column="cron_expression"/>
+        <result property="jobClass" column="job_class"/>
+        <result property="jobName" column="job_name"/>
+        <result property="jobGroup" column="job_group"/>
+        <result property="repeatTime" column="repeat_time"/>
+        <result property="cronJob" column="cron_job"/>
+        <result property="schedulerName" column="scheduler_name"/>
+    </resultMap>
+
+    <!-- @formatter:off -->
+    <sql id="sql_scheduler_job_info">cron_expression,cron_job,job_class,job_group,job_name,repeat_time, scheduler_name</sql>
+    <!-- @formatter:on -->
+
+    <select id="getJobWithSimpleTrigger" resultType="java.util.HashMap">
+        select j.JOB_NAME,
+               j.JOB_GROUP,
+               j.JOB_CLASS_NAME,
+               t.TRIGGER_NAME,
+               t.TRIGGER_GROUP,
+               s.REPEAT_INTERVAL,
+               s.TIMES_TRIGGERED
+        from qrtz_job_details as j
+                 join qrtz_triggers as t
+                 join qrtz_simple_triggers as s
+                      ON j.JOB_NAME = t.JOB_NAME
+                          and t.TRIGGER_NAME = s.TRIGGER_NAME
+                          and t.TRIGGER_GROUP = s.TRIGGER_GROUP
+        where j.SCHED_NAME = #{schedulerName}
+    </select>
+
+    <select id="getJobWithCronTrigger" resultType="java.util.HashMap">
+        select j.JOB_NAME,
+               j.JOB_GROUP,
+               j.JOB_CLASS_NAME,
+               t.TRIGGER_NAME,
+               t.TRIGGER_GROUP,
+               c.CRON_EXPRESSION,
+               c.TIME_ZONE_ID
+        from qrtz_job_details as j
+                 join qrtz_triggers as t
+                 join qrtz_cron_triggers as c
+                      ON j.JOB_NAME = t.JOB_NAME
+                          and t.TRIGGER_NAME = c.TRIGGER_NAME
+                          and t.TRIGGER_GROUP = c.TRIGGER_GROUP
+        where j.SCHED_NAME = #{schedulerName}
+    </select>
+
+    <select id="findSchedulerJobByJobName" parameterType="string" resultMap="SchedulerJobMap">
+        select id,
+        <include refid="sql_scheduler_job_info"/>
+        from scheduler_job_info
+        where job_name = #{jobName}
+        and scheduler_name = #{schedulerName}
+    </select>
+
+    <select id="findAll" resultMap="SchedulerJobMap">
+        select id,
+        <include refid="sql_scheduler_job_info"/>
+        from scheduler_job_info where scheduler_name = #{schedulerName}
+    </select>
+
+    <delete id="deleteByJobName">
+        delete
+        from scheduler_job_info
+        where job_name = #{jobName}
+          and scheduler_name = #{schedulerName}
+    </delete>
+
+    <insert id="save" parameterType="SchedulerJob">
+        <!-- @formatter:off -->
+        <if test="id == null">
+            insert into scheduler_job_info(<include refid="sql_scheduler_job_info"/>)
+            values(#{cronExpression}, #{cronJob}, #{jobClass}, #{jobGroup}, #{jobName}, #{repeatTime}, 'scheduler-spring-mvc')
+        </if>
+        <!-- @formatter:on -->
+        <if test="id != null">
+            update scheduler_job_info
+            <set>
+                <if test="cronExpression!=null">cron_expression = #{cronExpression}</if>
+                <if test="cronJob!=null">cron_job = #{cronJob}</if>
+                <if test="jobClass!=null">job_class = #{jobClass}</if>
+                <if test="jobGroup!=null">job_group = #{jobGroup}</if>
+                <if test="jobName!=null">job_name = #{jobName}</if>
+                <if test="repeatTime!=null">repeat_time = #{repeatTime}</if>
+                <if test="scheduler_name!=null">scheduler_name = #{schedulerName}</if>
+            </set>
+            <where>
+                id = #{id}
+            </where>
+        </if>
+    </insert>
+</mapper>

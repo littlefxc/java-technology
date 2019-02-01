@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test" id="m1539134510711" name="">
+  <process id="test" name="onboarding" isExecutable="true" isClosed="false" processType="None">
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <scriptTask id="initScript" name="初始化变量" scriptFormat="groovy" activiti:autoStoreVariables="false">
+      <script>def name = "冯雪超";
+execution.setVariable('name', name);</script>
+    </scriptTask>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="initScript"></sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <scriptTask id="outVariable" name="输出变量" scriptFormat="groovy" activiti:autoStoreVariables="false">
+      <script>out:println "我的名字是" + name;
+out:println "我的名字是" + name;
+out:println "我的名字是" + name;</script>
+    </scriptTask>
+    <sequenceFlow id="_3" sourceRef="initScript" targetRef="outVariable"></sequenceFlow>
+    <sequenceFlow id="_4" sourceRef="outVariable" targetRef="endevent1"></sequenceFlow>
+  </process>
+</definitions>

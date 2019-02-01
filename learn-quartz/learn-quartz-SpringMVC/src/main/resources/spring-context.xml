@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com.littlefxc.example.quartz.service"/>
+    <context:component-scan base-package="com.littlefxc.example.quartz.dao"/>
+    <context:component-scan base-package="com.littlefxc.example.quartz.component"/>
+
+    <context:property-placeholder location="classpath:druid.properties"/>
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url" value="${spring.datasource.url}"/>
+        <property name="username" value="${spring.datasource.username}"/>
+        <property name="password" value="${spring.datasource.password}"/>
+        <property name="driverClassName" value="${spring.datasource.driver-class-name}"/>
+        <property name="filters" value="${spring.datasource.druid.filters}"/>
+        <property name="initialSize" value="${spring.datasource.druid.initial-size}" />
+        <property name="minIdle" value="${spring.datasource.druid.min-idle}" />
+        <property name="maxActive" value="${spring.datasource.druid.max-active}" />
+        <property name="maxWait" value="${spring.datasource.druid.max-wait}" />
+        <property name="timeBetweenEvictionRunsMillis" value="${spring.datasource.druid.time-between-eviction-runs-millis}"/>
+        <property name="minEvictableIdleTimeMillis" value="${spring.datasource.druid.min-evictable-idle-time-millis}" />
+        <property name="testWhileIdle" value="${spring.datasource.druid.test-while-idle}" />
+        <property name="testOnBorrow" value="${spring.datasource.druid.test-on-borrow}" />
+        <property name="testOnReturn" value="${spring.datasource.druid.test-on-return}" />
+        <property name="poolPreparedStatements" value="${spring.datasource.druid.pool-prepared-statements}" />
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="${spring.datasource.druid.max-pool-prepared-statement-per-connection-size}" />
+     </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml" />
+        <property name="typeAliasesPackage" value="com.littlefxc.example.quartz.enitiy" />
+        <property name="mapperLocations" value="classpath:mybatis/mapper/*.xml" />
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <!-- 参考链接：https://pagehelper.github.io/docs/howtouse/#1-%E5%BC%95%E5%85%A5%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6 -->
+                    <property name="properties">
+                        <value>
+                            helperDialect=mysql
+                            reasonable=true
+                            supportMethodsArguments=true
+                            params=count=countSql
+                            rowBoundsWithCount=true
+                            autoRuntimeDialect=true
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+        <property name="basePackage" value="com.littlefxc.example.quartz.dao" />
+    </bean>
+
+    <!-- 创建SchedulerFactoryBean，参考模块learn-quartz-SpringBoot#com.littlefxc.example.quartz.config.SchedulerConfig -->
+    <bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jobFactory" ref="jobFactory"/>
+        <!--<property name="schedulerName" value="scheduler-spring-mvc"/>-->
+        <property name="schedulerName" value="schedulerFactoryBean"/>
+        <!--可选，QuartzScheduler 启动时更新己存在的Job，这样就不用每次修改targetObject后删除qrtz_job_details表对应记录了 -->
+        <property name="overwriteExistingJobs" value="true"/>
+        <!--可以在web关闭的时候关闭线程-->
+        <property name="waitForJobsToCompleteOnShutdown" value="true"/>
+        <property name="configLocation" value="classpath:quartz.properties"/>
+    </bean>
+
+    <bean id="jobFactory" class="com.littlefxc.example.quartz.component.SchedulerJobFactory" />
+
+    <import resource="spring-tx.xml"/>
+    <import resource="spring-mvc.xml"/>
+</beans>

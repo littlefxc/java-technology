@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:batch="http://www.springframework.org/schema/batch"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+       http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:property-placeholder location="classpath:application.properties"/>
+    <context:component-scan base-package="com.littlefxc.examples.batch"/>
+
+    <!-- 1. 数据库脚本：这里是为了方便起见保证每次重启程序数据库都是最新的（生产环境中不要这么做!!!） -->
+    <jdbc:initialize-database>
+        <jdbc:script location="${batch.schema-drop}"/>
+        <jdbc:script location="${batch.schema-create}"/>
+        <jdbc:script location="${project.schema-drop}"/>
+        <jdbc:script location="${project.schema-create}"/>
+    </jdbc:initialize-database>
+
+    <!-- 2. 连接数据库：可以选择其它的数据源实现 -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+          p:driverClassName="${jdbc.driver-class-name}"
+          p:url="${jdbc.url}"
+          p:username="${jdbc.username}"
+          p:password="${jdbc.password}"/>
+
+    <!-- 3. 事务管理 -->
+    <!--<bean id="transactionManager" class="org.springframework.batch.support.transactionRecord.ResourcelessTransactionManager"/>-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+          p:dataSource-ref="dataSource"/>
+
+    <!-- 3.1 申明式事务 -->
+    <tx:annotation-driven/>
+
+    <!-- 3.2 mybatis 配置 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+          p:dataSource-ref="dataSource"
+          p:typeAliasesPackage="${mybatis.type-aliases-package}"
+          p:configLocation="${mybatis.configuration}"/>
+
+    <!-- 3.3 mybatis dao 配置 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+          p:basePackage="com.littlefxc.examples.batch.dao"
+          p:sqlSessionFactoryBeanName="sqlSessionFactory"/>
+
+    <!-- 4. 为JobLauncher，Job和Step实现提供CRUD操作 -->
+    <bean id="jobRepository" class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean"
+          p:dataSource-ref="dataSource"
+          p:transactionManager-ref="transactionManager"
+          p:databaseType="mysql"/>
+
+    <!-- 5. JobLauncher表示一个简单的接口，用于使用给定的 JobParameter 启动作业 -->
+    <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
+          p:jobRepository-ref="jobRepository"/>
+
+    <!-- 6. batch 输入 -->
+    <bean id="itemReader" class="org.springframework.batch.item.file.FlatFileItemReader">
+        <!-- 输入资源 -->
+        <property name="resource" value="input/record.csv"/>
+        <!-- 不读取第一行数据 -->
+        <property name="linesToSkip" value="1"/>
+        <!-- 将输入资源转化为对象 -->
+        <property name="lineMapper">
+            <bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+                <property name="lineTokenizer">
+                    <bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+                        <property name="names" value="username,user_id,transaction_date,transaction_amount"/>
+                    </bean>
+                </property>
+                <property name="fieldSetMapper" ref="recordFieldSetMapper"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- 7. batch的处理器 -->
+    <bean id="itemProcessor" class="com.littlefxc.examples.batch.service.CustomItemProcessor"/>
+
+    <!-- 8. batch 输出:输出为xml -->
+    <!--<bean id="staxEventItemWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter">
+        <property name="resource" value="file:xml/output.xml"/>
+        <property name="marshaller">
+            &lt;!&ndash; xml 与 对象的转换器 &ndash;&gt;
+            <bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller"
+                  p:packagesToScan="com.littlefxc.examples.batch.model"/>
+        </property>
+        <property name="rootTagName" value="transactionRecord"/>
+    </bean>-->
+    <!-- 8. batch 输出:输出到mysql -->
+    <!--<bean id="itemWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter"
+          p:dataSource-ref="dataSource" p:sql="${batch.sql}">
+        <property name="itemSqlParameterSourceProvider">
+            <bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider"/>
+        </property>
+    </bean>-->
+    <!-- 8. batch 输出:使用 mybatis 输出到mysql -->
+    <bean id="itemWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <!-- 与 mybatis 关联的 dao 层的接口名：com.littlefxc.examples.batch.dao.TransactionRecordDao.insertTransactionRecord -->
+        <property name="statementId" value="insertTransactionRecord"/>
+    </bean>
+
+    <!-- 9. 配置batch的输入(6)、处理器(7)、输出(8) -->
+    <!-- commit-interval:提交事务之前将处理的项目数。 -->
+    <batch:job id="firstBatchJob">
+        <batch:step id="step1">
+            <batch:tasklet>
+                <batch:chunk reader="itemReader" processor="itemProcessor" writer="itemWriter" commit-interval="2"/>
+                <!--<batch:chunk reader="itemReader" processor="itemProcessor" writer="staxEventItemWriter" commit-interval="2"/>-->
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
+
+</beans>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:activiti="http://activiti.org/bpmn"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+             typeLanguage="http://www.w3.org/2001/XMLSchema"
+             expressionLanguage="http://www.w3.org/1999/XPath"
+             targetNamespace="http://www.activiti.org/processdef">
+  <process id="camelAsyncProcess" name="Camel 异步任务" isExecutable="true">
+    <documentation>异步Camel任务</documentation>
+    <startEvent id="startEvent1"></startEvent>
+    <serviceTask id="asyncCamelTask" name="Camel任务" activiti:async="true" activiti:exclusive="false" activiti:type="camel"></serviceTask>
+    <receiveTask id="receiveAsyncCamel" name="等待Camel任务完成"></receiveTask>
+    <userTask id="userTask1" name="用户任务"></userTask>
+    <endEvent id="end"></endEvent>
+      
+    <sequenceFlow id="flow1" sourceRef="startEvent1" targetRef="asyncCamelTask"></sequenceFlow>
+    <sequenceFlow id="flow2" sourceRef="asyncCamelTask" targetRef="receiveAsyncCamel"></sequenceFlow>
+    <sequenceFlow id="flow3" sourceRef="receiveAsyncCamel" targetRef="userTask1"></sequenceFlow>
+    <sequenceFlow id="flow4" sourceRef="userTask1" targetRef="end"></sequenceFlow>
+  </process>
+</definitions>

@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.littlefxc.examples.spring.boot.autoconfigure.QuartzAutoConfiguration
