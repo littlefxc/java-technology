@@ -13,6 +13,7 @@ import java.io.UnsupportedEncodingException;
 /**
  * 消息的发送和接收都要有对应的Topic，<br>
  * 所以首先在服务器上创建 topic：bin/mqadmin updateTopic -c rocketmq-cluster -n '192.168.212.75:9876;192.168.212.76:9876' -t TopicTest
+ *
  * @author fengxuechao
  * @date 2019/1/16
  **/
@@ -22,14 +23,15 @@ public class ProducerApp {
         //Instantiate with a producer group name.
         DefaultMQProducer producer = new DefaultMQProducer("rmq-group");
         // Specify name server addresses.
-        producer.setNamesrvAddr("192.168.120.63:9876");
-        producer.setVipChannelEnabled(false);
+        producer.setNamesrvAddr("192.168.212.75:9876;192.168.212.76:9876");
+//        producer.setVipChannelEnabled(false);
+        producer.setInstanceName("rocketmq-test");
         //Launch the instance.
         producer.start();
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 10; i++) {
             //Create a message instance, specifying topic, tag and message body.
             Message msg = new Message(
-                    "TopicTest",
+                    "testTopic",
                     "TagA",
                     ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET)
             );
