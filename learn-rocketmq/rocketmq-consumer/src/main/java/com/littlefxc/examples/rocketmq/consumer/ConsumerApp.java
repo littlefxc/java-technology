@@ -1,23 +1,25 @@
-package com.littlefxc.examples.rocketmq;
+package com.littlefxc.examples.rocketmq.consumer;
 
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.message.MessageExt;
 
 import java.util.List;
 
 /**
  * @author fengxuechao
- */
-public class Consumer {
+ * @date 2019/2/2
+ **/
+public class ConsumerApp {
 
     public static void main(String[] args) throws MQClientException {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("rmq-group");
 
-        consumer.setNamesrvAddr("192.168.212.75:9876;192.168.212.75:9876");
+        consumer.setNamesrvAddr("192.168.120.63:9876");
         consumer.setInstanceName("consumer");
         consumer.subscribe("TopicTest", "TagA");
 
