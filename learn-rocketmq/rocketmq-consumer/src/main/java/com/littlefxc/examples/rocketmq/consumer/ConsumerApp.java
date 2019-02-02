@@ -21,14 +21,14 @@ public class ConsumerApp {
 
         consumer.setNamesrvAddr("192.168.212.75:9876;192.168.212.76:9876");
         consumer.setInstanceName("consumer_fxc");
-        consumer.subscribe("testTopic", "TagA");
+        consumer.subscribe("Topic_A", "TagA||TagB||TagC||TagD||TagE");
 
         consumer.registerMessageListener(new MessageListenerConcurrently() {
             @Override
             public ConsumeConcurrentlyStatus consumeMessage(
                     List<MessageExt> msgList, ConsumeConcurrentlyContext context) {
                 for (MessageExt msg : msgList) {
-                    System.out.println(new String(msg.getBody()));
+                    System.out.println("收到 => " + new String(msg.getBody()));
                 }
                 return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
             }

@@ -17,7 +17,7 @@ import java.io.UnsupportedEncodingException;
  * @author fengxuechao
  * @date 2019/1/16
  **/
-public class ProducerApp {
+public class SyncProducerApp {
 
     public static void main(String[] args) throws MQClientException, UnsupportedEncodingException, RemotingException, InterruptedException, MQBrokerException {
         //Instantiate with a producer group name.
@@ -25,15 +25,15 @@ public class ProducerApp {
         // Specify name server addresses.
         producer.setNamesrvAddr("192.168.212.75:9876;192.168.212.76:9876");
 //        producer.setVipChannelEnabled(false);
-        producer.setInstanceName("rocketmq-test");
+        producer.setInstanceName("rocketmq-sync");
         //Launch the instance.
         producer.start();
         for (int i = 0; i < 10; i++) {
             //Create a message instance, specifying topic, tag and message body.
             Message msg = new Message(
-                    "testTopic",
+                    "Topic_A",
                     "TagA",
-                    ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET)
+                    ("同步消息 " + i).getBytes(RemotingHelper.DEFAULT_CHARSET)
             );
             //Call send message to deliver message to one of brokers.
             SendResult sendResult = producer.send(msg);
