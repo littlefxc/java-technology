@@ -3,6 +3,7 @@ package com.littlefxc.examples.log4j2;
 import com.alibaba.druid.pool.DruidDataSource;
 
 import javax.sql.DataSource;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +22,10 @@ public class ConnectionFactory {
 
     private ConnectionFactory() {
         Properties properties = new Properties();
-        try (InputStream stream = new FileInputStream(System.getProperty("user.dir") + "\\Log4j2-JDBCAppender\\src\\main\\resources\\db.properties")) {
+        String lineSeparator = File.separator;
+        String fileName = String.join(lineSeparator,
+                System.getProperty("user.dir"), "Log4j2-JDBCAppender", "src", "main", "resources", "db.properties");
+        try (InputStream stream = new FileInputStream(fileName)) {
             properties.load(stream);
         } catch (IOException e) {
             e.printStackTrace();
