@@ -2,24 +2,23 @@
 <Configuration status="INFO">
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
-            <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n" />
+            <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"/>
         </Console>
-        <JDBC name="jdbc" tableName="log.log4j2">
-            <ConnectionFactory class="net.example.db.ConnectionFactory" method="getDatabaseConnection" />
-            <Column name="EVENT_ID" literal="LOGGING.APPLICATION_LOG_SEQUENCE.NEXTVAL" />
-            <Column name="EVENT_DATE" isEventTimestamp="true" />
-            <Column name="LEVEL" pattern="%level" />
-            <Column name="LOGGER" pattern="%logger" />
-            <Column name="MESSAGE" pattern="%message" />
-            <Column name="THROWABLE" pattern="%ex{full}" />
+        <JDBC name="jdbc" tableName="log4j2">
+            <ConnectionFactory class="com.littlefxc.examples.log4j2.ConnectionFactory" method="getDatabaseConnection"/>
+            <Column name="time" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS}" />
+            <Column name="level" pattern="%level"/>
+            <Column name="logger" pattern="%logger"/>
+            <Column name="message" pattern="%message"/>
+            <Column name="exception" pattern="%ex{full}"/>
         </JDBC>
     </Appenders>
     <Loggers>
         <Logger name="com.littlefxc.examples.log4j2" level="debug" additivity="false">
-            <AppenderRef ref="jdbc" />
+            <AppenderRef ref="jdbc"/>
         </Logger>
         <Root level="debug" additivity="false">
-            <AppenderRef ref="console" />
+            <AppenderRef ref="console"/>
         </Root>
     </Loggers>
 </Configuration>

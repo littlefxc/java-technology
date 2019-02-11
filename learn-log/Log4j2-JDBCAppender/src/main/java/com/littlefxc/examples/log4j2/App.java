@@ -16,5 +16,6 @@ public class App {
         log.info("This is info");
         log.warn("This is warn");
         log.error("This is error");
+        log.error("This is error", new RuntimeException("this is a exception"));
     }
 }
