@@ -11,6 +11,7 @@
     <appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
         <connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">
             <dataSource class="com.alibaba.druid.pool.DruidDataSource">
+                <!-- DruidDataSource 中的属性配置 -->
                 <driverClassName>com.mysql.jdbc.Driver</driverClassName>
                 <url>jdbc:mysql://192.168.120.63:3306/learn?useSSL=false</url>
                 <username>root</username>
@@ -18,6 +19,15 @@
             </dataSource>
         </connectionSource>
     </appender>
+
+    <!--<appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
+        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+            <driverClass>com.mysql.jdbc.Driver</driverClass>
+            <url>jdbc:mysql://192.168.120.63:3306/learn?useSSL=false</url>
+            <user>root</user>
+            <password>123456</password>
+        </connectionSource>
+    </appender>-->
 
     <logger name="com.littlefxc.examples.logback" level="debug"/>
 

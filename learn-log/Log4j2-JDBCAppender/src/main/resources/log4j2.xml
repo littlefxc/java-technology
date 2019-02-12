@@ -4,8 +4,10 @@
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"/>
         </Console>
+        <!-- JDBCAppender -->
         <JDBC name="jdbc" tableName="log4j2">
             <ConnectionFactory class="com.littlefxc.examples.log4j2.ConnectionFactory" method="getDatabaseConnection"/>
+            <!-- 数据表 log4j2 中的字段 -->
             <Column name="time" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS}" />
             <Column name="level" pattern="%level"/>
             <Column name="logger" pattern="%logger"/>

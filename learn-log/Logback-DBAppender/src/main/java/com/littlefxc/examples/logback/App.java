@@ -12,7 +12,10 @@ public class App {
     private static final Logger log = LoggerFactory.getLogger(App.class);
 
     public static void main(String[] args) {
+        long l = System.currentTimeMillis();
         log.debug("This is debug");
+        long r = System.currentTimeMillis();
+        System.out.println(r - l);
         log.info("This is info");
         log.warn("This is warn");
         log.error("This is error");

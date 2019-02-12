@@ -41,6 +41,4 @@ public class ConnectionFactory {
     private static interface Singleton {
         final ConnectionFactory INSTANCE = new ConnectionFactory();
     }
-
-
 }
