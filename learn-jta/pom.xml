@@ -12,6 +12,7 @@
     <modules>
         <module>learn-jta-atomikos-SpringBoot</module>
         <module>learn-jta-atomikos-SpringMVC</module>
+        <module>MySQL-XA-2PC</module>
     </modules>
 
     <properties>
