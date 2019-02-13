@@ -1,3 +1,9 @@
 # personal
 
-学习 JTA - atomikos
+## 问题记录
+
+MySQL 8.x版本更新安全插件 `mysql_native_password` 变为 `caching_sha2_password`
+
+Unable to load authentication plugin 'caching_sha2_password'.
+
+解决办法：升级 `mysql-connector-java` 依赖的版本。

@@ -16,7 +16,7 @@ import java.sql.Statement;
  */
 public class XaExample {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, XAException {
         String url1 = "jdbc:mysql://192.168.120.63:3306/learn?useSSL=false&serverTimezone=UTC";
         String url2 = "jdbc:mysql://192.168.120.63:3306/learn2?useSSL=false&serverTimezone=UTC";
         String url3 = "jdbc:mysql://localhost:3306/learn?useSSL=false&serverTimezone=UTC";
@@ -59,10 +59,11 @@ public class XaExample {
             if (XAResource.XA_OK == ret1 && XAResource.XA_OK == ret2) {
                 xaResource1.commit(xid1, false);
                 xaResource2.commit(xid2, false);
-
                 System.out.println("result:" + update1 + ", result2:" + update2);
             }
         } catch (XAException e) {
+            xaResource1.rollback(xid1);
+            xaResource2.rollback(xid2);
             e.printStackTrace();
         }
     }
