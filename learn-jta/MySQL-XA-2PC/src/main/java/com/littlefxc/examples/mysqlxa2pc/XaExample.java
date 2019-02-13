@@ -19,6 +19,7 @@ public class XaExample {
     public static void main(String[] args) throws SQLException {
         String url1 = "jdbc:mysql://192.168.120.63:3306/learn?useSSL=false&serverTimezone=UTC";
         String url2 = "jdbc:mysql://192.168.120.63:3306/learn2?useSSL=false&serverTimezone=UTC";
+        String url3 = "jdbc:mysql://localhost:3306/learn?useSSL=false&serverTimezone=UTC";
 
         // 从不同的数据库获取数据库数据源
         MysqlXADataSource ds1 = getDataSource(url1, "root", "123456");
@@ -42,12 +43,12 @@ public class XaExample {
         try {
             // 事务分支1关联事务sql语句
             xaResource1.start(xid1, XAResource.TMNOFLAGS);
-            int update1 = statement1.executeUpdate("update account_from set money = money - 50 where id = 1");
+            int update1 = statement1.executeUpdate("update account_from set money = money - 0.5 where id = 1");
             xaResource1.end(xid1, XAResource.TMSUCCESS);
 
             // 事务分支2关联事务sql语句
             xaResource2.start(xid2, XAResource.TMNOFLAGS);
-            int update2 = statement2.executeUpdate("update account_to set money = money + 50 where id = 1");
+            int update2 = statement2.executeUpdate("update account_to set money = money + 0.5 where id = 1");
             xaResource2.end(xid2, XAResource.TMSUCCESS);
 
             // 两阶段提交协议第一阶段
