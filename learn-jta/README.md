@@ -77,3 +77,10 @@ DTP(全称Distributed Transaction Processing Reference Model)，也是一个规�
 为了能够完成分布式事务，我们需要自己按照“两段式提交”算法完成自己的实现，
 或者借助第三方中间件，例如BTM，atomikos等。
 
+## 总结
+
+1. DTP定义分布式事务过程。
+2. XA定义DTP中TM和RM的交互行为。
+3. XA由2PC算法实现。
+4. JTA主要是XA规范的JAVA接口描述
+
