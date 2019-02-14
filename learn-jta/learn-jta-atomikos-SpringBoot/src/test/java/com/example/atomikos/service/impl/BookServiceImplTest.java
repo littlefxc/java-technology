@@ -9,6 +9,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.jta.JtaTransactionManager;
+
+import javax.transaction.*;
 
 /**
  * 测试分布式事务：切面拦截形式, 注解式, 编程式
@@ -55,11 +58,40 @@ public class BookServiceImplTest {
     }
 
     /**
-     * 测试分布式事务
+     * 测试分布式事务(无分布式事务管理)
      */
     @Test
     public void delete() {
         int delete = ((BookServiceImpl) bookService).delete(11L);
         Assert.assertEquals(1, delete);
+    }
+
+    @Autowired
+    JtaTransactionManager jtaTransactionManager;
+
+    /**
+     * 测试分布式事务(编程式)
+     */
+    @Test
+    public void testUserTransaction() {
+        UserTransaction userTransaction = jtaTransactionManager.getUserTransaction();
+        try{
+            int delete = ((BookServiceImpl) bookService).delete(11L);
+            try {
+                assert userTransaction != null;
+                userTransaction.commit();
+            } catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SystemException e) {
+                e.printStackTrace();
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+            try {
+                assert userTransaction != null;
+                userTransaction.rollback();
+            } catch (SystemException e1) {
+                e1.printStackTrace();
+            }
+        }
+
     }
 }

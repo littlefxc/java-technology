@@ -37,6 +37,7 @@ public class XaExample {
         XAResource xaResource2 = xAConn2.getXAResource();
         Statement statement2 = conn2.createStatement();
 
+        // 其中 xid 是一个全局唯一的 id 标示一个分支事务，每个分支事务有自己的全局唯一的一个 id。
         Xid xid1 = new MysqlXid(new byte[]{0x01}, new byte[]{0x02}, 100);
         Xid xid2 = new MysqlXid(new byte[]{0x011}, new byte[]{0x012}, 100);
 
