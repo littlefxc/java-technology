@@ -62,7 +62,7 @@ public class BookServiceImplTest {
      */
     @Test
     public void delete() {
-        int delete = ((BookServiceImpl) bookService).delete(11L);
+        int delete = ((BookServiceImpl) bookService).delete(13L);
         Assert.assertEquals(1, delete);
     }
 
@@ -76,9 +76,10 @@ public class BookServiceImplTest {
     public void testUserTransaction() {
         UserTransaction userTransaction = jtaTransactionManager.getUserTransaction();
         try{
-            int delete = ((BookServiceImpl) bookService).delete(11L);
+            assert userTransaction != null;
+            userTransaction.begin();
+            int delete = ((BookServiceImpl) bookService).delete(16L);
             try {
-                assert userTransaction != null;
                 userTransaction.commit();
             } catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SystemException e) {
                 e.printStackTrace();
@@ -86,7 +87,6 @@ public class BookServiceImplTest {
         }catch (Exception e) {
             e.printStackTrace();
             try {
-                assert userTransaction != null;
                 userTransaction.rollback();
             } catch (SystemException e1) {
                 e1.printStackTrace();

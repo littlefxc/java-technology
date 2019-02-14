@@ -110,8 +110,8 @@ public class BookServiceImpl implements BookService {
         if (bookDelete != 1) {
             return 0;
         }
-        throw new RuntimeException("测试没有添加分布式事务管理)");
-//        return 1;
+//        throw new RuntimeException("测试没有添加分布式事务管理)");
+        return 1;
     }
 
 }
