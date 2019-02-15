@@ -12,6 +12,7 @@
     <modules>
         <module>rocketmq-producer</module>
         <module>rocketmq-consumer</module>
+        <module>Spring-Boot-RocketMQ</module>
     </modules>
 
     <build>
