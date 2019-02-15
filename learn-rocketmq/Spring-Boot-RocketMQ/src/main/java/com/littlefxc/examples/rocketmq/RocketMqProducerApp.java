@@ -32,6 +32,9 @@ public class RocketMqProducerApp {
         SpringApplication.run(RocketMqProducerApp.class, args);
     }
 
+    /**
+     * spring-boot-starter-rocketmq 只是初始化了生产者，但并没有启动生产者
+     */
     @PostConstruct
     public void postConstruct() {
         try {
@@ -43,6 +46,9 @@ public class RocketMqProducerApp {
         }
     }
 
+    /**
+     * 生产者正常关闭可以防止消息丢失
+     */
     @PreDestroy
     public void preDestroy() {
         if (producer != null) {
@@ -52,11 +58,10 @@ public class RocketMqProducerApp {
 
     /**
      * 发送同步消息
-     * @param msg
      * @throws Exception
      */
     @RequestMapping("send")
-    public void send(String msg) throws Exception {
+    public void send() throws Exception {
         for (int i = 0; i < 10; i++) {
             Message message = new Message(
                     "Topic_A",
