@@ -33,14 +33,9 @@
             <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.rocketmq</groupId>
-            <artifactId>rocketmq-client</artifactId>
-            <version>${rocketmq.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.rocketmq</groupId>
-            <artifactId>rocketmq-common</artifactId>
-            <version>${rocketmq.version}</version>
+            <groupId>org.rocketmq.spring.boot</groupId>
+            <artifactId>rocketmq-spring-boot-starter</artifactId>
+            <version>1.0.0.RELEASE</version>
         </dependency>
     </dependencies>
 
