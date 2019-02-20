@@ -18,6 +18,7 @@
     <Loggers>
         <Logger name="com.littlefxc.examples.log4j2" level="debug" additivity="false">
             <AppenderRef ref="jdbc"/>
+            <AppenderRef ref="console"/>
         </Logger>
         <Root level="debug" additivity="false">
             <AppenderRef ref="console"/>
