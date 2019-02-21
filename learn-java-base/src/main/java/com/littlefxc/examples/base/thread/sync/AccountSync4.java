@@ -1,20 +1,27 @@
 package com.littlefxc.examples.base.thread.sync;
 
 /**
- * 指定加锁对象的错误示例：两个线程访问的不是同一个对象
- *
  * @author fengxuechao
- * @date 2019/2/20
+ * @date 2019/2/21
  **/
-public class AccountSync1 implements Runnable {
+public class AccountSync4 implements Runnable {
 
     static volatile int money = 0;
 
+    @Override
+    public void run() {
+        synchronized (AccountSync4.class) {
+            for (int i = 0; i < 100000; i++) {
+                money++;
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        AccountSync1 account1 = new AccountSync1();
-//        AccountSync1 account2 = new AccountSync1();
+        AccountSync4 account1 = new AccountSync4();
+        AccountSync4 account2 = new AccountSync4();
         Thread t1 = new Thread(account1);
-        Thread t2 = new Thread(account1);
+        Thread t2 = new Thread(account2);
         t1.start();
         t2.start();
         try {
@@ -24,12 +31,5 @@ public class AccountSync1 implements Runnable {
             e.printStackTrace();
         }
         System.out.println(money);
-    }
-
-    @Override
-    public synchronized void run() {
-        for (int i = 0; i < 100000; i++) {
-            money++;
-        }
     }
 }
