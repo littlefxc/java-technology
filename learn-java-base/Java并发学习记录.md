@@ -138,7 +138,3 @@ Thread.MAX_PRIORITY（常数10）。其中每个线程的优先级都在Thread.M
   1. `setDaemon(true)` 必须在 `start()` 方法前执行，否则会抛出 `IllegalThreadStateException` 异常
   2. 在守护线程中产生的新线程也是守护线程
   3. 不是所有的任务都可以分配给守护线程来执行，比如读写操作或者计算逻辑等需要大量资源的操作
-  
-## 线程组
-
-- [ ] todo
