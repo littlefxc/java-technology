@@ -4,8 +4,6 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,12 +23,6 @@ public class UserRibbonApplication {
         SpringApplication.run(UserRibbonApplication.class, args);
     }
 
-    @LoadBalanced
-    @Bean
-    RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-
     @RequestMapping("/hi")
     public String hi(@RequestParam(value = "name", defaultValue = "Artaban") String name) {
         String greeting = greeting();
@@ -39,6 +31,7 @@ public class UserRibbonApplication {
 
     /**
      * ribbon 发出的请求
+     *
      * @return
      */
     @HystrixCommand(fallbackMethod = "ribbonFallback")
@@ -48,6 +41,7 @@ public class UserRibbonApplication {
 
     /**
      * ribbon 断路器
+     *
      * @return
      */
     public String ribbonFallback() {
