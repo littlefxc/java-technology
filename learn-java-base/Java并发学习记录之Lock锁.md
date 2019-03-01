@@ -41,6 +41,10 @@ try{
 | boolean tryLock(long time, TimeUnit unit) | 超时获取锁，当前线程在一下三种情况下会返回：<br/>1. 当前线程在超时时间内获得了锁；<br/>2.当前线程在超时时间内被中断；<br/>3.超时时间结束，返回false. |
 | void unlock() | 释放锁。 |
 
+### 对同步器 AbstractQueuedSynchronizer 的分析
+
+- [ ] Java并发学习记录之同步器AbstractQueuedSynchronizer
+
 ## Lock 实现类：ReentrantLock
 
 重入锁 ReentrantLock，顾名思义，就是支持重进入的锁，它表示该锁能够支持一个线程对资源的重复加锁。除此之外，还支持获取锁时的公平和非公平锁选择。
@@ -317,7 +321,13 @@ public static void main(String[] args) {
 
 运行后，发现两个线程互斥。
 
+### 对读写锁的分析
+
+- [ ] Java并发学习记录之读写锁分析
+
 ## Condition 接口
+
+
 
 ## 参考：
 
