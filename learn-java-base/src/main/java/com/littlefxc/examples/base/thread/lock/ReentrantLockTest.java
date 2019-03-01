@@ -7,12 +7,12 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author fengxuechao
  * @date 2019/2/28
  **/
-public class ReentrantLockR implements Runnable {
+public class ReentrantLockTest implements Runnable {
 
     Lock lock = new ReentrantLock();
 
     public static void main(String[] args) {
-        ReentrantLockR lockR = new ReentrantLockR();
+        ReentrantLockTest lockR = new ReentrantLockTest();
         Thread t1 = new Thread(lockR);
         Thread t2 = new Thread(lockR);
         Thread t3 = new Thread(lockR);

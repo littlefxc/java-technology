@@ -205,3 +205,121 @@ protected final boolean tryAcquire(int acquires) {
 当你看到 ReentrantLock 的构造函数，为什么非公平锁会被设定为默认的实现呢？
 
 要知道一个刚释放锁的线程再次获取锁的几率会非常大，使得其他线程只能在同步队列中等待，从而让非公平锁使线程“饥饿”， 这是因为虽然公平锁保证了锁的获取按照 FIFO 原则，但代价是进行了大量的线程切换。非公平锁虽然可能会造成线程“饥饿”，但极少的线程切换，保证了更大的吞吐量。
+
+## 读写锁：ReadWriteLock
+
+之前学习过的如 `synchronized` 关键字、`ReentrantLock` 重入锁都是排他锁，这些锁在同一时刻只允许一个线程进行访问。读写锁不同，在同一时刻允许多个**读线程**访问，但是在**写线程**访问时，所有的读线程和其它线程均会被阻塞。读写锁维护了一对锁（读锁->共享锁和写锁->排他锁），通过分离读锁和写锁，使得并发性相比一般的排他锁有了很大的提升。
+
+假设有这样一种情况，在程序中定义了一个共享的缓存数据结构，它在大部分的时间读服务（如查询）使用的很多，而写的服务很少，但每次写完后数据对读的服务可见。（读：很多；写：很少）
+
+在这种情况下，你很可能会使用等待/通知机制来实现从而保证数据不会出现脏读。
+
+改用读写锁来实现的话，只需在读操作时获取读锁，写操作时获取写锁。当前线程进行写操作时，其它的读写线程阻塞，当档期那线程的写锁释放后，其它线程继续执行，而如果其它线程都是读线程，那么都允许执行。
+
+也就是说，在读大于写的情况下，使用读写锁具有比其他排他锁更好的并发性和吞吐量。
+
+### ReadWriteLock 的实现类 ReentrantReadWriteLock 的特性
+
+| 特性       | 说明                                                                                                                             |
+|----------| ---------- |
+| 公平性选择 | 支持非公平（默认）和公平的锁获取方式，吞吐量上来看还是非公平优于公平 |
+| 重进入     | 该锁支持重进入，以读写线程为例：读线程在获取了读锁之后，能够再次获取读锁。而写线程在获取了写锁之后能够再次获取写锁也能够同时获取读锁 |
+| 锁降级     | 遵循获取写锁、获取读锁再释放写锁的次序，写锁能够降级称为读锁 |
+
+### 读写锁 ReentrantReadWriteLock 的使用测试
+
+```java
+package com.littlefxc.examples.base.thread.lock;
+
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+/**
+ * @author fengxuechao
+ * @date 2019/3/1
+ **/
+public class ReentrantReadWriteLockTest {
+
+    private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+
+    public void read() {
+        try {
+            try {
+                lock.readLock().lock();
+                System.out.println("线程 " + Thread.currentThread().getId() + " 获得读锁 " + System.currentTimeMillis());
+                Thread.sleep(10000);
+            } finally {
+                lock.readLock().unlock();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void write() {
+        try {
+            try {
+                lock.writeLock().lock();
+                System.out.println("线程 " + Thread.currentThread().getId() + " 获得写锁 " + System.currentTimeMillis());
+                Thread.sleep(10000);
+            } finally {
+                lock.writeLock().unlock();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+上述代码中，read() 方法中是关于读锁的操作， write() 方法中是关于写锁的操作。为了加强效果，分别让两个操作都睡眠 10s。
+
+接下来将使用这两个方法进行组合从而进行三方面的测试：测试多个读锁间的不互斥、测试读锁与写锁互斥、测试写锁与写锁互斥。
+
+#### 测试多个读锁间的不互斥
+
+```java
+public static void main(String[] args) {
+    ReentrantReadWriteLockTest rwlSample = new ReentrantReadWriteLockTest();
+    Thread t1 = new Thread(() -> rwlSample.read());
+    Thread t2 = new Thread(() -> rwlSample.read());
+    t1.start();
+    t2.start();
+}
+```
+
+运行后，发现两个线程几乎同时获得读锁。
+
+#### 测试读锁与写锁互斥
+
+```java
+public static void main(String[] args) {
+    ReentrantReadWriteLockTest rwlSample = new ReentrantReadWriteLockTest();
+    Thread t1 = new Thread(() -> rwlSample.read());
+    Thread t2 = new Thread(() -> rwlSample.write());
+    t1.start();
+    t2.start();
+}
+```
+
+运行后，发现两个线程互斥。
+
+#### 测试写锁与写锁互斥
+
+```java
+public static void main(String[] args) {
+    ReentrantReadWriteLockTest rwlSample = new ReentrantReadWriteLockTest();
+    Thread t1 = new Thread(() -> rwlSample.write());
+    Thread t2 = new Thread(() -> rwlSample.write());
+    t1.start();
+    t2.start();
+}
+```
+
+运行后，发现两个线程互斥。
+
+## Condition 接口
+
+## 参考：
+
+《Java并发编程的艺术》
+《Java并发编程实战》
