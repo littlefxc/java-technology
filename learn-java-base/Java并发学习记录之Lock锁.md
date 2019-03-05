@@ -327,7 +327,96 @@ public static void main(String[] args) {
 
 ## Condition 接口
 
+`synchronized` 关键字与 `wait()` 和 `notify/notifyAll()` 方法相结合可以实现等待/通知机制，
+`Lock` 接口同样定义了等待/通知两种类型的方法，和前者一样，当前线程在调用这些方法前，
+需要提前获取到 `Condition` 对象关联的锁。`Condition` 对象是由 `Lock` 接口实现类创建出来的 
+`Condition condition = lock.newCondition();`。
 
+在使用 notify/notifyAll()方法进行通知时，被通知的线程是有JVM选择的，
+使用 Lock 类结合 Condition 实例可以实现“选择性通知”，这个功能非常重要，
+而且是 Condition 接口默认提供的。
+
+但是 synchronized 关键字就相当于整个 Lock 对象中只有一个 Condition 实例，
+所有的线程都注册在它一个身上。如果执行 `notifyAll()` 方法的话就会通知所有处于等待状态的线程这样会造成很大的效率问题，
+而 Condition 实例的 `signalAll()` 方法只会唤醒注册在该 Condition 实例中的所有等待线程。
+
+Condition 定义的（部分）方法介绍：
+
+| 方法名称       | 说明 |
+|----------| ---------- |
+| void await() throws InterruptedException | 当前线程进入等待状态直到被通知或中断，当前线程将进入运行状态且从 await() 方法返回的情况，包括：<br/> 其它线程调用该 Condition 的 signal() 或 signalAll() 方法，而当前线程被选中唤醒<ul><li>其它线程（调用 interrupt() 方法）中断当前线程</li><li>如果当前等待线程从 await() 方法返回，那么表明该线程已经获取了 Condition 对象所对应的锁</li></ul> |
+| void awaitUninterruptibly() | 当前线程进入等待状态直到被通知，对中断不敏感 |
+| long awaitNanos(long nanosTimeout) throws InterruptedException | 当前线程进入等待状态直到被通知、中断或者到某个时间。返回值表示剩余时间，如果返回值是 0 或者负数，就表示超时 |
+| long awaitNanos(long nanosTimeout) throws InterruptedException | 当前线程进入等待状态直到被通知、中断或者到某个时间。如果没有到指定时间就被通知返回 true，否则返回 false |
+| boolean awaitUntil(Date deadline) throws InterruptedException | 遵循获取写锁、获取读锁再释放写锁的次序，写锁能够降级称为读锁 |
+| void signal() | 唤醒一个等待在 Condition 实例上的线程 |
+| void signalAll() | 唤醒所有等待在 Condition 实例上的线程 |
+
+### Condition 使用示例
+
+```java
+package com.littlefxc.examples.base.thread.lock;
+
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * @author fengxuechao
+ * @date 2019-03-05
+ */
+public class ConditionSample {
+
+    Lock lock = new ReentrantLock();
+
+    Condition condition = lock.newCondition();
+
+    public void conditionWait() {
+        lock.lock();
+        try {
+            System.out.println("线程 " + Thread.currentThread().getId() + " 释放锁并开始等待");
+            long l = System.currentTimeMillis();
+            condition.await();
+            long time = System.currentTimeMillis() - l;
+            System.out.println("线程 " + Thread.currentThread().getId() + " 获得锁并结束等待, 等待时间是 " + time + "ms");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void conditionSignal() {
+        lock.lock();
+        try {
+            System.out.println("线程 " + Thread.currentThread().getId() + " 开始释放锁并通知线程等待队列");
+            condition.signal();
+            Thread.sleep(2000);
+            System.out.println("线程 " + Thread.currentThread().getId() + " 释放锁并通知线程等待队列");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public static void main(String[] args) {
+        ConditionSample sample = new ConditionSample();
+        Thread t1 = new Thread(() -> sample.conditionWait());
+        Thread t2 = new Thread(() -> sample.conditionSignal());
+        t1.start();
+        t2.start();
+    }
+
+}
+```
+
+运行结果：
+
+![ConditionSample运行结果](images/ConditionSample运行结果.png)
+
+在使用 wait/notify 实现等待通知机制的时候我们知道必须执行完 notify() 方法所在的 synchronized 代码块后才释放锁。
+在这里也一样，必须执行完 signal 所在的 try 语句块之后才释放锁，condition.await() 后的语句才能被执行。
 
 ## 参考：
 
