@@ -58,7 +58,7 @@ public class AccountSync1 implements Runnable {
 
 结果
 
-![synchronized的错误示例.png](images/synchronized的错误示例.png)
+![synchronized的错误示例.png](../images/synchronized的错误示例.png)
 
 结果与我们的期望结果(200000)显然不同。
 
@@ -169,7 +169,7 @@ public class AccountSync2 implements Runnable {
 
 结果
 
-![synchronized的错误示例.png](images/synchronized的错误示例.png)
+![synchronized的错误示例.png](../images/synchronized的错误示例.png)
 
 可以看到这个错误示例中的改动仅仅只是将 `synchronized` 关键词放到方法内部，并作用于 `this`，
 这个 `this` 表示当前实例对象。从这个分析我们就可以假设这段代码出错的原因是两个线程访问的不是同一个实例对象。

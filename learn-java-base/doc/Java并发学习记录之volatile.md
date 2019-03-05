@@ -36,7 +36,7 @@
 
 下面是加了 `volatile` 关键字 和不加 `volatile` 关键字的区别，作图演示：
 
-![有无volatile的区别](images/有无volatile的区别.png)
+![有无volatile的区别](../images/有无volatile的区别.png)
 
 区别在于，volatile 修饰的成员变量在每次被线程访问时，
 都强迫从主存（共享内存）中重读该成员变量的值。
@@ -82,7 +82,7 @@ public class VolatileSample extends Thread {
 
 验证结果：
 
-![验证volatile的可见性](images/验证volatile的可见性.png)
+![验证volatile的可见性](../images/验证volatile的可见性.png)
 
 
 

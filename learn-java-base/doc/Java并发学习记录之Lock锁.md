@@ -95,7 +95,7 @@ public class ReentrantLockR implements Runnable {
 
 运行结果：
 
-![ReentrantLockR运行结果](images/ReentrantLockR运行结果.png)
+![ReentrantLockR运行结果](../images/ReentrantLockR运行结果.png)
 
 可以看到，运行结果是只有当线程运行完毕后才会释放锁，其它线程才能获得锁->执行业务代码->释放锁。**其他线程的执行顺序是不确定的**（为了这个图运行了很多遍）。
 
@@ -123,7 +123,7 @@ public void run() {
 
 运行结果：
 
-![ReentrantLockR运行结果没有完整释放锁](images/ReentrantLockR运行结果没有完整释放锁.png)
+![ReentrantLockR运行结果没有完整释放锁](../images/ReentrantLockR运行结果没有完整释放锁.png)
 
 ### 又如果，加锁1次却释放锁两次，就会抛异常：
 
@@ -147,7 +147,7 @@ public void run() {
 
 运行结果：
 
-![ReentrantLockR运行结果_加锁1次释放2次](images/ReentrantLockR运行结果_加锁1次释放2次.png)
+![ReentrantLockR运行结果_加锁1次释放2次](../images/ReentrantLockR运行结果_加锁1次释放2次.png)
 
 ### 公平与非公平获取锁的区别
 
@@ -413,7 +413,7 @@ public class ConditionSample {
 
 运行结果：
 
-![ConditionSample运行结果](images/ConditionSample运行结果.png)
+![ConditionSample运行结果](../images/ConditionSample运行结果.png)
 
 在使用 wait/notify 实现等待通知机制的时候我们知道必须执行完 notify() 方法所在的 synchronized 代码块后才释放锁。
 在这里也一样，必须执行完 signal 所在的 try 语句块之后才释放锁，condition.await() 后的语句才能被执行。

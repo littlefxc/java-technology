@@ -89,7 +89,7 @@ public class Piped {
 
 运行该示例，输入一组字符串，可以看到 printThread 进行了原样输出。
 
-![管道输入输出流.png](images/管道输入输出流.png)
+![管道输入输出流.png](../images/管道输入输出流.png)
 
 Tips：
 对于 Piped 类型的流，必须要进行绑定，也就是调用 `connect()`，否则会抛异常。
@@ -146,7 +146,7 @@ public class JoinLongTest {
 
 运行结果：
 
-![JoinLongTest.png](images/JoinLongTest.png)
+![JoinLongTest.png](../images/JoinLongTest.png)
 
 ## ThreadLocal
 
@@ -210,7 +210,7 @@ ParseDateWithSync
 
 运行结果：
 
-![不使用ThreadLocal](images/不使用ThreadLocal.png)
+![不使用ThreadLocal](../images/不使用ThreadLocal.png)
 
 一般这种问题主要是因为 SimpleDateFormat 在多线程环境下，是线程不安全的，所以如果你在多线程环境中共享了SimpleDateFormat的实例，
 比如你在类似日期类中定义了一个全局的 SimpleDateFormat 对象，这样子肯定会出现上述的报错

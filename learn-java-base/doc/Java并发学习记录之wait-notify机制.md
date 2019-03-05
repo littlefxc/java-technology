@@ -15,7 +15,7 @@
 
 文字表达太枯燥了，作图演示有关线程状态的变化：
 
-![线程的基本状态](images/线程的基本状态.png)
+![线程的基本状态](../images/线程的基本状态.png)
 
 ## 简单实例演示
 
@@ -72,7 +72,7 @@ public class WaitNotifySample {
 
 执行结果：
 
-![线程wait-notify执行结果.png](images/线程wait-notify执行结果.png)
+![线程wait-notify执行结果.png](../images/线程wait-notify执行结果.png)
 
 ### 代码分析：
 
