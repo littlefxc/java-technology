@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 一个简单的数据库连接池实例
+ *
  * @author fengxuechao
  * @date 2019-03-06
  */

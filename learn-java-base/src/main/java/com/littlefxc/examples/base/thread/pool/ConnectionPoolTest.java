@@ -6,6 +6,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * 一个简单的数据库连接池实例
  * @author fengxuechao
  * @date 2019-03-06
  */
