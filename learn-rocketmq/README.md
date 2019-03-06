@@ -1,6 +1,6 @@
 # RocketMQ 使用记录
 
-## 启动
+## RocketMQ 启动
 
 ```shell
 nohup sh bin/mqnamesrv &
@@ -137,7 +137,7 @@ public class MyConsumer {
 }
 ```
 
-### 启动
+### 程序启动
 
 ```shell
 curl http://localhost:8080/send
@@ -145,6 +145,6 @@ curl http://localhost:8080/send
 
 #### 验证
 
-![](images/验证rocketmq消费消息.png)
+![验证rocketmq消费消息.png](images/验证rocketmq消费消息.png)
 
 

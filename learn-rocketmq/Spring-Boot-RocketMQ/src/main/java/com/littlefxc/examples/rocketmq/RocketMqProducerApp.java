@@ -1,15 +1,13 @@
 package com.littlefxc.examples.rocketmq;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.consumer.DefaultMQPullConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
-import org.apache.rocketmq.common.message.Message;
-import org.apache.rocketmq.remoting.common.RemotingHelper;
 import org.rocketmq.starter.annotation.EnableRocketMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
@@ -28,6 +26,9 @@ public class RocketMqProducerApp {
     @Autowired
     private DefaultMQProducer producer;
 
+    @Autowired
+    private DefaultMQPullConsumer mqPullConsumer;
+
     public static void main(String[] args) {
         SpringApplication.run(RocketMqProducerApp.class, args);
     }
@@ -38,6 +39,9 @@ public class RocketMqProducerApp {
     @PostConstruct
     public void postConstruct() {
         try {
+            if (mqPullConsumer != null) {
+                mqPullConsumer.start();
+            }
             if (producer != null) {
                 producer.start();
             }
@@ -47,29 +51,15 @@ public class RocketMqProducerApp {
     }
 
     /**
-     * 生产者正常关闭可以防止消息丢失
+     * 生产者消费者正常关闭可以防止消息丢失
      */
     @PreDestroy
     public void preDestroy() {
+        if (mqPullConsumer != null) {
+            mqPullConsumer.shutdown();
+        }
         if (producer != null) {
             producer.shutdown();
         }
     }
-
-    /**
-     * 发送同步消息
-     * @throws Exception
-     */
-    @RequestMapping("send")
-    public void send() throws Exception {
-        for (int i = 0; i < 10; i++) {
-            Message message = new Message(
-                    "Topic_A",
-                    "TagA",
-                    ("同步消息 " + i).getBytes(RemotingHelper.DEFAULT_CHARSET)
-            );
-            producer.send(message);
-        }
-    }
-
 }
