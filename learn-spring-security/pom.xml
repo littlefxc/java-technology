@@ -10,5 +10,7 @@
 
     <modules>
         <module>InMemoryAuthenticationExample</module>
+        <module>LogInOutExample</module>
+        <module>DbAuthenticationExample</module>
     </modules>
 </project>
