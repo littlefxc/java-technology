@@ -1,5 +1,5 @@
 ---
-title: Spring-Security学习记录之起始篇
+title: Spring-Security学习记录之WebSecurityConfigurerAdapter
 date: 2019-03-07 15:00:00
 tags: 
 - Java 
@@ -7,9 +7,7 @@ tags:
 - SpringSecurity
 ---
 
-# Spring-Security学习记录之起始篇
-
-模块代码：`LogInOutExample`
+# Spring-Security学习记录之WebSecurityConfigurerAdapter
 
 相关解释说明
 -----
