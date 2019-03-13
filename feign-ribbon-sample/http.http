@@ -1,0 +1,42 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection).
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+
+# feign
+
+POST http://localhost:8889/post?key=a&value=a
+
+###
+
+PUT http://localhost:8889/put?key=a&value=b
+
+###
+
+GET http://localhost:8889/get?key=a
+
+###
+
+DELETE http://localhost:8889/delete?key=a
+
+###
+
+# ribbon
+
+POST http://localhost:8888/post?key=a&value=a
+
+###
+
+PUT http://localhost:8888/put?key=a&value=b
+
+###
+
+GET http://localhost:8888/get?key=a
+
+###
+
+DELETE http://localhost:8888/delete?key=a
+
+###
