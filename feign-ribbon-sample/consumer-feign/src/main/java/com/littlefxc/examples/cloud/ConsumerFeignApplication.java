@@ -4,16 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 在spring MVC请求方法中使用（伪RPC）调用 provider-api 依赖中的各个接口方法
+ * 在spring MVC请求方法中使用调用 provider-api 依赖中的各个接口方法
  *
  * @author fengxuechao
  */
 @EnableFeignClients
-@EnableDiscoveryClient
+@EnableDiscoveryClient // 若注册中心是 eureka， 可以用@EnableEurekaClient
 @SpringBootApplication
 @RestController
 public class ConsumerFeignApplication {

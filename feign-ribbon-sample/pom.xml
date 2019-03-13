@@ -34,8 +34,8 @@
     </dependencyManagement>
 
     <modules>
-        <module>client-feign</module>
-        <module>client-ribbon</module>
+        <module>consumer-feign</module>
+        <module>consumer-ribbon</module>
         <module>provider</module>
         <module>provider-api</module>
     </modules>

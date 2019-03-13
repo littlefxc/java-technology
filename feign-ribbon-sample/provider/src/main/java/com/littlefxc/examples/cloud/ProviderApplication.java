@@ -19,7 +19,7 @@ public class ProviderApplication {
 
     private static Logger log = LoggerFactory.getLogger(ProviderApplication.class);
 
-    ConcurrentHashMap<String, Object> hashMap = new ConcurrentHashMap(16);
+    static ConcurrentHashMap<String, Object> hashMap = new ConcurrentHashMap(16);
 
     @GetMapping(value = "/get")
     public String get(@RequestParam String key) {
