@@ -1,5 +1,59 @@
 DELETE http://localhost:8888/delete?key=a
 
+<> 2019-03-13T022911.200.txt
+
+###
+
+GET http://localhost:8888/get?key=a
+
+<> 2019-03-13T022845.200.txt
+
+###
+
+PUT http://localhost:8888/put?key=a&value=b
+
+<> 2019-03-13T022822.200.txt
+
+###
+
+POST http://localhost:8888/post?key=a&value=a
+
+<> 2019-03-13T022649.200.txt
+
+###
+
+DELETE http://localhost:8889/delete?key=a
+
+<> 2019-03-13T021648.200.txt
+
+###
+
+GET http://localhost:8889/get?key=a
+
+<> 2019-03-13T021602.200.txt
+
+###
+
+PUT http://localhost:8889/put?key=a&value=b
+
+<> 2019-03-13T021513.200.txt
+
+###
+
+POST http://localhost:8889/post?key=a&value=a
+
+<> 2019-03-13T021353.200.txt
+
+###
+
+GET http://localhost:8889/get?key=a
+
+<> 2019-03-13T021055.200.txt
+
+###
+
+DELETE http://localhost:8888/delete?key=a
+
 <> 2019-03-13T010324.200.txt
 
 ###
@@ -239,60 +293,6 @@ POST http://localhost:8888/post?key=a&value=a
 POST http://localhost:8888/post?key=a&value=a
 
 <> 2019-03-13T123145.200.txt
-
-###
-
-POST http://localhost:8888/post?key=a&value=a
-
-<> 2019-03-13T123048.200.txt
-
-###
-
-POST http://localhost:8888/post?key=a&value=a
-
-<> 2019-03-13T123045.200.txt
-
-###
-
-POST http://localhost:8888/post?key=a&value=a
-
-<> 2019-03-13T123032.200.txt
-
-###
-
-POST http://localhost:8888/post?key=a&value=a
-
-<> 2019-03-13T122934.200.txt
-
-###
-
-POST http://localhost:8888/post?key=a&value=a
-
-<> 2019-03-13T122817.500.json
-
-###
-
-GET http://localhost:8889/get?key=a
-
-<> 2019-03-13T122632.200.txt
-
-###
-
-DELETE http://localhost:8889/delete?key=a
-
-<> 2019-03-13T122625.200.txt
-
-###
-
-DELETE http://localhost:8889/delete?key=a
-
-<> 2019-03-13T122530.405.json
-
-###
-
-GET http://localhost:8889/get?key=a
-
-<> 2019-03-13T122513.200.txt
 
 ###
 

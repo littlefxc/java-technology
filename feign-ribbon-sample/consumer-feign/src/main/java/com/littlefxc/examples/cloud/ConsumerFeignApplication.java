@@ -8,6 +8,8 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * 在spring MVC请求方法中使用（伪RPC）调用 provider-api 依赖中的各个接口方法
+ *
  * @author fengxuechao
  */
 @EnableFeignClients

@@ -15,7 +15,6 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class ConsumerRibbonApplication {
 
-    @LoadBalanced
     @Autowired
     RestTemplate restTemplate;
 
@@ -41,7 +40,7 @@ public class ConsumerRibbonApplication {
     @HystrixCommand(fallbackMethod = "putFallback")
     public String put(@RequestParam String key, @RequestParam String value) {
         String url = "http://provider/put?key=" + key + "&value=" + value;
-        restTemplate.put(url, null);
+        restTemplate.put(url, null); //
         return "put 请求测试成功";
     }
 

@@ -4,6 +4,8 @@ import com.littlefxc.examples.cloud.ProviderService;
 import org.springframework.stereotype.Component;
 
 /**
+ * 使用实现feign 接口的方式来定义熔断
+ * 使用@Component注解使其加入IOC容器
  * @author fengxuechao
  * @date 2019/2/25
  **/

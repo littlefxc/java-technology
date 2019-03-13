@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 使用@EnableDiscoveryClient：服务发现
+ */
 @EnableDiscoveryClient
 @RestController
 @SpringBootApplication
