@@ -11,6 +11,7 @@
 
     <modules>
         <module>provider-nacos</module>
+        <module>consumer-nacos</module>
     </modules>
 
 </project>
