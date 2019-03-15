@@ -11,5 +11,6 @@ tags:
 
 - [x] [Spring-Security学习记录之WebSecurityConfigurerAdapter](doc/Spring-Security学习记录之WebSecurityConfigurerAdapter.md)
 - [x] [Spring-Security学习记录之校验流程](doc/Spring-Security学习记录之校验流程.md)
-- 
+- [x] [Spring-Security学习记录之校验流程](doc/Spring-Security学习记录之校验流程.md)
+- [x] [Spring-Security学习记录之自定义-Filter](doc/Spring-Security学习记录之自定义-Filter.md)
 
