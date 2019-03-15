@@ -1,12 +1,12 @@
 ---
-title: 使用Nacos实现服务注册与发现
+title: 使用Nacos实现服务注册与发现和配置中心
 date: 2019-03-13 09:18:00
 tags:
 - nacos
 - SpringCloud
 ---
 
-# 使用Nacos实现服务注册与发现
+# 使用Nacos实现服务注册与发现和配置中心
 
 ## 前言
 
@@ -213,6 +213,76 @@ Nacos帮助您更敏捷和容易地构建、交付和管理微服务平台。Nac
 
     ![验证nacos注册中心](images/验证nacos注册中心.png)
 
-### 参考资料
+## nacos 作为配置中心的使用
+
+### 创建配置
+
+![新建配置](images/新建配置.png)
+
+![nacos配置中心](images/nacos配置中心.png)
+
+### 修改服务提供者
+
+1. 编辑 pom.xml, 添加 `spring-cloud-starter-alibaba-nacos-config` 依赖
+
+    ```xml
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+    </dependency>
+    ```
+
+2. 添加 `bootstrap.properties` 
+
+    ```yaml
+    spring.cloud.nacos.config.server-addr=127.0.0.1:8848
+    ``` 
+    
+    > 注意：在 nacos 中配置的 DataId（除了.properties或者.yaml后缀）要与 
+    Spring Boot 应用的 `spring.application.name` 的值相同。
+    
+3. 修改程序
+
+    ```java
+    package com.fengxuechao.examples.nacos;
+    
+    import lombok.extern.slf4j.Slf4j;
+    import org.springframework.beans.factory.annotation.Value;
+    import org.springframework.boot.SpringApplication;
+    import org.springframework.boot.autoconfigure.SpringBootApplication;
+    import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+    import org.springframework.cloud.context.config.annotation.RefreshScope;
+    import org.springframework.web.bind.annotation.GetMapping;
+    import org.springframework.web.bind.annotation.RequestParam;
+    import org.springframework.web.bind.annotation.RestController;
+    
+    @EnableDiscoveryClient
+    @SpringBootApplication
+    public class ProviderNacosApplication {
+    
+        public static void main(String[] args) {
+            SpringApplication.run(ProviderNacosApplication.class, args);
+        }
+    
+        @Slf4j
+        @RestController
+        @RefreshScope // 主要用来让这个类下的配置内容支持动态刷新
+        static class ProviderController {
+    
+            @Value("${didispace.title:}")
+            private String title;
+    
+            @GetMapping("/hello")
+            public String hello(@RequestParam String name) {
+                if (log.isDebugEnabled())
+                    log.debug("invokd name = {}", name);
+                return "hello, " + name + " from nacos-config: didispace.title = " + title;
+            }
+    
+        }
+    }
+    ```
+
+## 参考资料
 
 文章转载程序猿DD-翟永超,出处http://blog.didispace.com/spring-cloud-alibaba-1/
