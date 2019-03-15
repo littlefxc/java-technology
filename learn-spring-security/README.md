@@ -9,5 +9,7 @@ tags:
 
 # Spring-Security学习记录系列
 
-- [x] [Spring-Security学习记录之起始篇](doc/Spring-Security学习记录之WebSecurityConfigurerAdapter.md)
-- [ ] [Spring-Security学习记录之基于数据库的验证](doc/Spring-Security学习记录之校验流程.md)
+- [x] [Spring-Security学习记录之WebSecurityConfigurerAdapter](doc/Spring-Security学习记录之WebSecurityConfigurerAdapter.md)
+- [x] [Spring-Security学习记录之校验流程](doc/Spring-Security学习记录之校验流程.md)
+- 
+

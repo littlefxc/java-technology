@@ -11,7 +11,7 @@ tags:
 
 ## Spring Security 校验流程图
 
-![SpringSecurity校验流程图](images/SpringSecurity校验流程图.png)
+![SpringSecurity校验流程图](images/Spring-Security校验流程图.jpg)
 
 ## 相关解释
 
@@ -83,6 +83,262 @@ public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 
 ### UsernamePasswordAuthenticationFilter（AbstractAuthenticationProcessingFilter的子类）
 
+```java
+public Authentication attemptAuthentication(HttpServletRequest request,
+            HttpServletResponse response) throws AuthenticationException {
+        if (postOnly && !request.getMethod().equals("POST")) {
+            throw new AuthenticationServiceException(
+                    "Authentication method not supported: " + request.getMethod());
+        }
+
+        String username = obtainUsername(request);
+        String password = obtainPassword(request);
+
+        if (username == null) {
+            username = "";
+        }
+
+        if (password == null) {
+            password = "";
+        }
+
+        username = username.trim();
+
+        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
+                username, password);
+
+        // Allow subclasses to set the "details" property
+        setDetails(request, authRequest);
+
+        return this.getAuthenticationManager().authenticate(authRequest);
+    }
+```
+
+`#attemptAuthentication()` 方法将 request 中的 username 和 password 生成 UsernamePasswordAuthenticationToken 对象，
+用于 `AuthenticationManager` 的验证（即 this.getAuthenticationManager().authenticate(authRequest) ）。
+
+默认情况下注入 Spring 容器的 `AuthenticationManager` 是 `ProviderManager`。
+
 ### ProviderManager（AuthenticationManager的实现类）
 
+```java
+/**
+     * 尝试验证 Authentication 对象
+     * AuthenticationProvider 列表将被连续尝试，直到 AuthenticationProvider 表示它能够认证传递的过来的Authentication 对象。然后将使用该 AuthenticationProvider 尝试身份验证。
+     * 如果有多个 AuthenticationProvider 支持验证传递过来的Authentication 对象，那么由第一个来确定结果，覆盖早期支持AuthenticationProviders 所引发的任何可能的AuthenticationException。 成功验证后，将不会尝试后续的AuthenticationProvider。
+     * 如果最后所有的 AuthenticationProviders 都没有成功验证 Authentication 对象，将抛出 AuthenticationException。
+     */
+    public Authentication authenticate(Authentication authentication)
+            throws AuthenticationException {
+        Class<? extends Authentication> toTest = authentication.getClass();
+        AuthenticationException lastException = null;
+        Authentication result = null;
+        boolean debug = logger.isDebugEnabled();
 
+        for (AuthenticationProvider provider : getProviders()) {
+            if (!provider.supports(toTest)) {
+                continue;
+            }
+
+            if (debug) {
+                logger.debug("Authentication attempt using "
+                        + provider.getClass().getName());
+            }
+
+            try {
+                result = provider.authenticate(authentication);
+
+                if (result != null) {
+                    copyDetails(authentication, result);
+                    break;
+                }
+            }
+            catch (AccountStatusException e) {
+                prepareException(e, authentication);
+                // SEC-546: Avoid polling additional providers if auth failure is due to
+                // invalid account status
+                throw e;
+            }
+            catch (InternalAuthenticationServiceException e) {
+                prepareException(e, authentication);
+                throw e;
+            }
+            catch (AuthenticationException e) {
+                lastException = e;
+            }
+        }
+
+        if (result == null && parent != null) {
+            // Allow the parent to try.
+            try {
+                result = parent.authenticate(authentication);
+            }
+            catch (ProviderNotFoundException e) {
+                // ignore as we will throw below if no other exception occurred prior to
+                // calling parent and the parent
+                // may throw ProviderNotFound even though a provider in the child already
+                // handled the request
+            }
+            catch (AuthenticationException e) {
+                lastException = e;
+            }
+        }
+
+        if (result != null) {
+            if (eraseCredentialsAfterAuthentication
+                    && (result instanceof CredentialsContainer)) {
+                // Authentication is complete. Remove credentials and other secret data
+                // from authentication
+                ((CredentialsContainer) result).eraseCredentials();
+            }
+
+            eventPublisher.publishAuthenticationSuccess(result);
+            return result;
+        }
+
+        // Parent was null, or didn't authenticate (or throw an exception).
+
+        if (lastException == null) {
+            lastException = new ProviderNotFoundException(messages.getMessage(
+                    "ProviderManager.providerNotFound",
+                    new Object[] { toTest.getName() },
+                    "No AuthenticationProvider found for {0}"));
+        }
+
+        prepareException(lastException, authentication);
+
+        throw lastException;
+    }
+```
+
+从代码中不难看出，由 provider 来验证 authentication， 核心点方法是：
+
+```java
+Authentication result = provider.authenticate(authentication);
+```
+
+此处的 `provider` 是 `AbstractUserDetailsAuthenticationProvider`，
+`AbstractUserDetailsAuthenticationProvider` 是AuthenticationProvider的实现，看看它的 `#authenticate(authentication)` 方法：
+
+```java
+// 验证 authentication
+public Authentication authenticate(Authentication authentication)
+            throws AuthenticationException {
+        Assert.isInstanceOf(UsernamePasswordAuthenticationToken.class, authentication,
+                messages.getMessage(
+                        "AbstractUserDetailsAuthenticationProvider.onlySupports",
+                        "Only UsernamePasswordAuthenticationToken is supported"));
+
+        // Determine username
+        String username = (authentication.getPrincipal() == null) ? "NONE_PROVIDED"
+                : authentication.getName();
+
+        boolean cacheWasUsed = true;
+        UserDetails user = this.userCache.getUserFromCache(username);
+
+        if (user == null) {
+            cacheWasUsed = false;
+
+            try {
+                user = retrieveUser(username,
+                        (UsernamePasswordAuthenticationToken) authentication);
+            }
+            catch (UsernameNotFoundException notFound) {
+                logger.debug("User '" + username + "' not found");
+
+                if (hideUserNotFoundExceptions) {
+                    throw new BadCredentialsException(messages.getMessage(
+                            "AbstractUserDetailsAuthenticationProvider.badCredentials",
+                            "Bad credentials"));
+                }
+                else {
+                    throw notFound;
+                }
+            }
+
+            Assert.notNull(user,
+                    "retrieveUser returned null - a violation of the interface contract");
+        }
+
+        try {
+            preAuthenticationChecks.check(user);
+            additionalAuthenticationChecks(user,
+                    (UsernamePasswordAuthenticationToken) authentication);
+        }
+        catch (AuthenticationException exception) {
+            if (cacheWasUsed) {
+                // There was a problem, so try again after checking
+                // we're using latest data (i.e. not from the cache)
+                cacheWasUsed = false;
+                user = retrieveUser(username,
+                        (UsernamePasswordAuthenticationToken) authentication);
+                preAuthenticationChecks.check(user);
+                additionalAuthenticationChecks(user,
+                        (UsernamePasswordAuthenticationToken) authentication);
+            }
+            else {
+                throw exception;
+            }
+        }
+
+        postAuthenticationChecks.check(user);
+
+        if (!cacheWasUsed) {
+            this.userCache.putUserInCache(user);
+        }
+
+        Object principalToReturn = user;
+
+        if (forcePrincipalAsString) {
+            principalToReturn = user.getUsername();
+        }
+
+        return createSuccessAuthentication(principalToReturn, authentication, user);
+    }
+```
+
+AbstractUserDetailsAuthenticationProvider 内置了缓存机制，从缓存中获取不到的 UserDetails 信息的话，
+就调用如下方法获取用户信息，然后和 用户传来的信息进行对比来判断是否验证成功。
+
+```java
+// 获取用户信息
+UserDetails user = retrieveUser(username,
+ (UsernamePasswordAuthenticationToken) authentication);
+```
+
+`#retrieveUser()` 方法在 `DaoAuthenticationProvider` 中实现，
+`DaoAuthenticationProvider` 是 `AbstractUserDetailsAuthenticationProvider` 的子类。具体实现如下：
+
+```java
+protected final UserDetails retrieveUser(String username,
+            UsernamePasswordAuthenticationToken authentication)
+            throws AuthenticationException {
+        UserDetails loadedUser;
+
+        try {
+            loadedUser = this.getUserDetailsService().loadUserByUsername(username);
+        }
+        catch (UsernameNotFoundException notFound) {
+            if (authentication.getCredentials() != null) {
+                String presentedPassword = authentication.getCredentials().toString();
+                passwordEncoder.isPasswordValid(userNotFoundEncodedPassword,
+                        presentedPassword, null);
+            }
+            throw notFound;
+        }
+        catch (Exception repositoryProblem) {
+            throw new InternalAuthenticationServiceException(
+                    repositoryProblem.getMessage(), repositoryProblem);
+        }
+
+        if (loadedUser == null) {
+            throw new InternalAuthenticationServiceException(
+                    "UserDetailsService returned null, which is an interface contract violation");
+        }
+        return loadedUser;
+    }
+```
+
+可以看到此处的返回对象 `userDetails` 是由 `UserDetailsService` 的 `#loadUserByUsername(username)` 来获取的。
+
+到了此处，就很清晰啦，Demo 中自定义了 `AnyUserDetailsService`。
