@@ -12,5 +12,6 @@
         <module>InMemoryAuthenticationExample</module>
         <module>LogInOutExample</module>
         <module>DbAuthenticationExample</module>
+        <module>SpringSecurityOauth2</module>
     </modules>
 </project>
