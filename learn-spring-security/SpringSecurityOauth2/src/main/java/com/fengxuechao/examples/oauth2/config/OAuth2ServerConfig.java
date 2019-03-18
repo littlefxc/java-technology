@@ -58,6 +58,12 @@ public class OAuth2ServerConfig {
         @Autowired
         RedisConnectionFactory redisConnectionFactory;
 
+        /**
+         * 配置OAuth2的客户端相关信息
+         *
+         * @param clients
+         * @throws Exception
+         */
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
             //配置两个客户端,一个用于password认证一个用于client认证
@@ -75,6 +81,13 @@ public class OAuth2ServerConfig {
                     .secret("123456");
         }
 
+        /**
+         * 配置AuthorizationServerEndpointsConfigurer众多相关类，
+         * 包括配置身份认证器，配置认证方式，TokenStore，TokenGranter，OAuth2RequestFactory
+         *
+         * @param endpoints
+         * @throws Exception
+         */
         @Override
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
             endpoints
@@ -82,6 +95,12 @@ public class OAuth2ServerConfig {
                     .authenticationManager(authenticationManager);
         }
 
+        /**
+         * 配置AuthorizationServer安全认证的相关信息，创建ClientCredentialsTokenEndpointFilter核心过滤器
+         *
+         * @param oauthServer
+         * @throws Exception
+         */
         @Override
         public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
             //允许表单认证
