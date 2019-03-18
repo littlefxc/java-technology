@@ -13,6 +13,6 @@ POST http://localhost:8080/oauth/token?grant_type=client_credentials&scope=selec
 
 ###
 
-GET http://localhost:8080/order/1?access_token=f311ff10-09e1-4fd8-b90c-7ec63099158b
+GET http://localhost:8080/order/1?access_token=63f6986e-2d8f-43cd-af52-4bee5ccf5106
 
 ###

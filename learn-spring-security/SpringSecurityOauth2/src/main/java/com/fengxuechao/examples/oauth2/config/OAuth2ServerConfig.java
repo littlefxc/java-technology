@@ -3,9 +3,11 @@ package com.fengxuechao.examples.oauth2.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -14,6 +16,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 @Configuration
@@ -37,8 +40,8 @@ public class OAuth2ServerConfig {
                     // Since we want the protected resources to be accessible in the UI as well we need
                     // session creation to be allowed (it's disabled by default in 2.0.6)
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                    .and()
-                    .requestMatchers().anyRequest()
+//                    .and()
+//                    .requestMatchers().anyRequest()
                     .and()
                     .anonymous()
                     .and()
@@ -55,52 +58,41 @@ public class OAuth2ServerConfig {
 
         @Autowired
         AuthenticationManager authenticationManager;
+
         @Autowired
         RedisConnectionFactory redisConnectionFactory;
 
-        /**
-         * 配置OAuth2的客户端相关信息
-         *
-         * @param clients
-         * @throws Exception
-         */
+        @Autowired
+        UserDetailsService userDetailsService;
+
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
             //配置两个客户端,一个用于password认证一个用于client认证
             clients.inMemory().withClient("client_1")
                     .resourceIds(DEMO_RESOURCE_ID)
-                    .authorizedGrantTypes("client_credentials", "refresh_token")
+                    .authorizedGrantTypes("client_credentials")
                     .scopes("select")
-                    .authorities("client")
+                    .authorities("oauth2")
                     .secret("123456")
                     .and().withClient("client_2")
                     .resourceIds(DEMO_RESOURCE_ID)
                     .authorizedGrantTypes("password", "refresh_token")
                     .scopes("select")
-                    .authorities("client")
+                    .authorities("oauth2")
                     .secret("123456");
         }
 
-        /**
-         * 配置AuthorizationServerEndpointsConfigurer众多相关类，
-         * 包括配置身份认证器，配置认证方式，TokenStore，TokenGranter，OAuth2RequestFactory
-         *
-         * @param endpoints
-         * @throws Exception
-         */
         @Override
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
             endpoints
                     .tokenStore(new RedisTokenStore(redisConnectionFactory))
-                    .authenticationManager(authenticationManager);
+                    .tokenStore(new InMemoryTokenStore())
+                    .authenticationManager(authenticationManager)
+                    .userDetailsService(userDetailsService)
+                    .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
+            endpoints.reuseRefreshTokens(true);
         }
 
-        /**
-         * 配置AuthorizationServer安全认证的相关信息，创建ClientCredentialsTokenEndpointFilter核心过滤器
-         *
-         * @param oauthServer
-         * @throws Exception
-         */
         @Override
         public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
             //允许表单认证

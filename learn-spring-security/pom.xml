@@ -13,5 +13,6 @@
         <module>LogInOutExample</module>
         <module>DbAuthenticationExample</module>
         <module>SpringSecurityOauth2</module>
+        <module>order-service</module>
     </modules>
 </project>
