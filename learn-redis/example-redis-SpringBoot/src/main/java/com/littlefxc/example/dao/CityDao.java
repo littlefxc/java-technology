@@ -1,9 +1,7 @@
 package com.littlefxc.example.dao;
 
 import com.littlefxc.example.domain.City;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -32,6 +30,17 @@ public interface CityDao {
      * @param city
      * @return
      */
-    @Insert("insert into city(province_id, city_name, description) values(#{province_id}, #{city_name}, #{description})")
+    @Insert({"insert into city(province_id, city_name, description) values(#{province_id}, #{city_name}, #{description})"})
     int save(City city);
+
+    @Update("update city set province_id=#{provinceId}, city_name=#{cityName}, description=#{description} where id=#{id}")
+    int update(City city);
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @Delete("delete from city where id = #{id}")
+    int delete(Integer id);
 }
