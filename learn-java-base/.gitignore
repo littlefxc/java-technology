@@ -24,9 +24,14 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-# IDEA
+### IDEA
 .idea/
 target/
 classes/
 out/
 *.iml
+
+### Eclipse
+.settings/
+.classpath
+.project
