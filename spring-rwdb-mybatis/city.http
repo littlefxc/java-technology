@@ -5,17 +5,18 @@
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
 
-POST http://localhost:8080/city
+PUT http://localhost:8080/city
 Content-Type: application/json
 
 {
-  "name": "绍兴",
-  "city_code": "2",
-  "post_code": "1235"
+  "id": 10,
+  "name": "dalian",
+  "city_code": "11",
+  "post_code": "11"
 }
 
 ###
 
-GET http://localhost:8080/city/2
+GET http://localhost:8080/city/1
 
 ###

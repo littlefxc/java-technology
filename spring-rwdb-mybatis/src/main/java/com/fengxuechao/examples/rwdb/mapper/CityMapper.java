@@ -2,6 +2,7 @@ package com.fengxuechao.examples.rwdb.mapper;
 
 import com.fengxuechao.examples.rwdb.entity.City;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
@@ -14,10 +15,11 @@ import java.util.List;
 @Repository
 public interface CityMapper {
 
-    @Select("SELECT * FROM city WHERE id = #{id} limit 1")
+    @Select("SELECT id,name,city_code as cityCode,post_code as postCode FROM city WHERE id = #{id} limit 1")
     City findById(Integer id);
 
     @Insert("INSERT INTO city(name, city_code, post_code) VALUES(#{name}, #{cityCode}, #{postCode})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(City city);
 
     @Select("SELECT * FROM city WHERE id = #{id} limit 100")

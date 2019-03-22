@@ -13,7 +13,7 @@ public class RoutingDataSourceContext implements AutoCloseable {
       contextHolder.set(routingType);
    }
 	
-   public static void setCustomerType(RoutingType routingType) {
+   public static void setRoutingType(RoutingType routingType) {
       Assert.notNull(routingType, "routingType cannot be null");
       contextHolder.set(routingType);
    }
