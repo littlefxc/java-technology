@@ -1,6 +1,13 @@
 spring:
   datasource:
     druid:
+      filter:
+        slf4j:
+          enabled: true
+          statement-create-after-log-enabled: false
+          statement-close-after-log-enabled: false
+          result-set-open-after-log-enabled: false
+          result-set-close-after-log-enabled: false
       master:
         driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://localhost:3306/learn?useSSl=false
@@ -11,6 +18,11 @@ spring:
         url: jdbc:mysql://localhost:3307/learn?useSSl=false
         password: root
         username: root
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: always
+    property-naming-strategy: SNAKE_CASE
 mybatis:
   type-aliases-package: com.fengxuechao.examples.rwdb.entity
   configuration:
@@ -18,3 +30,8 @@ mybatis:
     map-underscore-to-camel-case: true
     default-fetch-size: 100
     default-statement-timeout: 30
+logging:
+  level:
+    ROOT: warn
+    com.fengxuechao.examples.rwdb: debug
+    druid.sql.Statement: debug

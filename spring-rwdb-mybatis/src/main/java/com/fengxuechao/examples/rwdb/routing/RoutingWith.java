@@ -1,6 +1,6 @@
 package com.fengxuechao.examples.rwdb.routing;
 
-import com.fengxuechao.examples.rwdb.config.CustomerType;
+import com.fengxuechao.examples.rwdb.config.RoutingType;
 
 import java.lang.annotation.*;
 
@@ -13,5 +13,5 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface RoutingWith {
-    CustomerType value() default CustomerType.MASTER;
+    RoutingType value() default RoutingType.MASTER;
 }

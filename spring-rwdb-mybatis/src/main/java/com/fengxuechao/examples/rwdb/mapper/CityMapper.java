@@ -15,7 +15,7 @@ import java.util.List;
 public interface CityMapper {
 
     @Select("SELECT * FROM city WHERE id = #{id} limit 1")
-    City findById();
+    City findById(Integer id);
 
     @Insert("INSERT INTO city(name, city_code, post_code) VALUES(#{name}, #{cityCode}, #{postCode})")
     int insert(City city);

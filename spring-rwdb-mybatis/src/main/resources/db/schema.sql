@@ -13,7 +13,7 @@
 
  Date: 22/03/2019 17:22:36
 */
-
+create database if not exists `learn`;
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
