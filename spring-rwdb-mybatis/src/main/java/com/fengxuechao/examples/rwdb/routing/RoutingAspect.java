@@ -1,7 +1,7 @@
 package com.fengxuechao.examples.rwdb.routing;
 
-import com.fengxuechao.examples.rwdb.config.CustomerContextHolder;
-import com.fengxuechao.examples.rwdb.config.CustomerType;
+import com.fengxuechao.examples.rwdb.config.RoutingDataSourceContext;
+import com.fengxuechao.examples.rwdb.config.RoutingType;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -17,8 +17,9 @@ import org.springframework.stereotype.Component;
 public class RoutingAspect {
     @Around("@annotation(routingWith)")
     public Object routingWithDataSource(ProceedingJoinPoint joinPoint, RoutingWith routingWith) throws Throwable {
-        CustomerType customerType = routingWith.value();
-        CustomerContextHolder.setCustomerType(customerType);
-        return joinPoint.proceed();
+        RoutingType routingType = routingWith.value();
+        try (RoutingDataSourceContext context = new RoutingDataSourceContext(routingType)) {
+            return joinPoint.proceed();
+        }
     }
 }

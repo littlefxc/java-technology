@@ -1,6 +1,6 @@
 package com.fengxuechao.examples.rwdb.config;
 
-public enum CustomerType {
+public enum RoutingType {
     /**
      * 代表写数据库
      */
