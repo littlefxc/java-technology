@@ -22,11 +22,14 @@ GET http://localhost:8081/oauth/authorize?response_type=code&client_id=client_1&
 ###
 POST http://localhost:8081/oauth/token?client_id=client_1&grant_type=authorization_code&redirect_uri=http://localhost:8081/product/1&client_secret=123456&code=AWNxoJ
 
+###
 
 
 
+GET http://localhost:8081/product/1?access_token=89df3dec-5868-42ef-8c51-917542250ffa
 
 ###
-GET http://localhost:8081/product/1?access_token=89df3dec-5868-42ef-8c51-917542250ffa
+
+GET http://127.0.0.1:8082/api/userinfo?access_token=06a6217d-1732-4a03-a3eb-8cb719f67292
 
 ###
