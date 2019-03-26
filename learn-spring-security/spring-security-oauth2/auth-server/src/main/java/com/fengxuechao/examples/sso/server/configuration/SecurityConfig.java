@@ -2,6 +2,7 @@ package com.fengxuechao.examples.sso.server.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -13,6 +14,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
  * @author fengxuechao
  * @date 2019/3/26
  */
+@Order(2)
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -33,8 +35,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .requestMatchers().anyRequest()
-                .and().authorizeRequests().antMatchers("/oauth/*").permitAll();
+                .csrf().disable()
+                .requestMatchers().antMatchers("/oauth/**","/login/**","/logout/**")
+                .and().authorizeRequests().antMatchers("/oauth/*").authenticated()
+                .and().formLogin().permitAll();;
     }
 
 

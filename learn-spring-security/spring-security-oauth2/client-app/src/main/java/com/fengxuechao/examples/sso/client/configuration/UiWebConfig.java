@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.*;
  */
 @Configuration
 @EnableWebMvc
-public class UiWebConfig implements WebMvcConfigurer {
+public class UiWebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
