@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
     <version>1.0-snapshot</version>
     <modules>
-        <module>client-app</module>
+        <module>res-server</module>
         <module>auth-server</module>
     </modules>
     <parent>
