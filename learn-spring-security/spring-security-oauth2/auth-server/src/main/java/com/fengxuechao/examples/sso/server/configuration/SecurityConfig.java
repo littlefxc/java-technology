@@ -18,8 +18,9 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     /**
-     * 在内存中创建两个用户
+     * 具体的用户权限控制实现类
      *
      * @return
      */
@@ -32,14 +33,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return manager;
     }
 
+    /**
+     * 用来配置拦截保护的请求
+     *
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .requestMatchers().antMatchers("/oauth/**","/login/**","/logout/**")
+                .requestMatchers().antMatchers("/oauth/**", "/login/**", "/logout/**")
                 .and().authorizeRequests().antMatchers("/oauth/*").authenticated()
-                .and().formLogin().permitAll();;
+                .and().formLogin().permitAll();
     }
-
-
 }

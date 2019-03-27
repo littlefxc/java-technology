@@ -5,31 +5,32 @@
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
 
+# 客户端凭据（客户端ID以及Key）模式
 POST http://localhost:8081/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
 
 ###
 
-
-
+# 密码模式
 POST http://localhost:8081/oauth/token?grant_type=password&username=user_1&password=123456&scope=all&client_id=client_1&client_secret=123456
 
-
-
-
 ###
+
+# 授权码模式 - 1. 获取授权码
 GET http://localhost:8081/oauth/authorize?response_type=code&client_id=client_1&scope=all&redirect_uri=http://localhost:8081/product/1
 
 ###
-POST http://localhost:8081/oauth/token?client_id=client_1&grant_type=authorization_code&redirect_uri=http://localhost:8081/product/1&client_secret=123456&code=AWNxoJ
+
+# 授权码模式 - 2. 获取access_token
+POST http://localhost:8081/oauth/token?client_id=client_1&grant_type=authorization_code&redirect_uri=http://localhost:8081/product/1&client_secret=123456&code=7fTmqZ
 
 ###
 
-
-
-GET http://localhost:8081/product/1?access_token=89df3dec-5868-42ef-8c51-917542250ffa
+# 受保护资源
+GET http://localhost:8081/product/1?access_token=b485ed7c-3c92-43b0-97f2-0dc54da61d80
 
 ###
 
-GET http://127.0.0.1:8082/api/userinfo?access_token=06a6217d-1732-4a03-a3eb-8cb719f67292
+# 受保护资源
+GET http://127.0.0.1:8082/api/userinfo?access_token=2b3a2ce3-a901-497b-9ba3-db857987e98c
 
 ###
