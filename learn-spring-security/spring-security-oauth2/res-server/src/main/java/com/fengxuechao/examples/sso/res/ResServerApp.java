@@ -1,4 +1,4 @@
-package com.fengxuechao.examples.sso.client;
+package com.fengxuechao.examples.sso.res;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,9 +16,9 @@ import java.util.Map;
  */
 @SpringBootApplication
 @RestController
-public class ClientApp {
+public class ResServerApp {
     public static void main(String[] args) {
-        SpringApplication.run(ClientApp.class, args);
+        SpringApplication.run(ResServerApp.class, args);
     }
 
     // 资源API

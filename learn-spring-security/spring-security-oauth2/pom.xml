@@ -11,6 +11,7 @@
     <modules>
         <module>res-server</module>
         <module>auth-server</module>
+        <module>client</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

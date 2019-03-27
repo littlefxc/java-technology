@@ -190,7 +190,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .refreshTokenValiditySeconds(50000)
                 .authorizedGrantTypes("client_credentials", "refresh_token", "password", "authorization_code")
                 .scopes("all")
-                .authorities("client").and().build();
+                .authorities(res).and().build();
     }
 
     @Override
@@ -440,7 +440,7 @@ public class AuthEndpoints {
 2. 独立资源服务器配置
 
     ```java
-    package com.fengxuechao.examples.sso.client.configuration;
+    package com.fengxuechao.examples.sso.res.configuration;
     
     import org.springframework.context.annotation.Configuration;
     import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -496,7 +496,7 @@ public class AuthEndpoints {
 4. 受保护资源
     
     ```java
-    package com.fengxuechao.examples.sso.client;
+    package com.fengxuechao.examples.sso.res;
     
     import org.springframework.boot.SpringApplication;
     import org.springframework.boot.autoconfigure.SpringBootApplication;

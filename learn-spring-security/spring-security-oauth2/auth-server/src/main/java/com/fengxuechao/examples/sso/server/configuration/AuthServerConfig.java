@@ -71,12 +71,12 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .withClient("client_1")
                 .secret("123456")
                 .resourceIds(DEMO_RESOURCE_ID)
-                .redirectUris("https://www.baidu.com", "http://localhost:8081/product/1")
+                .redirectUris("https://www.baidu.com", "http://localhost:8081/product/1", "http://localhost:8083/securedPage","http://localhost:8083/login")
                 .accessTokenValiditySeconds(1200)
                 .refreshTokenValiditySeconds(50000)
                 .authorizedGrantTypes("client_credentials", "refresh_token", "password", "authorization_code")
                 .scopes("all")
-                .authorities("client").and().build();
+                .authorities("client").autoApprove(true).and().build();
     }
 
     @Override
@@ -94,6 +94,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
         //允许表单认证
         oauthServer.allowFormAuthenticationForClients();
+        oauthServer.tokenKeyAccess("permitAll()");
         oauthServer.checkTokenAccess("isAuthenticated()");
     }
 }
