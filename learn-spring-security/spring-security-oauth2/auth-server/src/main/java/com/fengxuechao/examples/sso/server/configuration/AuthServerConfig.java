@@ -71,12 +71,14 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .withClient("client_1")
                 .secret("123456")
                 .resourceIds(DEMO_RESOURCE_ID)
-                .redirectUris("https://www.baidu.com", "http://localhost:8081/product/1", "http://localhost:8083/securedPage","http://localhost:8083/login")
+                .redirectUris("https://www.baidu.com", "http://localhost:8081/product/1", "http://localhost:8083/login")
                 .accessTokenValiditySeconds(1200)
                 .refreshTokenValiditySeconds(50000)
                 .authorizedGrantTypes("client_credentials", "refresh_token", "password", "authorization_code")
                 .scopes("all")
-                .authorities("client").autoApprove(true).and().build();
+                .authorities("client")
+                .autoApprove(true)
+                .and().build();
     }
 
     @Override
