@@ -49,7 +49,7 @@ Executors 提供了一系列工厂方法用于创先线程池，返回的线程�
 - public static ExecutorService newFixedThreadPool(int nThreads)
 
     创建固定数目线程的线程池。
-    
+
     - newFixedThreadPool 与 cacheThreadPool 差不多，也是能 reuse 就用，但不能随时建新的线程。
     - 其独特之处:任意时间点，最多只能有固定数目的活动线程存在，此时如果有新的线程要建立，只能放在另外的队列中等待，直到当前的线程中某个线程终止直接被移出池子。
     - 和 cacheThreadPool 不同，FixedThreadPool 没有 IDLE 机制（可能也有，但既然文档没提，肯定非常长，
@@ -57,7 +57,7 @@ Executors 提供了一系列工厂方法用于创先线程池，返回的线程�
     - 从方法的源代码看，cache池和fixed 池调用的是同一个底层池，只不过参数不同:
         - fixed 池线程数固定，并且是0秒IDLE（无IDLE）。
         - cache 池线程数支持 0-Integer.MAX_VALUE(显然完全没考虑主机的资源承受能力），60 秒 IDLE 。
-    
+
 - public static ExecutorService newCachedThreadPool()
 
     创建一个可缓存的线程池，调用execute将重用以前构造的线程（如果线程可用）。如果现有线程没有可用的，则创建一个新线 程并添加到池中。

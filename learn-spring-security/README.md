@@ -19,3 +19,5 @@ tags:
 ## Spring Security Oauth2
 
 - [x] [Spring-Security-Oauth2第一篇](doc/Spring-Security-Oauth2第一篇.md)
+
+- [x] [Spring-Security-Oauth2第二篇](doc/Spring-Security-Oauth2第二篇.md)
