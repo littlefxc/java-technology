@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
 /**
@@ -34,14 +35,14 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
-        log.info("VAuthenticationProvider authenticate login user [username={}, password={}]", username, password);
+        log.info("MyAuthenticationProvider authenticate login user [username={}, password={}]", username, password);
         MyUserDetails myUserDetails = (MyUserDetails) myUserDetailsService.loadUserByUsername(username);
-        log.info("VAuthenticationProvider authenticate myUserDetails [myUserDetails={}]", myUserDetails);
+        log.info("MyAuthenticationProvider authenticate myUserDetails [myUserDetails={}]", myUserDetails);
         if (myUserDetails == null) {
             throw new BadCredentialsException("用户没有找到");
         }
         if (!password.equals(myUserDetails.getPassword())) {
-            log.info("VAuthenticationProvider authenticate BadCredentialsException [inputPassword={}, DBPassword={}]", password, myUserDetails.getPassword());
+            log.info("MyAuthenticationProvider authenticate BadCredentialsException [inputPassword={}, DBPassword={}]", password, myUserDetails.getPassword());
             throw new BadCredentialsException("密码错误");
         }
 
