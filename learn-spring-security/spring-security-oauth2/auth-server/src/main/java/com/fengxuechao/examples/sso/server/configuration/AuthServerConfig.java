@@ -82,18 +82,19 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .withClient("client_1")
                 .secret("123456")
                 .resourceIds(DEMO_RESOURCE_ID)
-                .redirectUris(redirectUris)
-                .accessTokenValiditySeconds(1200)
-                .refreshTokenValiditySeconds(50000)
+                .redirectUris(redirectUris) // 回调地址
+                .accessTokenValiditySeconds(1200) // access_token 有效时间
+                .refreshTokenValiditySeconds(50000) // refresh_token 有效时间
                 .authorizedGrantTypes("client_credentials", "refresh_token", "password", "authorization_code")
                 .scopes("all")
                 .authorities("client")
-                .autoApprove(true)
+                .autoApprove(true) // 授权码模式:自动授权
                 .and()
-                .withClient("client_2").secret("123456")
-                .resourceIds(DEMO_RESOURCE_ID).authorizedGrantTypes("client_credentials")
-                .scopes("read")
-                .authorities("client")
+                .withClient("client_2").secret("123456") // 可信任的客户端凭据
+                .resourceIds(DEMO_RESOURCE_ID) // 客户端能访问的资源ID
+                .authorizedGrantTypes("client_credentials")
+                .scopes("read") // 表示权限范围，可选项，用户授权页面时进行选择
+                .authorities("client") // 授予客户端的权限
                 .and().build();
     }
 
