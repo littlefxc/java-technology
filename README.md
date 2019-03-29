@@ -24,6 +24,8 @@
 - [x] [Spring El 表达式学习](learn-spring/learn-springEL/README.md)
 - [x] [Spring-CSV-to-DB - 详细信息](learn-spring-batch/Spring-CSV-to-DB/Spring-CSV-to-BD.md)
 - [x] [Spring+使用docker配置MySQL主从分离+MyBatis插件感知主从分离](spring-rwdb-mybatis/README.md)
+- [x] [SpringBoot配置文件的优先级](springboot-properties/README.md)
+- [x] [Spring Boot Validator](example-validation/README.md)
 
 ### Spring-Security 系列
 
@@ -39,7 +41,15 @@
 - [x] [Spring-Security-Oauth2第一篇](learn-spring-security/doc/Spring-Security-Oauth2第一篇.md)
 - [x] [Spring-Security-Oauth2第二篇](learn-spring-security/doc/Spring-Security-Oauth2第二篇.md)
 
+### Spring Cloud Alibaba
+
+- [x] [使用Nacos实现服务注册与发现](spring-cloud-alibaba/docs/使用Nacos实现服务注册与发现和配置中心.md)
+
 ## 日志
 
 - [x] [Log4j2-JDBCAppender组件](learn-log/Log4j2-JDBCAppender/Log4j2-JDBCAppender.md)
 - [x] [Logback-DBAppender组件](learn-log/Logback-DBAppender/Logback-DBAppender.md)
+
+## Activiti
+
+- [x] [Activiti6 学习笔记](example-activiti6/README.md)
