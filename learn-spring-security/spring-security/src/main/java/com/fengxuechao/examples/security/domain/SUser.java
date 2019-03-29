@@ -1,11 +1,11 @@
-package com.fengxuechao.examples.sso.server.domain;
+package com.fengxuechao.examples.security.domain;
 
 import lombok.Data;
 
 /**
  * 用户名密码信息
- *
- * @author Veiking
+ * @author fengxuechao
+ * @date 2019-03-29
  */
 @Data
 public class SUser {

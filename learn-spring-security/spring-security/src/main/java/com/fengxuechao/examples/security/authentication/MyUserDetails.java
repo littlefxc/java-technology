@@ -1,8 +1,8 @@
-package com.fengxuechao.examples.sso.server.authentication;
+package com.fengxuechao.examples.security.authentication;
 
-import com.fengxuechao.examples.sso.server.domain.SPermission;
-import com.fengxuechao.examples.sso.server.domain.SRole;
-import com.fengxuechao.examples.sso.server.domain.SUser;
+import com.fengxuechao.examples.security.domain.SPermission;
+import com.fengxuechao.examples.security.domain.SRole;
+import com.fengxuechao.examples.security.domain.SUser;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,11 +15,12 @@ import java.util.List;
 /**
  * 自定义 UserDetailsService
  * 用户信息的封装，包含用户名称密码及用户状态、权限等信息 
- * @author Veiking 
+ * @author fengxuechao
+ * @date 2019-03-29
  */
 @Slf4j
 @ToString
-public class VUserDetails extends SUser implements UserDetails {
+public class MyUserDetails extends SUser implements UserDetails {
   
     private static final long serialVersionUID = 1L;
 
@@ -35,7 +36,7 @@ public class VUserDetails extends SUser implements UserDetails {
      * @param sRoleList 
      * @param sPermissionList 
      */  
-    public VUserDetails(SUser sUser, List<SRole> sRoleList, List<SPermission> sPermissionList) {
+    public MyUserDetails(SUser sUser, List<SRole> sRoleList, List<SPermission> sPermissionList) {
         super(sUser);  
         this.sRoleList = sRoleList;  
         this.sPermissionList = sPermissionList;  
@@ -66,7 +67,7 @@ public class VUserDetails extends SUser implements UserDetails {
         if(authoritiesBuilder.length()>0) {  
             authoritiesStr = authoritiesBuilder.deleteCharAt(0).toString();  
         }  
-        log.info("VUserDetails getAuthorities [authoritiesStr={} ", authoritiesStr);
+        log.info("MyUserDetails getAuthorities [authoritiesStr={} ", authoritiesStr);
         return AuthorityUtils.commaSeparatedStringToAuthorityList(authoritiesStr);
     }  
   

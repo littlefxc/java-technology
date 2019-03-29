@@ -1,13 +1,14 @@
-package com.fengxuechao.examples.sso.server.dao;
+package com.fengxuechao.examples.security.dao;
 
-import com.fengxuechao.examples.sso.server.domain.SUser;
+import com.fengxuechao.examples.security.domain.SUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 /**
  * 用户信息查询 
- * @author Veiking 
+ * @author fengxuechao
+ * @date 2019-03-29
  */
 @Repository
 @Mapper

@@ -1,6 +1,6 @@
-package com.fengxuechao.examples.sso.server.dao;
+package com.fengxuechao.examples.security.dao;
 
-import com.fengxuechao.examples.sso.server.domain.SPermission;
+import com.fengxuechao.examples.security.domain.SPermission;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -9,7 +9,8 @@ import java.util.List;
 
 /**
  * 资源权限信息查询 
- * @author Veiking 
+ * @author fengxuechao
+ * @date 2019-03-29
  */
 @Repository
 @Mapper

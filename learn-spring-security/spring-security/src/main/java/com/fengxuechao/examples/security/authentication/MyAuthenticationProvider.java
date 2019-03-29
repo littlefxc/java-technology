@@ -1,4 +1,4 @@
-package com.fengxuechao.examples.sso.server.authentication;
+package com.fengxuechao.examples.security.authentication;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,19 +7,21 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 /**
  * 认证提供者，校验用户，登录名密码，以及向系统提供一个用户信息的综合封装
  *
- * @author Veiking
+ * @author fengxuechao
+ * @date 2019-03-29
  */
 @Slf4j
 @Component
-public class VAuthenticationProvider implements AuthenticationProvider {
+public class MyAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
-    VUserDetailsService vUserDetailsService;
+    MyUserDetailsService myUserDetailsService;
 
     /**
      * 首先，在用户登录的时候，系统将用户输入的的用户名和密码封装成一个Authentication对象
@@ -33,18 +35,18 @@ public class VAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
         log.info("VAuthenticationProvider authenticate login user [username={}, password={}]", username, password);
-        VUserDetails vUserDetails = (VUserDetails) vUserDetailsService.loadUserByUsername(username);
-        log.info("VAuthenticationProvider authenticate vUserDetails [vUserDetails={}]", vUserDetails);
-        if (vUserDetails == null) {
+        MyUserDetails myUserDetails = (MyUserDetails) myUserDetailsService.loadUserByUsername(username);
+        log.info("VAuthenticationProvider authenticate myUserDetails [myUserDetails={}]", myUserDetails);
+        if (myUserDetails == null) {
             throw new BadCredentialsException("用户没有找到");
         }
-        if (!password.equals(vUserDetails.getPassword())) {
-            log.info("VAuthenticationProvider authenticate BadCredentialsException [inputPassword={}, DBPassword={}]", password, vUserDetails.getPassword());
+        if (!password.equals(myUserDetails.getPassword())) {
+            log.info("VAuthenticationProvider authenticate BadCredentialsException [inputPassword={}, DBPassword={}]", password, myUserDetails.getPassword());
             throw new BadCredentialsException("密码错误");
         }
 
         //认证校验通过后，封装UsernamePasswordAuthenticationToken返回
-        return new UsernamePasswordAuthenticationToken(vUserDetails, password, vUserDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(myUserDetails, password, myUserDetails.getAuthorities());
     }
 
     @Override

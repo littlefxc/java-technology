@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta content="text/html;charset=UTF-8"/>
+    <title>HELLO</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
+    <style type="text/css">
+        body { padding: 40px; }
+    </style>
+</head>
+<body>
+<h1>HELLO</h1>
+<br/>你好：<a sec:authentication="name"></a>
+
+<a sec:authorize="hasAuthority('P_INDEX')" th:href="@{/index}"> INDEX</a>
+<a sec:authorize="hasAuthority('P_ADMIN')" th:href="@{/admin}"> | ADMIN</a>
+<a sec:authorize="hasAuthority('P_HELLO')" th:href="@{/hello}"> | HELLO</a>
+<br/><hr/>
+<form th:action="@{/logout}" method="post" sec:authorize="hasAuthority('R_ADMIN')">
+    <input type="submit" class="btn btn-primary" value="注销"/>
+</form>
+
+
+</body>
+</html>

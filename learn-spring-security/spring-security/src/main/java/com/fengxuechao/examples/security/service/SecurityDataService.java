@@ -1,11 +1,11 @@
-package com.fengxuechao.examples.sso.server.service;
+package com.fengxuechao.examples.security.service;
 
-import com.fengxuechao.examples.sso.server.dao.SPermissionDao;
-import com.fengxuechao.examples.sso.server.dao.SRoleDao;
-import com.fengxuechao.examples.sso.server.dao.SUserDao;
-import com.fengxuechao.examples.sso.server.domain.SPermission;
-import com.fengxuechao.examples.sso.server.domain.SRole;
-import com.fengxuechao.examples.sso.server.domain.SUser;
+import com.fengxuechao.examples.security.dao.SPermissionDao;
+import com.fengxuechao.examples.security.dao.SRoleDao;
+import com.fengxuechao.examples.security.dao.SUserDao;
+import com.fengxuechao.examples.security.domain.SPermission;
+import com.fengxuechao.examples.security.domain.SRole;
+import com.fengxuechao.examples.security.domain.SUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +13,8 @@ import java.util.List;
 
 /**
  * Security 数据服务 
- *  
- * @author Veiking 
+ * @author fengxuechao
+ * @date 2019-03-29
  */  
 @Service
 public class SecurityDataService {  

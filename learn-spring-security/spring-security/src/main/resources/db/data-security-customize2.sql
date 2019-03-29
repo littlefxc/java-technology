@@ -2,7 +2,7 @@
 -- Records of s_user
 -- ----------------------------
 INSERT INTO `s_user` VALUES ('1', 'admin', 'admin');
-INSERT INTO `s_user` VALUES ('2', 'veiking', 'veiking');
+INSERT INTO `s_user` VALUES ('2', 'xiaohong', 'xiaohong');
 INSERT INTO `s_user` VALUES ('3', 'xiaoming', 'xiaoming');
 
 -- ----------------------------
