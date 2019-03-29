@@ -313,7 +313,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 #### 2.5.4. 受保护的资源
 
 ```java
-package com.fengxuechao.examples.sso.server.web;
+package com.fengxuechao.examples.sso.server.controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

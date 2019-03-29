@@ -1,4 +1,4 @@
-package com.fengxuechao.examples.sso.server.web;
+package com.fengxuechao.examples.sso.server.endpoints;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
