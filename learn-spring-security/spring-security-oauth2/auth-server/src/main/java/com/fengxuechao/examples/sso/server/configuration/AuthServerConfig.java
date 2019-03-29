@@ -73,17 +73,27 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        String[] redirectUris = new String[]{
+                "https://www.baidu.com",
+                "http://localhost:8081/product/1", "http://127.0.0.1:8081/product/1",
+                "http://localhost:8083/login", "http://127.0.0.1:8083/login"
+        };
         clients.jdbc(dataSource)
                 .withClient("client_1")
                 .secret("123456")
                 .resourceIds(DEMO_RESOURCE_ID)
-                .redirectUris("https://www.baidu.com", "http://localhost:8081/product/1", "http://localhost:8083/login")
+                .redirectUris(redirectUris)
                 .accessTokenValiditySeconds(1200)
                 .refreshTokenValiditySeconds(50000)
                 .authorizedGrantTypes("client_credentials", "refresh_token", "password", "authorization_code")
                 .scopes("all")
                 .authorities("client")
                 .autoApprove(true)
+                .and()
+                .withClient("client_2").secret("123456")
+                .resourceIds(DEMO_RESOURCE_ID).authorizedGrantTypes("client_credentials")
+                .scopes("read")
+                .authorities("client")
                 .and().build();
     }
 

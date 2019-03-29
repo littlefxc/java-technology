@@ -2,6 +2,7 @@ package com.fengxuechao.examples.sso.client;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 
@@ -14,7 +15,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
  * @date 2019/3/27
  */
 //@EnableOAuth2Client
-//@Configuration
+//@EnableWebSecurity
 public class WebSecurityConfig2 extends WebSecurityConfigurerAdapter {
 
     @Override
