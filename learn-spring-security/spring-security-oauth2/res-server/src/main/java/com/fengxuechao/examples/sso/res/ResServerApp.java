@@ -2,6 +2,7 @@ package com.fengxuechao.examples.sso.res;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import java.util.Map;
  * @author fengxuechao
  * @date 2019/3/26
  */
+@EnableDiscoveryClient
 @SpringBootApplication
 @RestController
 public class ResServerApp {

@@ -1,0 +1,45 @@
+server:
+  port: 8004
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://jackie:123456@alpha-eureka-01:8761/eureka/,http://jackie:123456@alpha-eureka-02:8762/eureka/,http://jackie:123456@alpha-eureka-03:8763/eureka/
+
+spring:
+  application:
+    name: oauth-gate-zuul
+
+  # 添加代理头
+zuul:
+  add-proxy-headers: true
+
+  ## 认证服务
+  # 响应的路径
+  routes:
+    res:
+      path: /res-server/**
+      server-id: res
+    auth:
+      path: /auth-server/**
+      service-id: auth-server
+
+security:
+  basic:
+    enabled: false
+  oauth2:
+    client:
+      client-id: client_1
+      client-secret: 123456
+      grant-type: client_credentials
+      access-token-uri: http://localhost:8081/oauth/token
+#      user-authorization-uri: http://localhost:8081/oauth/authorize
+      scope: all
+  # userInfoUri用户端点的URI，用于获取当前用户详细信息
+    resource:
+      loadBalanced: true
+      user-info-uri: http://localhost:8081/user/me
+#      prefer-token-info: false
+    # 解析令牌的地址
+    authorization:
+      check-token-access: http://localhost:8001/oauth/check_token
