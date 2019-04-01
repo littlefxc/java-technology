@@ -4,7 +4,8 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://jackie:123456@alpha-eureka-01:8761/eureka/,http://jackie:123456@alpha-eureka-02:8762/eureka/,http://jackie:123456@alpha-eureka-03:8763/eureka/
+#      defaultZone: http://jackie:123456@alpha-eureka-01:8761/eureka/,http://jackie:123456@alpha-eureka-02:8762/eureka/,http://jackie:123456@alpha-eureka-03:8763/eureka/
+      defaultZone: http://127.0.0.1:8761/eureka/
 
 spring:
   application:
@@ -17,9 +18,7 @@ zuul:
   ## 认证服务
   # 响应的路径
   routes:
-    res:
-      path: /res-server/**
-      server-id: res
+    res: /res/**
     auth:
       path: /auth-server/**
       service-id: auth-server
@@ -32,13 +31,13 @@ security:
       client-id: client_1
       client-secret: 123456
       grant-type: client_credentials
-      access-token-uri: http://localhost:8081/oauth/token
+      access-token-uri: /auth-server/oauth/token
 #      user-authorization-uri: http://localhost:8081/oauth/authorize
       scope: all
   # userInfoUri用户端点的URI，用于获取当前用户详细信息
     resource:
       loadBalanced: true
-      user-info-uri: http://localhost:8081/user/me
+      user-info-uri: /auth-server/user/me
 #      prefer-token-info: false
     # 解析令牌的地址
     authorization:

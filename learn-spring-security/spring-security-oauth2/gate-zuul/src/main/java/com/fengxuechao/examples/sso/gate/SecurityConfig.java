@@ -39,14 +39,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             OAuth2ClientContext oAuth2ClientContext, OAuth2ProtectedResourceDetails details) {
         return new OAuth2RestTemplate(details, oAuth2ClientContext);
     }
-
-    /**
-     * 资源过滤器
-     *
-     * @return 资源过滤器
-     */
-    @Bean
-    public AccessFilter accessFilter() {
-        return new AccessFilter();
-    }
 }

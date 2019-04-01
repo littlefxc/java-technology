@@ -7,21 +7,21 @@
 
 # 客户端凭据（客户端ID以及Key）模式
 POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
-Authorization: Basic {{client_1}} {{123456}}
 
 ###
 
-GET http://localhost:8004/auth-server/user/me?access_token=70a5881f-aaab-4765-a5d7-92c6c896f136
-Authorization: Bearer 70a5881f-aaab-4765-a5d7-92c6c896f136
+GET http://localhost:8004/auth-server/user/me?access_token=906fba73-bf1a-4cba-b4b3-06bd43f4f285
 
 ###
 
-GET http://localhost:8004/auth-server/product/1?access_token=70a5881f-aaab-4765-a5d7-92c6c896f136
-Authorization: Bearer 70a5881f-aaab-4765-a5d7-92c6c896f136
+GET http://localhost:8004/auth-server/product/1?access_token=083afa26-d4fa-42ec-8a1b-f445a30e415b
 
 ###
 
-GET http://localhost:8084/res-server/api/userinfo?access_token=70a5881f-aaab-4765-a5d7-92c6c896f136
-Authorization: Bearer 70a5881f-aaab-4765-a5d7-92c6c896f136
+GET http://localhost:8004/res/api/userinfo?access_token=906fba73-bf1a-4cba-b4b3-06bd43f4f285
+
+###
+
+GET http://localhost:8082/api/userinfo?access_token=906fba73-bf1a-4cba-b4b3-06bd43f4f285
 
 ###

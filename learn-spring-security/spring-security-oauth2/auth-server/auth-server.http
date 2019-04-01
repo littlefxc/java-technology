@@ -31,7 +31,7 @@ GET http://localhost:8081/product/1?access_token=5d0560ea-687a-4d07-9704-be2a137
 ###
 
 # 受保护资源
-GET http://localhost:8082/api/userinfo?access_token=5d0560ea-687a-4d07-9704-be2a13713cd3
+GET http://localhost:8082/api/userinfo?access_token=e8f9528e-924b-41ea-8a2a-929c21540ee3
 
 ###
 
