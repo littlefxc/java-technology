@@ -14,8 +14,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * @author fengxuechao
  * @date 2019/3/27
  */
-@EnableOAuth2Sso
-@EnableWebSecurity
+//@EnableOAuth2Sso
+//@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {

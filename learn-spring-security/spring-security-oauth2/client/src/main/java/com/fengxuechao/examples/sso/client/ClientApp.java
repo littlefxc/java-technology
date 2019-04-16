@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,12 +25,12 @@ import java.util.Map;
 @RestController
 @SpringBootApplication
 public class ClientApp {
+    @Autowired
+    OAuth2RestTemplate restTemplate;
+
     public static void main(String[] args) {
         SpringApplication.run(ClientApp.class);
     }
-
-    @Autowired
-    OAuth2RestTemplate restTemplate;
 
     @GetMapping("/securedPage")
     public ModelAndView securedPage(OAuth2Authentication authentication) {
@@ -36,13 +39,14 @@ public class ClientApp {
 
     @GetMapping("/remoteCall")
     public Map remoteCall() {
+        restTemplate.getAccessToken();
         ResponseEntity<Map> responseEntity = restTemplate.getForEntity("http://127.0.0.1:8082/api/userinfo", Map.class);
         return responseEntity.getBody();
     }
 
     @Bean
-    public OAuth2RestTemplate oauth2RestTemplate(
-            OAuth2ClientContext oAuth2ClientContext, OAuth2ProtectedResourceDetails details) {
-        return new OAuth2RestTemplate(details, oAuth2ClientContext);
+    public OAuth2RestTemplate oauth2RestTemplate(OAuth2ProtectedResourceDetails resourceDetails) {
+        return new OAuth2RestTemplate(resourceDetails);
     }
+
 }

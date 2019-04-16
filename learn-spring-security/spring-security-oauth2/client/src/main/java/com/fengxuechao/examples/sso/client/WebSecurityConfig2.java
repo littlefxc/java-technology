@@ -14,8 +14,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
  * @author fengxuechao
  * @date 2019/3/27
  */
-//@EnableOAuth2Client
-//@EnableWebSecurity
+@EnableOAuth2Client
+@EnableWebSecurity
 public class WebSecurityConfig2 extends WebSecurityConfigurerAdapter {
 
     @Override
