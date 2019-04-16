@@ -11,7 +11,7 @@ POST http://localhost:8081/oauth/token?grant_type=client_credentials&scope=all&c
 ###
 
 # 密码模式
-POST http://localhost:8081/oauth/token?grant_type=password&username=user_1&password=123456&scope=all&client_id=client_1&client_secret=123456
+POST http://localhost:8081/oauth/token?grant_type=password&username=admin&password=admin&scope=all&client_id=client_1&client_secret=123456
 
 ###
 
@@ -26,7 +26,7 @@ POST http://localhost:8081/oauth/token?client_id=client_1&grant_type=authorizati
 ###
 
 # 受保护资源
-GET http://localhost:8081/product/1?access_token=5d0560ea-687a-4d07-9704-be2a13713cd3
+GET http://localhost:8081/product/1?access_token=f33ffb1c-0704-4a8e-aae2-48e66570ded8
 
 ###
 
@@ -36,6 +36,20 @@ GET http://localhost:8082/api/userinfo?access_token=e8f9528e-924b-41ea-8a2a-929c
 ###
 
 GET http://localhost:8083/remoteCall
+
+###
+
+POST http://localhost:8004/auth-server/oauth/token?grant_type=password&username=admin&password=admin&scope=all&client_id=client_1&client_secret=123456
+
+###
+
+# 受保护资源
+GET http://localhost:8004/auth-server/product/1?access_token=f33ffb1c-0704-4a8e-aae2-48e66570ded8
+
+###
+
+# 受保护资源
+GET http://localhost:8004/test
 
 ###
 
