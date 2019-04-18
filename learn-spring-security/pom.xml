@@ -11,5 +11,6 @@
     <modules>
         <module>spring-security-oauth2</module>
         <module>spring-security</module>
+        <module>InMemory-Spring-Security</module>
     </modules>
 </project>

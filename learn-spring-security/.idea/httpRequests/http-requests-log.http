@@ -1,311 +1,300 @@
-GET http://localhost:8084/res-server/api/userinfo?access_token=70a5881f-aaab-4765-a5d7-92c6c896f136
-Authorization: Bearer 70a5881f-aaab-4765-a5d7-92c6c896f136
+GET http://localhost:8082/auth-server/api/userinfo?access_token=4628c26a-ebae-4892-827a-002c7292d4fa
+
+<> 2019-04-17T024843.404.json
 
 ###
 
-POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
-Authorization: Basic {{client_1}} {{123456}}
+GET http://localhost:8082/api/userinfo?access_token=4628c26a-ebae-4892-827a-002c7292d4fa
 
-<> 2019-04-01T082109.200.json
-
-###
-
-GET http://localhost:8084/res-server/api/userinfo?access_token=70a5881f-aaab-4765-a5d7-92c6c896f136
-Authorization: Bearer 70a5881f-aaab-4765-a5d7-92c6c896f136
+<> 2019-04-17T024747.200.json
 
 ###
 
-GET http://localhost:8084/res-server/api/userinfo?access_token=70a5881f-aaab-4765-a5d7-92c6c896f136
-Authorization: Bearer 70a5881f-aaab-4765-a5d7-92c6c896f136
+GET http://localhost:8082/res/api/userinfo?access_token=4628c26a-ebae-4892-827a-002c7292d4fa
+
+<> 2019-04-17T024735.404.json
 
 ###
 
-GET http://localhost:8084/res-server/api/userinfo?access_token=70a5881f-aaab-4765-a5d7-92c6c896f136
-Authorization: Bearer 70a5881f-aaab-4765-a5d7-92c6c896f136
+GET http://localhost:8082/res/api/userinfo?access_token=4628c26a-ebae-4892-827a-002c7292d4fa
+
+<> 2019-04-17T024623.404.json
 
 ###
 
-POST http://localhost:8081/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
+GET http://localhost:8082/res/api/userinfo?access_token=4628c26a-ebae-4892-827a-002c7292d4fa
 
-<> 2019-04-01T081446.200.json
-
-###
-
-GET http://localhost:8084/res-server/api/userinfo?access_token=70a5881f-aaab-4765-a5d7-92c6c896f136
-Authorization: Bearer 70a5881f-aaab-4765-a5d7-92c6c896f136
+<> 2019-04-17T024602.404.json
 
 ###
 
-GET http://localhost:8004/auth-server/product/1?access_token=70a5881f-aaab-4765-a5d7-92c6c896f136
-Authorization: Bearer 70a5881f-aaab-4765-a5d7-92c6c896f136
+GET http://localhost:8082/res/api/userinfo?access_token=4628c26a-ebae-4892-827a-002c7292d4fa
 
-<> 2019-04-01T080924.200.txt
-
-###
-
-GET http://localhost:8084/res-server/api/userinfo?access_token=70a5881f-aaab-4765-a5d7-92c6c896f136
-Authorization: Bearer 70a5881f-aaab-4765-a5d7-92c6c896f136
+<> 2019-04-17T024555.404.json
 
 ###
 
-GET http://localhost:8004/auth-server/user/me?access_token=70a5881f-aaab-4765-a5d7-92c6c896f136
-Authorization: Bearer 70a5881f-aaab-4765-a5d7-92c6c896f136
+GET http://localhost:8082/api/userinfo?access_token=4628c26a-ebae-4892-827a-002c7292d4fa
 
-<> 2019-04-01T080647.200.json
-
-###
-
-GET http://localhost:8004/auth-server/user/me?access_token=5d0560ea-687a-4d07-9704-be2a13713cd3
-Authorization: Bearer 5d0560ea-687a-4d07-9704-be2a13713cd3
-
-<> 2019-04-01T080634.401.json
+<> 2019-04-17T024451.200.json
 
 ###
 
-GET http://localhost:8004/auth-server/product/1?access_token=70a5881f-aaab-4765-a5d7-92c6c896f136
-Authorization: Bearer 70a5881f-aaab-4765-a5d7-92c6c896f136
+GET http://localhost:8081/product/1?access_token=4628c26a-ebae-4892-827a-002c7292d4fa
 
-<> 2019-04-01T080510.200.txt
-
-###
-
-GET http://localhost:8084/res-server/api/userinfo?access_token=70a5881f-aaab-4765-a5d7-92c6c896f136
-Authorization: Bearer 70a5881f-aaab-4765-a5d7-92c6c896f136
+<> 2019-04-17T024444.200.txt
 
 ###
 
-POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
-Authorization: Basic {{client_1}} {{123456}}
+POST http://localhost:8081/oauth/token?grant_type=password&username=admin&password=admin&scope=all&client_id=client_1&client_secret=123456
 
-<> 2019-04-01T080448.200.json
-
-###
-
-GET http://localhost:8084/res-server/api/userinfo?access_token=5d0560ea-687a-4d07-9704-be2a13713cd3
-Authorization: Bearer 5d0560ea-687a-4d07-9704-be2a13713cd3
+<> 2019-04-17T024432.200.json
 
 ###
 
-POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
+GET http://localhost:8082/api/userinfo?access_token=17914f85-1cbb-48b8-9ac1-ba86442184d7
 
-<> 2019-04-01T080151.401.txt
-
-###
-
-GET http://localhost:8084/res-server/api/userinfo?access_token=5d0560ea-687a-4d07-9704-be2a13713cd3
-Authorization: Bearer 5d0560ea-687a-4d07-9704-be2a13713cd3
+<> 2019-04-17T085604.200.json
 
 ###
 
-GET http://localhost:8004/auth-server/user/me?access_token=5d0560ea-687a-4d07-9704-be2a13713cd3
-Authorization: Bearer 5d0560ea-687a-4d07-9704-be2a13713cd3
+GET http://localhost:8082/api/userinfo?access_token=17914f85-1cbb-48b8-9ac1-ba86442184d7
 
-<> 2019-04-01T080102.200.json
-
-###
-
-POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
-Authorization: Basic {{client_1}} {{123456}}
-
-<> 2019-04-01T080052.200.json
+<> 2019-04-17T085600.200.json
 
 ###
 
-POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
-Authorization: Basic {{client_1}} {{123456}}
+POST http://localhost:8081/oauth/token?grant_type=password&username=admin&password=admin&scope=all&client_id=client_1&client_secret=123456
 
-<> 2019-04-01T080048.200.json
-
-###
-
-POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
-Authorization: Basic {{client_1}} {{123456}}
-
-<> 2019-04-01T075851.401.json
+<> 2019-04-17T085545.200.json
 
 ###
 
-GET http://localhost:8084/res-server/api/userinfo?access_token=5d0560ea-687a-4d07-9704-be2a13713cd3
-Authorization: Bearer 5d0560ea-687a-4d07-9704-be2a13713cd3
+GET http://localhost:8082/api/userinfo?access_token=d3659a01-5b1a-414c-b02e-6252adea4320
+
+<> 2019-04-17T085542.200.json
 
 ###
 
-GET http://localhost:8004/auth-server/product/1?access_token=5d0560ea-687a-4d07-9704-be2a13713cd3
-Authorization: Bearer 5d0560ea-687a-4d07-9704-be2a13713cd3
+GET http://localhost:8082/api/userinfo?access_token=d3659a01-5b1a-414c-b02e-6252adea4320
 
-<> 2019-04-01T075845.200.txt
-
-###
-
-GET http://localhost:8004/auth-server/user/me?access_token=5d0560ea-687a-4d07-9704-be2a13713cd3
-Authorization: Bearer 5d0560ea-687a-4d07-9704-be2a13713cd3
-
-<> 2019-04-01T075829.200.json
+<> 2019-04-17T085537.200.json
 
 ###
 
-POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
-Authorization: Basic {{client_1}} {{123456}}
+GET http://localhost:8082/api/userinfo?access_token=d3659a01-5b1a-414c-b02e-6252adea4320
 
-<> 2019-04-01T075825.401.json
-
-###
-
-GET http://localhost:8082/api/userinfo?access_token=5d0560ea-687a-4d07-9704-be2a13713cd3
-
-<> 2019-04-01T075541.401.json
-
-###
-
-GET http://127.0.0.1:8082/api/userinfo?access_token=5d0560ea-687a-4d07-9704-be2a13713cd3
-
-<> 2019-04-01T075522.401.json
-
-###
-
-GET http://localhost:8081/product/1?access_token=5d0560ea-687a-4d07-9704-be2a13713cd3
-
-<> 2019-04-01T075514.200.txt
+<> 2019-04-17T085449.500.json
 
 ###
 
 POST http://localhost:8081/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
 
-<> 2019-04-01T075502.200.json
+<> 2019-04-17T085441.200.json
 
 ###
 
-GET http://127.0.0.1:8082/api/userinfo?access_token=5d0560ea-687a-4d07-9704-be2a13713cd3
+GET http://localhost:8082/api/userinfo?access_token=d3659a01-5b1a-414c-b02e-6252adea4320
 
-<> 2019-04-01T075455.401.json
+<> 2019-04-17T085430.500.json
+
+###
+
+GET http://localhost:8082/api/userinfo?access_token=d3659a01-5b1a-414c-b02e-6252adea4320
+
+<> 2019-04-17T085424.500.json
+
+###
+
+GET http://localhost:8082/api/userinfo?access_token=d3659a01-5b1a-414c-b02e-6252adea4320
+
+<> 2019-04-17T085257.200.json
+
+###
+
+GET http://localhost:8082/api/userinfo?access_token=d3659a01-5b1a-414c-b02e-6252adea4320
+
+<> 2019-04-17T085211.200.json
+
+###
+
+GET http://localhost:8082/api/userinfo
+
+<> 2019-04-17T085207.401.json
+
+###
+
+GET http://localhost:8082/api/userinfo?access_token=d3659a01-5b1a-414c-b02e-6252adea4320
+
+<> 2019-04-17T085201.200.json
 
 ###
 
 POST http://localhost:8081/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
 
-<> 2019-04-01T075444.200.json
+<> 2019-04-17T085137.200.json
+
+###
+
+GET http://localhost:8004/res-server/api/userinfo?access_token=522216e5-44c2-4636-94be-740b09126dc6
+
+<> 2019-04-03T081106.200.json
+
+###
+
+GET http://localhost:8004/auth-server/product/1?access_token=522216e5-44c2-4636-94be-740b09126dc6
+
+<> 2019-04-03T081049.200.txt
+
+###
+
+GET http://localhost:8004/auth-server/user/me?access_token=522216e5-44c2-4636-94be-740b09126dc6
+
+<> 2019-04-03T080931.200.json
+
+###
+
+GET http://localhost:8004/auth-server/user/me?access_token=1903082a-74ba-40bd-9a16-3415d3ce96d0
+
+<> 2019-04-03T080924.401.json
 
 ###
 
 POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
-Authorization: Basic {{client_1}} {{123456}}
 
-<> 2019-04-01T075339.401.json
+<> 2019-04-03T080848.200.json
+
+###
+
+GET http://localhost:8083/remoteCall
+
+<> 2019-04-03T075638.200.json
+
+###
+
+GET http://localhost:8083/remoteCall
+
+<> 2019-04-03T075630.200.json
+
+###
+
+GET http://localhost:8083/remoteCall
+
+<> 2019-04-03T075623.200.json
+
+###
+
+GET http://localhost:8083/remoteCall
+
+<> 2019-04-03T074613.200.html
+
+###
+
+GET http://localhost:8082/api/userinfo?access_token=91980d56-4d40-4a77-93ca-b81801c16b1c
+
+<> 2019-04-03T073705.200.json
+
+###
+
+GET http://localhost:8082/api/userinfo?access_token=a7683ea4-bd23-4ad0-bde5-2215b9227f6d
+
+<> 2019-04-03T073653.401.json
+
+###
+
+GET http://localhost:8081/product/1?access_token=91980d56-4d40-4a77-93ca-b81801c16b1c
+
+<> 2019-04-03T073440.200.txt
+
+###
+
+GET http://localhost:8081/product/1
+
+<> 2019-04-03T073434.401.json
 
 ###
 
 POST http://localhost:8081/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
 
-<> 2019-04-01T075329.200.json
+<> 2019-04-03T072553.200.json
 
 ###
 
-POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
-Authorization: Basic {{client_1}} {{123456}}
+POST http://localhost:8081/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
 
-<> 2019-04-01T075324.401.json
-
-###
-
-POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
-Authorization: Basic {{client_1}} {{123456}}
-
-<> 2019-04-01T075317.401.json
+<> 2019-04-03T072322.500.json
 
 ###
 
-POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
-Authorization: Basic {{client_1}} {{123456}}
+GET http://localhost:8004/res-server/api/userinfo?access_token=5ae5157c-d1c0-4f4d-99af-9ca60afc8342
 
-<> 2019-04-01T075240.401.json
+<> 2019-04-02T044629.200.json
 
 ###
 
 POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
 
-<> 2019-04-01T075112.401.txt
+<> 2019-04-02T044619.200.json
+
+###
+
+GET http://localhost:8004/res-server/api/userinfo?access_token=5ae5157c-d1c0-4f4d-99af-9ca60afc8342
+
+<> 2019-04-02T044312.404.json
+
+###
+
+POST http://localhost:8081/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
+
+<> 2019-04-02T044259.200.json
+
+###
+
+GET http://localhost:8004/auth-server/user/me?access_token=1903082a-74ba-40bd-9a16-3415d3ce96d0
+
+<> 2019-04-02T044233.500.json
 
 ###
 
 POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
-Authorization: Basic {{client_1}} {{123456}}
 
-<> 2019-04-01T075106.401.json
-
-###
-
-POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
-Authorization: Basic {{client_1}} {{123456}}
-
-<> 2019-04-01T075052.401.json
+<> 2019-04-02T044223.500.json
 
 ###
 
 POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
-Authorization: Basic {{client_1}} {{123456}}
 
-<> 2019-04-01T075046.401.json
-
-###
-
-GET http://localhost:8084/res-server/api/userinfo?access_token=5d0560ea-687a-4d07-9704-be2a13713cd3
-Authorization: Bearer 5d0560ea-687a-4d07-9704-be2a13713cd3
+<> 2019-04-02T044023.500.json
 
 ###
 
-GET http://localhost:8004/auth-server/product/1?access_token=5d0560ea-687a-4d07-9704-be2a13713cd3
-Authorization: Bearer 5d0560ea-687a-4d07-9704-be2a13713cd3
+POST http://localhost:8004/auth-server/oauth/token?client_id=client_1&grant_type=authorization_code&redirect_uri=http://localhost:8004/res-server/api/userinfo&client_secret=123456&code=zCB6MW&state=aZb8dL
 
-<> 2019-04-01T074140.200.txt
-
-###
-
-GET http://localhost:8004/auth-server/user/me?access_token=5d0560ea-687a-4d07-9704-be2a13713cd3
-Authorization: Bearer 5d0560ea-687a-4d07-9704-be2a13713cd3
-
-<> 2019-04-01T074132.200.json
+<> 2019-04-02T043107.400.json
 
 ###
 
-POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
-Authorization: Basic {{client_1}} {{123456}}
+POST http://localhost:8081/oauth/token?client_id=client_1&grant_type=authorization_code&redirect_uri=http://localhost:8004/res-server/api/userinfo&client_secret=123456&code=zCB6MW&state=aZb8dL
 
-<> 2019-04-01T074118.200.json
-
-###
-
-GET http://localhost:8084/res-server/api/userinfo?access_token=879b2cd3-5152-4eb0-b9ce-ef4b7f776c12
-Authorization: Bearer 879b2cd3-5152-4eb0-b9ce-ef4b7f776c12
+<> 2019-04-02T043004.400.json
 
 ###
 
-POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
-Authorization: Basic {{client_1}} {{123456}}
+GET http://localhost:8004/res-server/api/userinfo?access_token=13fef176-9e2f-41cd-9f11-7e5421ac0cf5
 
-<> 2019-04-01T073236.200.json
-
-###
-
-GET http://localhost:8084/res-server/api/userinfo?access_token=879b2cd3-5152-4eb0-b9ce-ef4b7f776c12
-Authorization: Bearer 879b2cd3-5152-4eb0-b9ce-ef4b7f776c12
+<> 2019-04-02T042641.200.html
 
 ###
 
-GET http://localhost:8084/res-server/api/userinfo?access_token=879b2cd3-5152-4eb0-b9ce-ef4b7f776c12
-Authorization: Bearer 879b2cd3-5152-4eb0-b9ce-ef4b7f776c12
+GET http://localhost:8004/res-server/api/userinfo
+
+<> 2019-04-02T042358.401.json
 
 ###
 
-POST http://localhost:8004/auth-server/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
-Authorization: Basic {{client_1}} {{123456}}
+GET http://localhost:8004/res-server/api/userinfo?access_token=13fef176-9e2f-41cd-9f11-7e5421ac0cf5
 
-<> 2019-04-01T073003.200.json
-
-###
-
-GET http://127.0.0.1:8082/api/userinfo?access_token=879b2cd3-5152-4eb0-b9ce-ef4b7f776c12
-
-<> 2019-04-01T072235.200.json
+<> 2019-04-02T042353.401.json
 
 ###
 

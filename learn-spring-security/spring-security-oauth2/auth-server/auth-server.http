@@ -26,12 +26,12 @@ POST http://localhost:8081/oauth/token?client_id=client_1&grant_type=authorizati
 ###
 
 # 受保护资源
-GET http://localhost:8081/product/1?access_token=f33ffb1c-0704-4a8e-aae2-48e66570ded8
+GET http://localhost:8081/product/1?access_token=4628c26a-ebae-4892-827a-002c7292d4fa
 
 ###
 
 # 受保护资源
-GET http://localhost:8082/api/userinfo?access_token=e8f9528e-924b-41ea-8a2a-929c21540ee3
+GET http://localhost:8082/api/userinfo?access_token=4628c26a-ebae-4892-827a-002c7292d4fa
 
 ###
 
