@@ -154,4 +154,11 @@ services:
     command: /bin/bash -x /tmp/mysql_connector.sh
 ```
 
-## 
+## 测试
+
+```shell
+docker-compose up -d
+docker-compose logs -f mysqlconfigure
+docker-compose exec mysqlmaster mysql -uroot -proot -e "CREATE DATABASE test_replication;"
+docker-compose exec mysqlslave mysql -uroot -proot -e "SHOW DATABASES;"
+```
