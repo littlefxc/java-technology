@@ -59,6 +59,11 @@ public class DbConfig {
         return routing;
     }
 
+    /**
+     * 添加 MybatisInterceptor 拦截器
+     * @param dataSource
+     * @return
+     */
     @Bean
     public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) {
         SqlSessionFactoryBean sfb = new SqlSessionFactoryBean();
