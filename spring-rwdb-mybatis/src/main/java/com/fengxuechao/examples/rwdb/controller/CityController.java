@@ -43,7 +43,7 @@ public class CityController {
     public City update(@RequestBody City city) {
         if (city.getId() != null) {
             cityMapper.update(city);
-            cityMapper.findById(1);
+            cityMapper.findById(city.getId());
             return city;
         }
         return null;

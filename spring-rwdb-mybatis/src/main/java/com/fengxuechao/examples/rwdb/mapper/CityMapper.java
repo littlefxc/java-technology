@@ -25,6 +25,6 @@ public interface CityMapper {
     @Select("SELECT * FROM city WHERE id = #{id} limit 100")
     List<City> findAll();
 
-    @Update("UPDATE city SET name=#{name},city_code=#{cityCode},post_code=#{postCode} WHERE id =#{id}")
+    @Update("UPDATE city SET name=#{name},city_code=#{cityCode},post_code=#{postCode} WHERE id = #{id}")
     int update(City city);
 }

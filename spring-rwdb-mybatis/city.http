@@ -5,13 +5,14 @@
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
 
-POST http://localhost:8080/city
+PUT http://localhost:8080/city
 Content-Type: application/json
 
 {
+  "id": 4,
   "name": "abc",
-  "city_code": "13",
-  "post_code": "13"
+  "city_code": "14",
+  "post_code": "14"
 }
 
 ###
