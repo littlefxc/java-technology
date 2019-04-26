@@ -6,18 +6,6 @@
 
 [基于 Docker 的 MySQL 主从复制搭建](docker-compose-mysql-master-slave/README.md)
 
-Spring主从数据库的配置和动态数据源切换
-
-https://www.liaoxuefeng.com/article/00151054582348974482c20f7d8431ead5bc32b30354705000
-
-Spring动态数据源+Mybatis拦截器实现数据库读写分离
-
-https://blog.csdn.net/FJeKin/article/details/79583744
-
-在 `AbstractRoutingDataSource#determineTargetDataSource()` 打一个断点
-
-![AbstractRoutingDataSource断点图.png](images/AbstractRoutingDataSource断点图.png)
-
 ## 前言
 
 在大型应用程序中，配置主从数据库并使用读写分离是常见的设计模式。而要对现有的代码在不多改变源码的情况下，
@@ -326,6 +314,64 @@ public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) {
 }
 ```
 
-
-
 ## 测试
+
+```java
+/**
+ * @author fengxuechao
+ */
+@Repository
+public interface CityMapper {
+
+    @Select("SELECT id,name,city_code as cityCode,post_code as postCode FROM city WHERE id = #{id} limit 1")
+    City findById(Integer id);
+
+    @Insert("INSERT INTO city(name, city_code, post_code) VALUES(#{name}, #{cityCode}, #{postCode})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    int insert(City city);
+
+    @Select("SELECT * FROM city WHERE id = #{id} limit 100")
+    List<City> findAll();
+}
+```
+
+```java
+/**
+ * @author fengxuechao
+ * @date 2019/3/22
+ */
+@RestController
+@RequestMapping("/city")
+@Slf4j
+public class CityController {
+
+    @Autowired
+    CityMapper cityMapper;
+
+    //    @RoutingWith(value = RoutingType.SLAVE)
+    @GetMapping("/{id}")
+    public City get(@PathVariable Integer id) {
+        return cityMapper.findById(id);
+    }
+
+    @GetMapping
+    public List<City> list() {
+        return cityMapper.findAll();
+    }
+
+    @PutMapping
+    public City update(@RequestBody City city) {
+        if (city.getId() != null) {
+            cityMapper.update(city);
+            cityMapper.findById(1);
+            return city;
+        }
+        return null;
+    }
+
+}
+```
+
+日志：
+
+![mybatis主从分离日志.png](images/mybatis主从分离日志.png)
