@@ -5,6 +5,6 @@
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
 
-PUT http://192.168.212.74:8500/v1/agent/service/deregister/spring-cloud-consul-discovery-19bb8e3be5fe97fb2e1f67cc79e32754
+PUT http://192.168.212.74:8500/v1/agent/service/deregister/consul-client
 
 ###
