@@ -21,12 +21,12 @@ GET http://localhost:8081/oauth/authorize?response_type=code&client_id=client_1&
 ###
 
 # 授权码模式 - 2. 获取access_token
-POST http://localhost:8081/oauth/token?client_id=client_1&grant_type=authorization_code&redirect_uri=http://localhost:8081/product/1&client_secret=123456&code=8BnpZs
+POST http://localhost:8081/oauth/token?client_id=client_1&grant_type=authorization_code&redirect_uri=http://localhost:8081/product/1&client_secret=123456&code=w43q07
 
 ###
 
 # 受保护资源
-GET http://localhost:8081/product/1?access_token=4628c26a-ebae-4892-827a-002c7292d4fa
+GET http://localhost:8081/product/1?access_token=c5561b5a-dc05-431e-b066-13be4cc197a3
 
 ###
 
