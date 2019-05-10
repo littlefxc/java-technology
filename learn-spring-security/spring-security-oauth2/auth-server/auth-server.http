@@ -11,7 +11,7 @@ POST http://localhost:8081/oauth/token?grant_type=client_credentials&scope=all&c
 ###
 
 # 密码模式
-POST http://localhost:8081/oauth/token?grant_type=password&username=admin&password=admin&scope=all&client_id=client_1&client_secret=123456
+POST http://localhost:8081/oauth/token?grant_type=password&username=admin&password=admin&scope=read&client_id=client_2&client_secret=123456
 
 ###
 
@@ -24,8 +24,9 @@ GET http://localhost:8081/oauth/authorize?response_type=code&client_id=client_1&
 POST http://localhost:8081/oauth/token?client_id=client_1&grant_type=authorization_code&redirect_uri=http://localhost:8081/product/1&client_secret=123456&code=w43q07
 
 ###
+POST http://localhost:8081/oauth/token?grant_type=refresh_token&refresh_token=
 
-# 受保护资源
+### 受保护资源
 GET http://localhost:8081/product/1?access_token=c5561b5a-dc05-431e-b066-13be4cc197a3
 
 ###

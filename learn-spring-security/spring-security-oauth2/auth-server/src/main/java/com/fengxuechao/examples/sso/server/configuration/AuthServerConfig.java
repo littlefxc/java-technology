@@ -92,7 +92,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .and()
                 .withClient("client_2").secret("123456") // 可信任的客户端凭据
                 .resourceIds(DEMO_RESOURCE_ID) // 客户端能访问的资源ID
-                .authorizedGrantTypes("client_credentials")
+                .authorizedGrantTypes("client_credentials", "password")
                 .scopes("read") // 表示权限范围，可选项，用户授权页面时进行选择
                 .authorities("client") // 授予客户端的权限
                 .and().build();

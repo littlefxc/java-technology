@@ -1,6 +1,5 @@
 package com.fengxuechao.examples.auth.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,8 +10,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-import javax.sql.DataSource;
-
 /**
  * Security 主配置文件
  *
@@ -21,7 +18,6 @@ import javax.sql.DataSource;
  */
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
 
     /**
      * 具体的用户权限控制实现类
@@ -48,10 +44,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .requestMatchers().antMatchers("/oauth/**", "/login/**", "/logout/**")
-                .and().authorizeRequests().antMatchers("/oauth/*").authenticated()
-                .and().formLogin().permitAll();
+                .authorizeRequests()
+                .antMatchers("/oauth/**").permitAll()
+                .anyRequest().authenticated();
+        http.csrf().disable();
+        http.httpBasic().disable();
     }
 
     /**
@@ -65,4 +62,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/css/**");
     }
+
 }
