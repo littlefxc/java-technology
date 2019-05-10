@@ -14,7 +14,10 @@ Authorization: Basic Y2xpZW50OjEyMzQ1Ng==
 
 ###
 
-GET http://localhost:8080/user/profile
-Authorization: bearer 273781dc-c320-4575-8d2c-bed541a235b0
+GET http://localhost:8080/user/profile?access_token=684d7346-a219-41f5-b621-b897b9e1a189
+
+###
+
+GET http://localhost:8080/h2-console
 
 ###

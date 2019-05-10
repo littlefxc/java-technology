@@ -50,6 +50,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.tokenStore(new InMemoryTokenStore())
+                .userDetailsService(userDetailsService)
                 .authenticationManager(authenticationManager);
     }
 }
