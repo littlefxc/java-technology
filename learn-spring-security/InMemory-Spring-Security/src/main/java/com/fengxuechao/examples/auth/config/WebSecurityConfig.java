@@ -2,6 +2,7 @@ package com.fengxuechao.examples.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,7 +17,9 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
  * @author fengxuechao
  * @date 2019/3/26
  */
+@Order(2)
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
@@ -44,9 +47,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .requestMatchers()
+                .antMatchers("/oauth/**")
+                .and()
                 .authorizeRequests()
-                .antMatchers("/oauth/**").permitAll()
-                .anyRequest().authenticated();
+                .antMatchers("/oauth/**").permitAll();
         http.csrf().disable();
         http.httpBasic().disable();
     }
@@ -64,3 +69,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 }
+

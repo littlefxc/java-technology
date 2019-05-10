@@ -37,7 +37,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.inMemory()
                 .withClient("client")
                 .secret("123456")
-                .resourceIds("inMemory")
                 .accessTokenValiditySeconds(60)
                 .refreshTokenValiditySeconds(3600)
                 .authorizedGrantTypes("client_credentials", "password", "authorization_code", "implicit", "refresh_token")
@@ -51,7 +50,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.tokenStore(new InMemoryTokenStore())
-                .authenticationManager(authenticationManager)
-                .userDetailsService(userDetailsService);
+                .authenticationManager(authenticationManager);
     }
 }

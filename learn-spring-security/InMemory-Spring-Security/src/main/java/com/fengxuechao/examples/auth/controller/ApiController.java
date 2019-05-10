@@ -28,7 +28,7 @@ public class ApiController {
         return "order id : " + id;
     }
 
-    @GetMapping("/user/me")
+    @GetMapping("/user/profile")
     public Principal user(Principal principal) {
         return principal;
     }
