@@ -1,10 +1,10 @@
 ---
 title: Spring-Security-Oauth2第一篇
 date: 2019-03-26 15:27:00
+categories: Java
 tags: 
-- Java 
-- Spring
-- SpringSecurityOauth2
+- spring-boot
+- oauth2
 ---
 
 # Spring-Security-Oauth2第一篇

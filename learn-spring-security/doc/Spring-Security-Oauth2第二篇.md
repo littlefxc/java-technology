@@ -1,10 +1,10 @@
 ---
 title: Spring-Security-Oauth2第二篇之配置客户端
 date: 2019-03-28 14:24:00
+categories: Java
 tags: 
-- Java 
-- Spring
-- SpringSecurityOauth2
+- spring-boot
+- oauth2
 ---
 
 # Spring-Security-Oauth2第二篇之配置客户端
