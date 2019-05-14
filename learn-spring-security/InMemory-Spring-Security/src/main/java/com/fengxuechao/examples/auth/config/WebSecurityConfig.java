@@ -1,5 +1,6 @@
 package com.fengxuechao.examples.auth.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -9,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 /**
@@ -22,6 +25,9 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     /**
      * 具体的用户权限控制实现类
      * 通过重载，自定义 user-detail 服务。
@@ -32,8 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected UserDetailsService userDetailsService() {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user").password("123456").authorities("USER").build());
-        manager.createUser(User.withUsername("admin").password("admin").authorities("ADMIN").build());
+        manager.createUser(User.withUsername("user").password(passwordEncoder.encode("123456")).authorities("USER").build());
+        manager.createUser(User.withUsername("admin").password(passwordEncoder.encode("123456")).authorities("ADMIN").build());
         return manager;
     }
 
@@ -47,11 +53,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .requestMatchers()
-                .antMatchers("/oauth/**")
+                .requestMatchers().antMatchers("/oauth/**", "/login/**", "/logout/**")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/oauth/**").permitAll();
+                .antMatchers("/oauth/**", "/favicon.ico").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().permitAll()
+                .and()
+                .logout().permitAll();
         http.csrf().disable();
         http.httpBasic().disable();
     }
@@ -66,6 +76,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/css/**");
+    }
+
+    /**
+     * 使用 BCryptPasswordEncoder 加密
+     *
+     * @return
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.fengxuechao.examples.auth.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,7 +10,10 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 /**
  * @author fengxuechao
@@ -21,15 +25,24 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
+    private ClientDetailsService clientDetailsService;
+
+    @Autowired
     private UserDetailsService userDetailsService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private TokenStore tokenStore;
+
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.tokenKeyAccess("permitAll()");
-        security.checkTokenAccess("isAuthenticated()");
+        security
+                .allowFormAuthenticationForClients()
+                // JWT 校验token时用的
+                .tokenKeyAccess("isAuthenticated()")
+                .checkTokenAccess("isAuthenticated()");
     }
 
     @Override
@@ -49,8 +62,28 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(new InMemoryTokenStore())
+        endpoints.tokenStore(tokenStore)
                 .userDetailsService(userDetailsService)
-                .authenticationManager(authenticationManager);
+                .authenticationManager(authenticationManager)
+                .setClientDetailsService(clientDetailsService);
+    }
+
+
+    @Bean
+    public TokenStore tokenStore() {
+//        return new JwtTokenStore(jwtAccessTokenConverter());
+        return new InMemoryTokenStore();
+    }
+
+    /**
+     * 生成JWT token
+     *
+     * @return
+     */
+    @Bean
+    public JwtAccessTokenConverter jwtAccessTokenConverter() {
+        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        converter.setSigningKey("fengxuechao.littlefxc");
+        return converter;
     }
 }

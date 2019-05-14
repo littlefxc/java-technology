@@ -14,10 +14,16 @@ Authorization: Basic Y2xpZW50OjEyMzQ1Ng==
 
 ###
 
-GET http://localhost:8080/user/profile?access_token=684d7346-a219-41f5-b621-b897b9e1a189
+POST http://localhost:8080/oauth/authorize?response_type=token&client_id=client&redirect_uri=https://www.baidu.com
+
+###
+
+GET http://localhost:8080/user/profile
+Authorization: bearer a91e98d1-bed2-4975-a6bb-b731dbbaa35b
 
 ###
 
 GET http://localhost:8080/h2-console
+Authorization: bearer a91e98d1-bed2-4975-a6bb-b731dbbaa35b
 
 ###
