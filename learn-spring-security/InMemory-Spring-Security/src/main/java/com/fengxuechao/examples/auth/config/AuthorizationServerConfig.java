@@ -50,7 +50,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.inMemory()
                 .withClient("client")
                 .secret("123456")
-                .accessTokenValiditySeconds(60)
+                .accessTokenValiditySeconds(120)
                 .refreshTokenValiditySeconds(3600)
                 .authorizedGrantTypes("client_credentials", "password", "authorization_code", "implicit", "refresh_token")
                 .redirectUris("https://www.baidu.com")
@@ -62,7 +62,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore)
+        endpoints
+                .tokenStore(tokenStore)
                 .userDetailsService(userDetailsService)
                 .authenticationManager(authenticationManager)
                 .setClientDetailsService(clientDetailsService);

@@ -19,11 +19,25 @@ POST http://localhost:8080/oauth/authorize?response_type=token&client_id=client&
 ###
 
 GET http://localhost:8080/user/profile
+Authorization: bearer 57f48cf6-3f44-4b63-be13-b369853260eb
+
+###
+
+GET http://localhost:8080/order/1
 Authorization: bearer a91e98d1-bed2-4975-a6bb-b731dbbaa35b
 
 ###
 
-GET http://localhost:8080/h2-console
-Authorization: bearer a91e98d1-bed2-4975-a6bb-b731dbbaa35b
+GET http://localhost:8080/oauth/check_token?token=61322240-76d1-4427-9b12-559bb696caef
+Authorization: Basic Y2xpZW50OjEyMzQ1Ng==
+
+###
+
+GET http://localhost:8080/oauth/authorize?response_type=code&client_id=client&scope=read&redirect_uri=https://www.baidu.com
+
+###
+
+POST http://localhost:8080/oauth/token?grant_type=authorization_code&code=8Efcrb&redirect_uri=https://www.baidu.com&scope=read
+Authorization: Basic Y2xpZW50OjEyMzQ1Ng==
 
 ###
