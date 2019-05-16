@@ -83,8 +83,8 @@ public class ResourceServerConfigInJwt extends ResourceServerConfigurerAdapter {
 
     /**
      * jwt token：使用了非对称密钥对来签署令牌:
-     * 1.生成 JKS Java KeyStore 文件：keytool -genkeypair -alias mytest -keyalg RSA -keypass mypass -keystore mytest.jks -storepass mypass
-     * 2.导出公钥：keytool -list -rfc --keystore mytest.jks | openssl x509 -inform pem -pubkey
+     * 1.生成 JKS Java KeyStore 文件：keytool -genkeypair -alias jwt_rsa -keyalg RSA -keypass 123456 -keystore jwt_rsa.jks -storepass 123456
+     * 2.导出公钥：keytool -list -rfc --keystore jwt_rsa.jks | openssl x509 -inform pem -pubkey
      * 3.将 PUBLIC KEY 保存至 public.txt
      *
      * @return
