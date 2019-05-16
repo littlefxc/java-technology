@@ -19,12 +19,12 @@ POST http://localhost:8080/oauth/authorize?response_type=token&client_id=client&
 ###
 
 GET http://localhost:8080/user/profile
-Authorization: bearer 57f48cf6-3f44-4b63-be13-b369853260eb
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJ1c2VyIiwic2NvcGUiOlsicmVhZCJdLCJvcmdhbml6YXRpb24iOiJ1c2VyakJQWCIsImV4cCI6MTU1ODAwNzI5NiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImp0aSI6Ijc0ZjY2YjFiLTExZDAtNDkyMy1iMTU5LTRlZTUzMmNmYTU3MCIsImNsaWVudF9pZCI6ImNsaWVudCJ9.SkwNgQR_y3AEeOn3cdUpLqLxeR2ZTOWgiI2oK4iCyx0
 
 ###
 
 GET http://localhost:8080/order/1
-Authorization: bearer a91e98d1-bed2-4975-a6bb-b731dbbaa35b
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJ1c2VyIiwic2NvcGUiOlsicmVhZCJdLCJvcmdhbml6YXRpb24iOiJ1c2VyakJQWCIsImV4cCI6MTU1ODAwNzI5NiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImp0aSI6Ijc0ZjY2YjFiLTExZDAtNDkyMy1iMTU5LTRlZTUzMmNmYTU3MCIsImNsaWVudF9pZCI6ImNsaWVudCJ9.SkwNgQR_y3AEeOn3cdUpLqLxeR2ZTOWgiI2oK4iCyx0
 
 ###
 
