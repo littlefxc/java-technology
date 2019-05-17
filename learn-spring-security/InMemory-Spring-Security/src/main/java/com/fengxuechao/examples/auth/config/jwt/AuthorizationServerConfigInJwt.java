@@ -118,6 +118,12 @@ public class AuthorizationServerConfigInJwt extends AuthorizationServerConfigure
     @Value("classpath:jwt_rsa.jks")
     private Resource resource;
 
+    @Value("${security.oauth2.resource.jwt.key-pair.store-password}")
+    private String keyStorePass;
+
+    @Value("${security.oauth2.resource.jwt.key-pair.alias}")
+    private String keyPairAlias;
+
     /**
      * jwt token：使用了非对称密钥对来签署令牌:
      * 1.生成 JKS Java KeyStore 文件：keytool -genkeypair -alias jwt_rsa -keyalg RSA -keypass 123456 -keystore jwt_rsa.jks -storepass 123456
@@ -129,8 +135,8 @@ public class AuthorizationServerConfigInJwt extends AuthorizationServerConfigure
     @Bean
     public JwtAccessTokenConverter jwtTokenEnhancer() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(resource, "123456".toCharArray());
-        converter.setKeyPair(keyStoreKeyFactory.getKeyPair("jwt_rsa"));
+        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(resource, keyStorePass.toCharArray());
+        converter.setKeyPair(keyStoreKeyFactory.getKeyPair(keyPairAlias));
         return converter;
     }
 }
