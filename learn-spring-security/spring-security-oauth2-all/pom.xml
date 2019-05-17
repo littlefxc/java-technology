@@ -3,14 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <groupId>com.fengxuechao</groupId>
-    <version>1.0-snapshot</version>
-    <artifactId>learn-spring-security</artifactId>
-    <modelVersion>4.0.0</modelVersion>
+    <artifactId>spring-security-oauth2-all</artifactId>
     <packaging>pom</packaging>
-
+    <version>1.0-snapshot</version>
     <modules>
-        <module>spring-security-oauth2</module>
-        <module>spring-security</module>
-        <module>spring-security-oauth2-all</module>
+        <module>oauth2-resource-server</module>
+        <module>oauth2-auth-server</module>
     </modules>
+    <modelVersion>4.0.0</modelVersion>
+
 </project>

@@ -54,6 +54,7 @@ public class AuthorizationServerConfigInMemory extends AuthorizationServerConfig
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security
                 .allowFormAuthenticationForClients()
+                .tokenKeyAccess("isAuthenticated()")
                 .checkTokenAccess("isAuthenticated()");
     }
 

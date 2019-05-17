@@ -50,8 +50,8 @@ public class AuthorizationServerConfigInJwt extends AuthorizationServerConfigure
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security
                 .allowFormAuthenticationForClients()
-                // JWT 校验token时用的
-                .tokenKeyAccess("isAuthenticated()");
+                .tokenKeyAccess("isAuthenticated()")
+                .checkTokenAccess("isAuthenticated()");
     }
 
     @Override

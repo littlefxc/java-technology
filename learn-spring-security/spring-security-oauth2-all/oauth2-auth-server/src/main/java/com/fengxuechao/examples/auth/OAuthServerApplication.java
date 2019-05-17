@@ -9,9 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2019/5/8
  */
 @SpringBootApplication
-public class InMemoryAuthServerApplication {
+public class OAuthServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(InMemoryAuthServerApplication.class, args);
+        SpringApplication.run(OAuthServerApplication.class, args);
     }
 }

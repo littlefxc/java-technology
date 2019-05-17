@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    include: jwt
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-pair:
+          alias: jwt_rsa
+          store-password: 123456
+#        key-value: |
+#          -----BEGIN PUBLIC KEY-----
+#          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApxxRlUTx3WsodgBl3fxh
+#          RkfxsKkEIwhqdJa2ix3HZdoYvOiXOEBcZBdBYzgzscCKcFvnnUx6Fmm5eJ4/IqK1
+#          wRyM8kauh1lD3y84x99+78HQJwNEpvTa8tlfqohERA9YD0SOqme9RO0vF7mMiuqX
+#          B3UaNzALlJBPcKUwiELbkQF3MzPnYSBEWES5efZsBJQlAPTGTKYI3bS9r4SnJUoc
+#          P6F82eJXhVn9pSJz/8kGaefG6OCYAaPztJYTZmebq7PZHwMoK8Zu9ADYZIMRsDpP
+#          ZG7sBtPQsWAof4q+DFwSuSWpssVkNWtB+MUjXauRtxhfqx4cO3kH96BBJ8BNySMy
+#          RQIDAQAB
+#          -----END PUBLIC KEY-----
