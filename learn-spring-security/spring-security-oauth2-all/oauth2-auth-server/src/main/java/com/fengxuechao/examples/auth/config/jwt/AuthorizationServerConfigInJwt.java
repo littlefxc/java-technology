@@ -103,18 +103,6 @@ public class AuthorizationServerConfigInJwt extends AuthorizationServerConfigure
         return new JwtTokenStore(jwtTokenEnhancer());
     }
 
-    /**
-     * jwt token：使用了对称密钥来签署令牌
-     *
-     * @return
-     */
-    /*@Bean
-    public.txt JwtAccessTokenConverter jwtTokenEnhancer() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("fengxuechao.littlefxc");
-        return converter;
-    }*/
-
     @Value("classpath:jwt_rsa.jks")
     private Resource resource;
 
@@ -135,8 +123,9 @@ public class AuthorizationServerConfigInJwt extends AuthorizationServerConfigure
     @Bean
     public JwtAccessTokenConverter jwtTokenEnhancer() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(resource, keyStorePass.toCharArray());
-        converter.setKeyPair(keyStoreKeyFactory.getKeyPair(keyPairAlias));
+        converter.setKeyPair(new KeyStoreKeyFactory(resource, keyStorePass.toCharArray()).getKeyPair(keyPairAlias));
+        // 使用对称密钥来签署令牌
+        // converter.setSigningKey("fengxuechao.littlefxc");
         return converter;
     }
 }

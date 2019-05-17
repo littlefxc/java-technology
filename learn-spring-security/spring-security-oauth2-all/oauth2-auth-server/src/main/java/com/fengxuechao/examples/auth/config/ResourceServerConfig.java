@@ -1,4 +1,4 @@
-package com.fengxuechao.examples.auth.config.jwt;
+package com.fengxuechao.examples.auth.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -15,8 +15,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @Slf4j
 @EnableResourceServer
 @Configuration
-@Profile("jwt")
-public class ResourceServerConfigInJwt extends ResourceServerConfigurerAdapter {
+public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {

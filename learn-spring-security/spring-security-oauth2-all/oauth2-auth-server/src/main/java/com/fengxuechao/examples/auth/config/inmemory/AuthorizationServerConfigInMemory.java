@@ -47,7 +47,6 @@ import java.util.List;
 @Slf4j
 @EnableAuthorizationServer
 @Configuration
-@Profile("inMemory")
 public class AuthorizationServerConfigInMemory extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
@@ -65,12 +64,7 @@ public class AuthorizationServerConfigInMemory extends AuthorizationServerConfig
     @Autowired
     private ApprovalStore approvalStore;
 
-    private AuthorizationCodeServices authorizationCodeServices;
-
-    private boolean reuseRefreshToken = true;
-
-    private AuthorizationServerTokenServices tokenServices;
-
+    @Autowired
     private TokenGranter tokenGranter;
 
     @Bean
@@ -118,7 +112,7 @@ public class AuthorizationServerConfigInMemory extends AuthorizationServerConfig
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
-                .tokenGranter(tokenGranter())
+                .tokenGranter(tokenGranter)
                 .tokenStore(tokenStore)
                 .approvalStore(approvalStore)
                 .userDetailsService(userDetailsService)
@@ -126,103 +120,8 @@ public class AuthorizationServerConfigInMemory extends AuthorizationServerConfig
                 .setClientDetailsService(clientDetailsService);
     }
 
-    /**
-     * 授权模式
-     *
-     * @return
-     */
-    private TokenGranter tokenGranter() {
-        if (tokenGranter == null) {
-            tokenGranter = new TokenGranter() {
-                private CompositeTokenGranter delegate;
-
-                @Override
-                public OAuth2AccessToken grant(String grantType, TokenRequest tokenRequest) {
-                    if (delegate == null) {
-                        delegate = new CompositeTokenGranter(getDefaultTokenGranters());
-                    }
-                    return delegate.grant(grantType, tokenRequest);
-                }
-            };
-        }
-        return tokenGranter;
+    @Bean
+    public TokenEnhancer tokenEnhancer() {
+        return new CustomTokenEnhancer();
     }
-
-    private List<TokenGranter> getDefaultTokenGranters() {
-        AuthorizationServerTokenServices tokenServices = tokenServices();
-        AuthorizationCodeServices authorizationCodeServices = authorizationCodeServices();
-        OAuth2RequestFactory requestFactory = requestFactory();
-
-        List<TokenGranter> tokenGranters = new ArrayList<TokenGranter>();
-        tokenGranters.add(new AuthorizationCodeTokenGranter(tokenServices, authorizationCodeServices, clientDetailsService, requestFactory));
-        tokenGranters.add(new RefreshTokenGranter(tokenServices, clientDetailsService, requestFactory));
-        tokenGranters.add(new ImplicitTokenGranter(tokenServices, clientDetailsService, requestFactory));
-        tokenGranters.add(new ClientCredentialsTokenGranter(tokenServices, clientDetailsService, requestFactory));
-        if (authenticationManager != null) {
-            tokenGranters.add(new ResourceOwnerPasswordTokenGranter(authenticationManager, tokenServices, clientDetailsService, requestFactory));
-            tokenGranters.add(new SmsCodeTokenGranter(authenticationManager, tokenServices, clientDetailsService, requestFactory));
-        }
-        return tokenGranters;
-    }
-
-    private AuthorizationServerTokenServices tokenServices() {
-        if (tokenServices != null) {
-            return tokenServices;
-        }
-        this.tokenServices = createDefaultTokenServices();
-        return tokenServices;
-    }
-
-    /**
-     * 授权码API
-     *
-     * @return
-     */
-    private AuthorizationCodeServices authorizationCodeServices() {
-        if (authorizationCodeServices == null) {
-            authorizationCodeServices = new InMemoryAuthorizationCodeServices();
-        }
-        return authorizationCodeServices;
-    }
-
-    /**
-     * OAuth2RequestFactory的默认实现，它初始化参数映射中的字段，
-     * 验证授权类型(grant_type)和范围(scope)，并使用客户端的默认值填充范围(scope)（如果缺少这些值）。
-     *
-     * @return
-     */
-    private OAuth2RequestFactory requestFactory() {
-        return new DefaultOAuth2RequestFactory(clientDetailsService);
-    }
-
-    private DefaultTokenServices createDefaultTokenServices() {
-        DefaultTokenServices tokenServices = new DefaultTokenServices();
-        tokenServices.setTokenStore(tokenStore);
-        tokenServices.setSupportRefreshToken(true);
-        tokenServices.setReuseRefreshToken(reuseRefreshToken);
-        tokenServices.setClientDetailsService(clientDetailsService);
-        tokenServices.setTokenEnhancer(tokenEnhancer());
-        addUserDetailsService(tokenServices, this.userDetailsService);
-        return tokenServices;
-    }
-
-    /**
-     * Token 额外信息
-     *
-     * @return
-     */
-    private TokenEnhancer tokenEnhancer() {
-        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(Arrays.<TokenEnhancer>asList(new CustomTokenEnhancer()));
-        return tokenEnhancerChain;
-    }
-
-    private void addUserDetailsService(DefaultTokenServices tokenServices, UserDetailsService userDetailsService) {
-        if (userDetailsService != null) {
-            PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
-            provider.setPreAuthenticatedUserDetailsService(new UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken>(userDetailsService));
-            tokenServices.setAuthenticationManager(new ProviderManager(Arrays.<AuthenticationProvider>asList(provider)));
-        }
-    }
-
 }
