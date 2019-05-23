@@ -376,8 +376,6 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
 
 ### 有关队列、栈的方法
 
-// TODO 队列方法、栈方法分类
-
 - peek():返回第一个节点,若LinkedList的大小为0,则返回null
 - peekFirst():返回第一个节点,若LinkedList的大小为0,则返回null
 - peekLast():返回最后一个节点,若LinkedList的大小为0,则返回null
@@ -391,9 +389,28 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
 - push(E e):将e插入到双向链表开头
 - pop():删除并返回第一个节点
 
-### 使用示例
+LinkedList 作为 FIFO(先进先出) 的队列, 下表的方法等效：
+
+| 队列方法 | 等效方法 |
+| ------- | ------- |
+| add(e)    | addLast(e) |
+| offer(e)  | offerLast(e) |
+| remove()  | removeFirst() |
+| poll()    | pollFirst() |
+| element() | getFirst() |
+| peek()    | peekFirst() |
+
+LinkedList 作为 LIFO(后进先出) 的栈, 下表的方法等效：
+
+| 栈方法 | 等效方法 |
+| ------- | ------- |
+| push(e) | addFirst(e) |
+| pop()   | removeFirst() |
+| peek()  | peekFirst() |
 
 ### LinkedList 的遍历方法和性能比较
+
+### 使用示例
 
 ## 总结
 
