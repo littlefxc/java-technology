@@ -410,7 +410,269 @@ LinkedList 作为 LIFO(后进先出) 的栈, 下表的方法等效：
 
 ### LinkedList 的遍历方法和性能比较
 
+### LinkedList遍历方式
+
+LinkedList 支持多种遍历方式。建议不要采用随机访问的方式去遍历LinkedList，而采用逐个遍历的方式。
+
+1. 迭代器遍历
+
+    ```java
+    for(Iterator iter = list.iterator(); iter.hasNext();)
+        iter.next();
+    ```
+
+2. 快速随机访问
+
+    ```java
+    int size = list.size();
+    for (int i=0; i<size; i++) {
+        list.get(i);        
+    }
+    ```
+
+3. foreach
+
+    ```java
+    for (Integer integ:list) 
+        ;
+    ```
+
+4. 通过 pollFirst() 来遍历 LinkedList
+
+    ```java
+    while(list.pollFirst() != null)
+        ;
+    ```
+    
+5. 通过pollLast()来遍历LinkedList
+
+    ```java
+    while(list.pollLast() != null)
+        ;
+    ```
+    
+6.  通过removeFirst()来遍历LinkedList
+
+    ```java
+    try {
+        while(list.removeFirst() != null)
+            ;
+    } catch (NoSuchElementException e) {
+    }
+    ```
+    
+7. 通过removeLast()来遍历LinkedList
+
+    ```java
+    try {
+        while(list.removeLast() != null)
+            ;
+    } catch (NoSuchElementException e) {
+    }
+    ```
+    
+测试以上7种循环方式的效率的代码：
+
+```java
+package com.littlefxc.examples.base.collections;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
+
+/**
+ * 测试LinkedList的几种遍历方式和效率
+ *
+ * @author fengxuechao
+ */
+public class LinkedListThruTest {
+    public static void main(String[] args) {
+        // 通过Iterator遍历LinkedList
+        iterator(getLinkedList());
+
+        // 通过快速随机访问遍历LinkedList
+        randomAccess(getLinkedList());
+
+        // 通过for循环的变种来访问遍历LinkedList
+        foreach(getLinkedList());
+
+        // 通过PollFirst()遍历LinkedList
+        while_pollFirst(getLinkedList());
+
+        // 通过PollLast()遍历LinkedList
+        while_pollLast(getLinkedList());
+
+        // 通过removeFirst()遍历LinkedList
+        while_removeFirst(getLinkedList());
+
+        // 通过removeLast()遍历LinkedList
+        while_removeLast(getLinkedList());
+    }
+
+    private static LinkedList getLinkedList() {
+        LinkedList llist = new LinkedList();
+        for (int i = 0; i < 100000; i++)
+            llist.addLast(i);
+
+        return llist;
+    }
+
+    /**
+     * 通过快迭代器遍历LinkedList
+     */
+    private static void iterator(LinkedList<Integer> list) {
+        if (list == null)
+            return;
+
+        // 记录开始时间
+        long start = System.currentTimeMillis();
+
+        for (Iterator iter = list.iterator(); iter.hasNext(); )
+            iter.next();
+
+        // 记录结束时间
+        long end = System.currentTimeMillis();
+        long interval = end - start;
+        System.out.println("通过Iterator遍历LinkedList：" + interval + " ms");
+    }
+
+    /**
+     * 通过快速随机访问遍历LinkedList
+     */
+    private static void randomAccess(LinkedList<Integer> list) {
+        if (list == null)
+            return;
+
+        // 记录开始时间
+        long start = System.currentTimeMillis();
+
+        int size = list.size();
+        for (int i = 0; i < size; i++) {
+            list.get(i);
+        }
+        // 记录结束时间
+        long end = System.currentTimeMillis();
+        long interval = end - start;
+        System.out.println("通过快速随机访问遍历LinkedList：" + interval + " ms");
+    }
+
+    /**
+     * 通过另外一种for循环来遍历LinkedList
+     */
+    private static void foreach(LinkedList<Integer> list) {
+        if (list == null)
+            return;
+
+        // 记录开始时间
+        long start = System.currentTimeMillis();
+
+        for (Integer integ : list)
+            ;
+
+        // 记录结束时间
+        long end = System.currentTimeMillis();
+        long interval = end - start;
+        System.out.println("通过for循环的变种来访问遍历LinkedList：" + interval + " ms");
+    }
+
+    /**
+     * 通过pollFirst()来遍历LinkedList
+     */
+    private static void while_pollFirst(LinkedList<Integer> list) {
+        if (list == null)
+            return;
+
+        // 记录开始时间
+        long start = System.currentTimeMillis();
+        while (list.pollFirst() != null)
+            ;
+
+        // 记录结束时间
+        long end = System.currentTimeMillis();
+        long interval = end - start;
+        System.out.println("通过PollFirst()遍历LinkedList：" + interval + " ms");
+    }
+
+    /**
+     * 通过pollLast()来遍历LinkedList
+     */
+    private static void while_pollLast(LinkedList<Integer> list) {
+        if (list == null)
+            return;
+
+        // 记录开始时间
+        long start = System.currentTimeMillis();
+        while (list.pollLast() != null)
+            ;
+
+        // 记录结束时间
+        long end = System.currentTimeMillis();
+        long interval = end - start;
+        System.out.println("通过PollLast()遍历LinkedList：" + interval + " ms");
+    }
+
+    /**
+     * 通过removeFirst()来遍历LinkedList
+     */
+    private static void while_removeFirst(LinkedList<Integer> list) {
+        if (list == null)
+            return;
+
+        // 记录开始时间
+        long start = System.currentTimeMillis();
+        try {
+            while (list.removeFirst() != null)
+                ;
+        } catch (NoSuchElementException e) {
+        }
+
+        // 记录结束时间
+        long end = System.currentTimeMillis();
+        long interval = end - start;
+        System.out.println("通过removeFirst()遍历LinkedList：" + interval + " ms");
+    }
+
+    /**
+     * 通过removeLast()来遍历LinkedList
+     */
+    private static void while_removeLast(LinkedList<Integer> list) {
+        if (list == null)
+            return;
+
+        // 记录开始时间
+        long start = System.currentTimeMillis();
+        try {
+            while (list.removeLast() != null)
+                ;
+        } catch (NoSuchElementException e) {
+        }
+
+        // 记录结束时间
+        long end = System.currentTimeMillis();
+        long interval = end - start;
+        System.out.println("通过removeLast()遍历LinkedList：" + interval + " ms");
+    }
+
+}
+```
+
+运行结果：
+
+```log
+通过Iterator遍历LinkedList：4 ms
+通过快速随机访问遍历LinkedList：3606 ms
+通过for循环的变种来访问遍历LinkedList：4 ms
+通过PollFirst()遍历LinkedList：4 ms
+通过PollLast()遍历LinkedList：3 ms
+通过removeFirst()遍历LinkedList：3 ms
+通过removeLast()遍历LinkedList：4 ms
+```
+
+由此可见，遍历LinkedList时，千万不要通过随机访问去遍历LinkedList！
+
 ### 使用示例
+
+
 
 ## 总结
 
@@ -422,4 +684,8 @@ LinkedList 作为 LIFO(后进先出) 的栈, 下表的方法等效：
 当读出输入流时，先读取“容量”，再依次读取“每一个元素”。
 5. 由于 LinkedList 实现了Deque，而 Deque 接口定义了在双端队列两端访问元素的方法。提供插入、移除和检查元素的方法。
 每种方法都存在两种形式：一种形式在操作失败时抛出异常，另一种形式返回一个特殊值（null 或 false，具体取决于操作）。
+
+## 参考资源
+
+[https://www.cnblogs.com/skywang12345/p/3308807.html](https://www.cnblogs.com/skywang12345/p/3308807.html)
 
