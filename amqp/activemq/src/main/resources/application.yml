@@ -1,0 +1,38 @@
+spring:
+  # Embedded ActiveMQ Config
+  activemq:
+#    broker-url: tcp://localhost:61616
+    broker-url: vm://localhost?broker.persistent=false
+    in-memory: true
+    non-blocking-redelivery: true
+    packages:
+      trust-all: false
+      trusted: com.fengxuechao.examples
+    pool:
+      enabled: false
+      block-if-full-timeout: -1
+      idle-timeout: 30000
+      max-connections: 1
+      time-between-expiration-check: -1
+      use-anonymous-producers: true
+  # Spring JMS Config
+  jms:
+    listener:
+      acknowledge-mode: auto
+      auto-startup: true
+      concurrency: 5
+      max-concurrency: 10
+    pub-sub-domain: false
+    template:
+      default-destination:
+      delivery-mode: non_persistent
+      priority: 100
+      qos-enabled: true
+      receive-timeout: 1000
+      time-to-live: 36000
+# Logging Config
+logging:
+  level:
+    - root: info
+    - com.fengxuechao.examples: debug
+    - org.springframework: info
