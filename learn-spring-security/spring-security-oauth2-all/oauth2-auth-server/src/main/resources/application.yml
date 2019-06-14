@@ -1,6 +1,6 @@
 spring:
   profiles:
-    include: jwt
+    include: inMemory
 security:
   oauth2:
     resource:

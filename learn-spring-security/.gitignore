@@ -29,3 +29,7 @@ hs_err_pid*
 target/
 out/
 data/
+.settings
+.project
+.classpath
+.factorypath

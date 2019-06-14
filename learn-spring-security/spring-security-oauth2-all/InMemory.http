@@ -9,7 +9,7 @@ Authorization: Basic Y2xpZW50OjEyMzQ1Ng==
 
 ###
 
-POST http://localhost:8080/oauth/token?grant_type=sms_code&scope=read&username=user&password=123456
+POST http://localhost:8080/oauth/token?grant_type=password&scope=read&username=user&password=123456
 Authorization: Basic Y2xpZW50OjEyMzQ1Ng==
 
 ###
