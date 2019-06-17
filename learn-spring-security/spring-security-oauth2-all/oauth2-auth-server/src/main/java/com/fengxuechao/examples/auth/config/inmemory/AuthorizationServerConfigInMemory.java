@@ -33,6 +33,13 @@ import org.springframework.util.Base64Utils;
 @Profile("inMemory")
 public class AuthorizationServerConfigInMemory extends AuthorizationServerConfigurerAdapter {
 
+    // from SecurityExpressionRoot
+    public final String read = "read";
+    public final String write = "write";
+    public final String create = "create";
+    public final String delete = "delete";
+    public final String admin = "administration";
+
     @Autowired
     private ClientDetailsService clientDetailsService;
 
@@ -77,13 +84,11 @@ public class AuthorizationServerConfigInMemory extends AuthorizationServerConfig
         clients.inMemory()
                 .withClient("client")
                 .secret("123456")
-                .accessTokenValiditySeconds(120)
+                .accessTokenValiditySeconds(360)
                 .refreshTokenValiditySeconds(3600)
                 .authorizedGrantTypes("client_credentials", "password", "authorization_code", "implicit", "refresh_token", "sms_code")
                 .redirectUris("https://www.baidu.com")
-                .scopes("read")
-                .authorities("ROLE_USER")
-                .additionalInformation("auth=true")
+                .scopes(read)
         ;
     }
 

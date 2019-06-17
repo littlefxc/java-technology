@@ -1,0 +1,7 @@
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-pair:
+          alias: jwt_rsa
+          store-password: 123456

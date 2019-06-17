@@ -1,10 +1,8 @@
 spring:
   profiles:
     include: inMemory
-security:
-  oauth2:
-    resource:
-      jwt:
-        key-pair:
-          alias: jwt_rsa
-          store-password: 123456
+
+logging:
+  level:
+    root: warn
+    com.fengxuechao.examples.auth: debug
