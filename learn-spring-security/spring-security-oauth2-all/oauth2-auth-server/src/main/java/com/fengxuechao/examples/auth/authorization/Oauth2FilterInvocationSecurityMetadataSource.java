@@ -1,6 +1,5 @@
 package com.fengxuechao.examples.auth.authorization;
 
-import com.fengxuechao.examples.auth.domain.Role;
 import com.fengxuechao.examples.auth.service.UserRolePermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -11,8 +10,6 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * 资源源数据定义，即定义某一资源可以被哪些角色访问
