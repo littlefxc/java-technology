@@ -101,6 +101,7 @@ public class AuthorizationServerConfigInMemory extends AuthorizationServerConfig
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
+                // 四种授权模式+刷新令牌的模式+自定义授权模式
                 .tokenGranter(tokenGranter)
                 .tokenStore(tokenStore)
                 .approvalStore(approvalStore)

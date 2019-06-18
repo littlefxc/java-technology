@@ -9,7 +9,7 @@ Authorization: Basic Y2xpZW50OjEyMzQ1Ng==
 
 ###
 
-POST http://localhost:8080/oauth/token?grant_type=password&scope=read&username=user&password=123456
+POST http://localhost:8080/oauth/token?grant_type=sms_code&scope=read&username=user&password=123456
 Authorization: Basic Y2xpZW50OjEyMzQ1Ng==
 
 ###
@@ -24,7 +24,7 @@ Authorization: bearer 88f244f1-1575-450c-8927-9e6c2e0bcbdf
 ###
 
 GET http://localhost:8080/order/1
-Authorization: bearer e1a5d4e8-4ca8-4fc3-a7c2-e5e0f9b33d72
+Authorization: bearer 719fe3fb-f460-40fb-864f-5b4dab80fecc
 
 ###
 
@@ -43,6 +43,6 @@ Authorization: Basic Y2xpZW50OjEyMzQ1Ng==
 ###
 
 GET http://localhost:8081
-Authorization: bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJ1c2VyIiwic2NvcGUiOlsicmVhZCJdLCJvcmdhbml6YXRpb24iOiJ1c2VySEJJdiIsImV4cCI6MTU1ODA2MzkzMiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImp0aSI6IjJhN2VmMmUzLWMxMjYtNDFkMy05ZWZhLWY5NDMwZGJiZTU5ZSIsImNsaWVudF9pZCI6ImNsaWVudCJ9.NXJD0yMPpTk82Hc5PDxIsyikCs565-EB8cL481GVGRMoCBMl3u6sfAflAfd8lIRcFJqQEEKjIkyXp2xcj9H3y14PuHlTOwSYvX-D6gaPLYTR8fCgoewVF8vzQqFXEhwP5YFQlnAUuefgRWs5wWFlVhspcrXD-aZvPGXYMoVplbEQrgMClJkzCsQZ5IEJass59RrdAcZiwO3c_ETp20LV9Sb6za9ybw0Z-VhbAEbJnf8kuBdrho87qCRiR5vkOO3X6cqgVo6LAeKo4Z0XK9J6AZ3uZI3HxzesEgVtjcEHhr9CqG9DhMrbW7l27y5Ngrn0eWzZXLGYfgMF0patQtP74A
+Authorization: bearer b1e6db89-cd3a-4205-a2d1-a515209a7435
 
 ###
