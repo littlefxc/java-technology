@@ -44,7 +44,7 @@ public class Oauth2FilterInvocationSecurityMetadataSource implements FilterInvoc
             return SecurityConfig.createList(roleArray);
         }
         return Collections.EMPTY_LIST;*/
-        return SecurityConfig.createList("ROLE_ADMIN");
+        return SecurityConfig.createList("ROLE_USER");
     }
 
     @Override
