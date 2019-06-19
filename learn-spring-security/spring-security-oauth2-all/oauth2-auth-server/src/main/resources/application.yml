@@ -3,6 +3,7 @@ spring:
     include: inMemory
 
 logging:
+  kafka:
+    enable: false
   level:
-    root: warn
     com.fengxuechao.examples.auth: debug

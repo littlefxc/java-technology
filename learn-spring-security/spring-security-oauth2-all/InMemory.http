@@ -23,8 +23,8 @@ Authorization: bearer 88f244f1-1575-450c-8927-9e6c2e0bcbdf
 
 ###
 
-GET http://localhost:8080/order/1
-Authorization: bearer 719fe3fb-f460-40fb-864f-5b4dab80fecc
+GET http://localhost:8080/product/1
+Authorization: bearer d07ea6d7-1539-4f09-bee6-9a3103367342
 
 ###
 
