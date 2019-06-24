@@ -1,6 +1,9 @@
 package com.fengxuechao.examples.auth.config.inmemory;
 
 import com.fengxuechao.examples.auth.provider.token.SmsCodeTokenGranter;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,10 +23,10 @@ import org.springframework.security.oauth2.provider.implicit.ImplicitTokenGrante
 import org.springframework.security.oauth2.provider.password.ResourceOwnerPasswordTokenGranter;
 import org.springframework.security.oauth2.provider.refresh.RefreshTokenGranter;
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
-import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
-import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.*;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
@@ -49,19 +52,35 @@ public class TokenGranterConfig {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
+    // @formatter:off
+    @Setter @Getter
     private TokenStore tokenStore;
 
-    @Autowired
-    TokenEnhancer tokenEnhancer;
+    @Setter @Getter
+    private TokenEnhancer tokenEnhancer;
 
+    @Setter @Getter
+    private AccessTokenConverter accessTokenConverter;
+
+    @Setter @Getter
     private AuthorizationCodeServices authorizationCodeServices;
 
-    private boolean reuseRefreshToken = true;
-
+    @Setter @Getter
     private AuthorizationServerTokenServices tokenServices;
 
+    @Setter @Getter
+    private boolean reuseRefreshToken = true;
+
+    @Setter @Getter
     private TokenGranter tokenGranter;
+    // @formatter:on
+
+    public TokenGranterConfig(
+            ObjectProvider<TokenEnhancer> tokenEnhancer,
+            ObjectProvider<TokenStore> tokenStore) {
+        this.tokenEnhancer = tokenEnhancer.getIfAvailable();
+        this.tokenStore = tokenStore.getIfAvailable();
+    }
 
     /**
      * 授权模式
@@ -150,11 +169,11 @@ public class TokenGranterConfig {
      */
     private DefaultTokenServices createDefaultTokenServices() {
         DefaultTokenServices tokenServices = new DefaultTokenServices();
-        tokenServices.setTokenStore(tokenStore);
+        tokenServices.setTokenStore(tokenStore());
         tokenServices.setSupportRefreshToken(true);
         tokenServices.setReuseRefreshToken(reuseRefreshToken);
         tokenServices.setClientDetailsService(clientDetailsService);
-        tokenServices.setTokenEnhancer(tokenEnhancer);
+        tokenServices.setTokenEnhancer(tokenEnhancer());
         addUserDetailsService(tokenServices, this.userDetailsService);
         return tokenServices;
     }
@@ -171,5 +190,45 @@ public class TokenGranterConfig {
             provider.setPreAuthenticatedUserDetailsService(new UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken>(userDetailsService));
             tokenServices.setAuthenticationManager(new ProviderManager(Arrays.<AuthenticationProvider>asList(provider)));
         }
+    }
+
+    /**
+     * 令牌仓库
+     * @return
+     */
+    private TokenStore tokenStore() {
+        if (tokenStore == null) {
+            if (accessTokenConverter() instanceof JwtAccessTokenConverter) {
+                this.tokenStore = new JwtTokenStore((JwtAccessTokenConverter) accessTokenConverter());
+            }
+            else {
+                this.tokenStore = new InMemoryTokenStore();
+            }
+        }
+        return this.tokenStore;
+    }
+
+    /**
+     * 令牌增强
+     *
+     * @return
+     */
+    private TokenEnhancer tokenEnhancer() {
+        if (this.tokenEnhancer == null && accessTokenConverter() instanceof JwtAccessTokenConverter) {
+            tokenEnhancer = (TokenEnhancer) accessTokenConverter;
+        }
+        return this.tokenEnhancer;
+    }
+
+    /**
+     * 令牌解析
+     *
+     * @return
+     */
+    private AccessTokenConverter accessTokenConverter() {
+        if (this.accessTokenConverter == null) {
+            accessTokenConverter = new DefaultAccessTokenConverter();
+        }
+        return this.accessTokenConverter;
     }
 }

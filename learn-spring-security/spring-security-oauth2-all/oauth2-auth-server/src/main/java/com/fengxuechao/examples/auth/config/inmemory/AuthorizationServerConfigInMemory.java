@@ -1,11 +1,22 @@
 package com.fengxuechao.examples.auth.config.inmemory;
 
 import com.fengxuechao.examples.auth.config.CustomTokenEnhancer;
+import com.fengxuechao.examples.auth.provider.token.store.JedisConnectionFactoryExt;
+import com.fengxuechao.examples.auth.provider.token.store.RedisTemplateTokenStore;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.redis.connection.RedisClusterConfiguration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisNode;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -20,7 +31,13 @@ import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.util.Base64Utils;
+import redis.clients.jedis.JedisPoolConfig;
+
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author fengxuechao
@@ -57,18 +74,6 @@ public class AuthorizationServerConfigInMemory extends AuthorizationServerConfig
 
     @Autowired
     private TokenGranter tokenGranter;
-
-    @Bean
-    public TokenApprovalStore tokenApprovalStore() {
-        TokenApprovalStore approvalStore = new TokenApprovalStore();
-        approvalStore.setTokenStore(tokenStore);
-        return approvalStore;
-    }
-
-    @Bean
-    public TokenStore tokenStore() {
-        return new InMemoryTokenStore();
-    }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -111,7 +116,23 @@ public class AuthorizationServerConfigInMemory extends AuthorizationServerConfig
     }
 
     @Bean
+    public TokenApprovalStore tokenApprovalStore() {
+        TokenApprovalStore approvalStore = new TokenApprovalStore();
+        approvalStore.setTokenStore(tokenStore);
+        return approvalStore;
+    }
+
+    @Bean
     public TokenEnhancer tokenEnhancer() {
         return new CustomTokenEnhancer();
+    }
+
+    @Bean
+    public TokenStore tokenStore(RedisTemplate redisTemplate) {
+
+//        return new RedisTokenStore(new JedisConnectionFactoryExt(factory));
+        RedisTemplateTokenStore tokenStore = new RedisTemplateTokenStore();
+        tokenStore.setRedisTemplate(redisTemplate);
+        return tokenStore;
     }
 }
