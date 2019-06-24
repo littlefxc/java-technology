@@ -1,14 +1,12 @@
 package com.fengxuechao.examples.auth.config.inmemory;
 
 import com.fengxuechao.examples.auth.config.CustomTokenEnhancer;
-import com.fengxuechao.examples.auth.provider.token.store.RedisTemplateTokenStore;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -22,7 +20,7 @@ import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.util.Base64Utils;
 
 /**
@@ -114,14 +112,7 @@ public class AuthorizationServerConfigInMemory extends AuthorizationServerConfig
     }
 
     @Bean
-    public TokenStore tokenStore() {
-        return new InMemoryTokenStore();
+    public TokenStore tokenStore(LettuceConnectionFactory lettuceConnectionFactory) {
+        return new RedisTokenStore(lettuceConnectionFactory);
     }
-
-    /*@Bean
-    public TokenStore tokenStore(@Qualifier("clusterRedisTemplate") RedisTemplate redisTemplate) {
-        RedisTemplateTokenStore tokenStore = new RedisTemplateTokenStore();
-        tokenStore.setRedisTemplate(redisTemplate);
-        return tokenStore;
-    }*/
 }

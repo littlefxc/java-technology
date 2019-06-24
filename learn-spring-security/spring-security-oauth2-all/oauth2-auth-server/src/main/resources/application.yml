@@ -1,6 +1,10 @@
 spring:
   profiles:
-    include: inMemory,redis
+    include: inMemory
+  redis:
+    cluster:
+      nodes: 192.168.213.13:7001,192.168.213.14:7003,192.168.213.21:7006
+      max-redirects: 5
 logging:
   level:
     root: info

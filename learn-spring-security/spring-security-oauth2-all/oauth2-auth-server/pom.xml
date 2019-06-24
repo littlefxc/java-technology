@@ -13,6 +13,11 @@
         <version>1.5.19.RELEASE</version>
     </parent>
 
+    <properties>
+        <springdata.commons>2.0.12.RELEASE</springdata.commons>
+        <springdata.keyvalue>2.0.12.RELEASE</springdata.keyvalue>
+    </properties>
+
     <dependencies>
         <!--低于1.2.3，KafkaAppender会报错-->
         <dependency>
@@ -35,9 +40,34 @@
             <artifactId>logback-kafka-appender</artifactId>
             <version>0.2.0-RC2</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jedis</artifactId>
+                    <groupId>redis.clients</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- lettuce 客户端 -->
+        <dependency>
+            <groupId>io.lettuce</groupId>
+            <artifactId>lettuce-core</artifactId>
+            <version>5.0.5.RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- lettuce 客户端 -->
+        <dependency>
+            <groupId>biz.paluch.redis</groupId>
+            <artifactId>lettuce</artifactId>
+            <version>4.5.0.Final</version>
+        </dependency>
+        <!-- lettuce 连接池 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -45,6 +75,7 @@
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
