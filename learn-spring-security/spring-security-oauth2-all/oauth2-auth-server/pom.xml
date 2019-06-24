@@ -13,11 +13,6 @@
         <version>1.5.19.RELEASE</version>
     </parent>
 
-    <properties>
-        <springdata.commons>2.0.12.RELEASE</springdata.commons>
-        <springdata.keyvalue>2.0.12.RELEASE</springdata.keyvalue>
-    </properties>
-
     <dependencies>
         <!--低于1.2.3，KafkaAppender会报错-->
         <dependency>
