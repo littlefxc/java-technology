@@ -19,16 +19,16 @@ POST http://localhost:8080/oauth/authorize?response_type=token&client_id=client&
 ###
 
 GET http://localhost:8080/user/profile
-Authorization: bearer 88f244f1-1575-450c-8927-9e6c2e0bcbdf
+Authorization: bearer 41a482b7-238c-461d-be52-b3350e19392c
 
 ###
 
 GET http://localhost:8080/product/1
-Authorization: bearer d07ea6d7-1539-4f09-bee6-9a3103367342
+Authorization: bearer 41a482b7-238c-461d-be52-b3350e19392c
 
 ###
 
-GET http://localhost:8080/oauth/check_token?token=f5963bbe-e4c7-4e9f-8f78-bc78e72ae508
+GET http://localhost:8080/oauth/check_token?token=41a482b7-238c-461d-be52-b3350e19392c
 Authorization: Basic Y2xpZW50OjEyMzQ1Ng==
 
 ###
@@ -44,5 +44,9 @@ Authorization: Basic Y2xpZW50OjEyMzQ1Ng==
 
 GET http://localhost:8081
 Authorization: bearer b1e6db89-cd3a-4205-a2d1-a515209a7435
+
+###
+
+GET http://192.168.200.19:8929/rest/front/admin/doc/index?params={"name":"人脸","pageNo":1,"pageSize":20}
 
 ###

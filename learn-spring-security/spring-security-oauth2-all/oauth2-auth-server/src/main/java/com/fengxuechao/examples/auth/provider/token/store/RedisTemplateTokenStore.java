@@ -136,7 +136,7 @@ public class RedisTemplateTokenStore implements TokenStore {
             this.redisTemplate.delete(AUTH_TO_ACCESS+authenticationKeyGenerator.extractKey(authentication));
 
             String clientId = authentication.getOAuth2Request().getClientId();
-            // redisTemplate.opsForList().rightPush("UNAME_TO_ACCESS:"+getApprovalKey(authentication), token) ;
+//             redisTemplate.opsForList().rightPush("UNAME_TO_ACCESS:"+getApprovalKey(authentication), token) ;
             redisTemplate.opsForList().leftPop(UNAME_TO_ACCESS+getApprovalKey(clientId, authentication.getName()));
             redisTemplate.opsForList().leftPop(CLIENT_ID_TO_ACCESS+clientId);
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @date 2019/6/21
  */
 @Component
-@ConfigurationProperties(prefix = "spring.jedis.cluster")
+@ConfigurationProperties(prefix = "spring.redis.cluster")
 @Data
 public class RedisProperties {
 
