@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <contextName>oauth2-auth-server</contextName>
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+    <property name="LOG_HOME" value="logs"/>
+
+
+    <!--输出到控制台-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %msg：日志消息，%n是换行符-->
+        <encoder>
+            <pattern>%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) %contextName [%thread] %highlight(%-5level) %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--输出到kafka-->
+    <appender name="kafka" class="com.github.danielwegener.logback.kafka.KafkaAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <topic>oauth2-auth-server</topic>
+        <!-- 我们不关心如何对日志消息进行分区 -->
+        <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy"/>
+
+        <!-- 使用异步传递。 日志记录不会阻止应用程序线程 -->
+        <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>
+
+        <!-- 每个<producerConfig>转换为常规kafka-client配置（格式：key = value） -->
+        <!-- 生产者配置记录在这里：https://kafka.apache.org/documentation.html#newproducerconfigs -->
+        <!-- bootstrap.servers是唯一必需的 producerConfig -->
+        <producerConfig>bootstrap.servers=192.168.213.13:9092,192.168.213.14:9092,192.168.213.21:9092</producerConfig>
+        <!-- 不用等待代理对批的接收进行打包。  -->
+        <producerConfig>acks=0</producerConfig>
+        <!-- 等待最多1000毫秒并收集日志消息，然后再批量发送 -->
+        <producerConfig>linger.ms=1000</producerConfig>
+        <!-- 即使生产者缓冲区运行已满，也不要阻止应用程序而是开始丢弃消息 -->
+        <producerConfig>max.block.ms=0</producerConfig>
+        <!-- 定义用于标识kafka代理的客户端ID -->
+        <producerConfig>client.id=${HOSTNAME}-${CONTEXT_NAME}-logback-relaxed</producerConfig>
+    </appender>
+
+    <!--输出到文件-->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/oauth2-auth-server.log.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="console"/>
+        <appender-ref ref="kafka"/>
+    </root>
+</configuration>
