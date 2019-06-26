@@ -15,8 +15,6 @@ public class JedisClient {
 
     private static final JedisClient jedisClient = new JedisClient();
 
-    private Jedis jedis = null;
-
     private JedisClient() {
 
     }

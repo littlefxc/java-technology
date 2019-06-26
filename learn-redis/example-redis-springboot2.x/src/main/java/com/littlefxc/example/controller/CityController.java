@@ -2,6 +2,7 @@ package com.littlefxc.example.controller;
 
 import com.littlefxc.example.domain.City;
 import com.littlefxc.example.service.CityService;
+import com.littlefxc.example.service.RedisCacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,9 @@ public class CityController {
     @Autowired
     private CityService cityService;
 
+    @Autowired
+    private RedisCacheService service;
+
     /**
      * 保存城市信息
      *
@@ -27,7 +31,7 @@ public class CityController {
      */
     @PostMapping
     public City saveCity(@RequestBody City city) {
-        return cityService.saveCity(city);
+        return service.add(city);
     }
 
     /**
@@ -38,7 +42,17 @@ public class CityController {
      */
     @GetMapping("/{id}")
     public City findCityById(@PathVariable Integer id) throws IOException {
-        return cityService.findCityById(id);
+        return service.getUser(id);
+    }
+
+    @PutMapping
+    public City updateCity(@RequestBody City city) {
+        return service.updateCity(city);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteCity(@RequestParam Integer id) {
+        service.delete(id);
     }
 
 }

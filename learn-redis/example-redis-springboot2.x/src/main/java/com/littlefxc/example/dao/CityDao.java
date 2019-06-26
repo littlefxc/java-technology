@@ -31,6 +31,7 @@ public interface CityDao {
      * @return
      */
     @Insert({"insert into city(province_id, city_name, description) values(#{province_id}, #{city_name}, #{description})"})
+    @SelectKey(statement="select LAST_INSERT_ID()", keyProperty="id", before=false, resultType=int.class)
     int save(City city);
 
     @Update("update city set province_id=#{provinceId}, city_name=#{cityName}, description=#{description} where id=#{id}")

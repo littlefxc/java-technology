@@ -25,7 +25,7 @@ public class JedisClusterClient {
 
     public static void main(String[] args) {
         JedisClusterClient jedisClusterClient = JedisClusterClient.getInstance();
-        jedisClusterClient.SaveRedisCluster();
+        jedisClusterClient.saveRedisCluster();
     }
 
     private JedisPoolConfig getPoolConfig() {
@@ -36,7 +36,7 @@ public class JedisClusterClient {
         return config;
     }
 
-    public void SaveRedisCluster() {
+    public void saveRedisCluster() {
         Set<HostAndPort> jedisClusterNodes = new HashSet<HostAndPort>();
         jedisClusterNodes.add(new HostAndPort("192.168.213.13", 7001));
         jedisClusterNodes.add(new HostAndPort("192.168.213.14", 7003));

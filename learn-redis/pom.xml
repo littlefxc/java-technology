@@ -16,7 +16,9 @@
     <modules>
         <module>example-jedis</module>
         <module>example-jedis-spring</module>
-        <module>example-redis-SpringBoot</module>
+        <module>example-redis-springboot2.x</module>
+        <module>example-lettuce</module>
+        <module>example-redis-springboot1.5.x</module>
     </modules>
 
 
