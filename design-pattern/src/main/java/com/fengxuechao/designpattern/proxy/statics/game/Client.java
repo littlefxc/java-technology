@@ -1,4 +1,4 @@
-package com.fengxuechao.designpattern.proxy.statics;
+package com.fengxuechao.designpattern.proxy.statics.game;
 
 /**
  * 出自《设计模式之禅》第12章 代理模式
