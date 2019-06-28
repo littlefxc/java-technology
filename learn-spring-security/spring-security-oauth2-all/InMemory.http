@@ -19,12 +19,12 @@ POST http://localhost:8080/oauth/authorize?response_type=token&client_id=client&
 ###
 
 GET http://localhost:8080/user/profile
-Authorization: bearer 41a482b7-238c-461d-be52-b3350e19392c
+Authorization: bearer 1de28ca0-f1c1-4877-a45b-1ecac4d5b628
 
 ###
 
 GET http://localhost:8080/product/1
-Authorization: bearer 41a482b7-238c-461d-be52-b3350e19392c
+Authorization: bearer 1de28ca0-f1c1-4877-a45b-1ecac4d5b628
 
 ###
 

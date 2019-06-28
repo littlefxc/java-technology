@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.util.Base64Utils;
 
@@ -113,6 +114,7 @@ public class AuthorizationServerConfigInMemory extends AuthorizationServerConfig
 
     @Bean
     public TokenStore tokenStore(LettuceConnectionFactory lettuceConnectionFactory) {
-        return new RedisTokenStore(lettuceConnectionFactory);
+//        return new RedisTokenStore(lettuceConnectionFactory);
+        return new InMemoryTokenStore();
     }
 }
