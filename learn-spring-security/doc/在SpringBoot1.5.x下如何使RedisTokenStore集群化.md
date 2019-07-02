@@ -6,7 +6,7 @@
 
 现在，提供两种解决办法：
 
-1. 重写 RedisTokenStore
+1. 重写 RedisTokenStore, 用 RedisTemplateTokenStore
 2. 将 jedis 换掉，使用 spring boot 2.x 中默认的 redis 客户端 lettuce 来支持 Redis 集群（推荐）
 
 ## 解决办法 1：重写 RedisTokenStore
@@ -257,3 +257,110 @@ public class RedisTemplateTokenStore implements TokenStore {
 ```
 
 ## 解决办法 2：使用 lettuce 替换 jedis
+
+我们可以使用 Lettuce 来替代 jedis，况且 lettuce 也是 spring boot 2.x 中默认的 redis 客户端。
+
+### POM
+
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-redis</artifactId>
+    <exclusions>
+        <exclusion>
+            <artifactId>jedis</artifactId>
+            <groupId>redis.clients</groupId>
+        </exclusion>
+    </exclusions>
+</dependency>
+<!-- lettuce 客户端 -->
+<dependency>
+    <groupId>io.lettuce</groupId>
+    <artifactId>lettuce-core</artifactId>
+    <version>5.0.5.RELEASE</version>
+    <scope>compile</scope>
+</dependency>
+<!-- lettuce 客户端 -->
+<dependency>
+    <groupId>biz.paluch.redis</groupId>
+    <artifactId>lettuce</artifactId>
+    <version>4.5.0.Final</version>
+</dependency>
+<!-- lettuce 连接池 -->
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-pool2</artifactId>
+</dependency>
+```
+
+### 配置文件 application.yml
+
+```yaml
+spring:
+  redis:
+    cluster:
+      nodes: 192.168.213.13:7001,192.168.213.14:7003,192.168.213.21:7006
+      max-redirects: 5
+logging:
+  level:
+    root: info
+    com.fengxuechao.examples.auth: debug
+```
+
+### 配置 LettuceConnectionFactory 和 RedisTokenStore
+
+```java
+package com.fengxuechao.examples.auth.config;
+
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisClusterConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+
+/**
+ * Redis 配置
+ *
+ * @author fengxuechao
+ * @version 0.1
+ * @date 2019/6/24
+ */
+@EnableConfigurationProperties(RedisProperties.class)
+@Configuration
+public class RedisConfig {
+
+    /**
+     * 使用 lettuce 作为 redis 的连接池
+     *
+     * @param configuration
+     * @return
+     */
+    @Bean
+    public LettuceConnectionFactory lettuceConnectionFactory(RedisClusterConfiguration configuration) {
+        return new LettuceConnectionFactory(configuration);
+    }
+
+    /**
+     * lettuce 集群配置
+     */
+    @Bean
+    public RedisClusterConfiguration getClusterConfiguration(RedisProperties redisProperties) {
+        RedisProperties.Cluster clusterProperties = redisProperties.getCluster();
+        RedisClusterConfiguration config = new RedisClusterConfiguration(clusterProperties.getNodes());
+
+        if (clusterProperties.getMaxRedirects() != null) {
+            config.setMaxRedirects(clusterProperties.getMaxRedirects());
+        }
+        return config;
+    }
+    
+    @Bean
+    public TokenStore tokenStore(LettuceConnectionFactory lettuceConnectionFactory) {
+        return new RedisTokenStore(lettuceConnectionFactory);
+    }
+}
+```
+
+
+
