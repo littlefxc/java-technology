@@ -13,7 +13,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <spring-framework-bom.version>5.0.8.RELEASE</spring-framework-bom.version>
-        <mysql.verison>5.1.47</mysql.verison>
+        <mysql.verison>8.0.28</mysql.verison>
         <druid.version>1.1.10</druid.version>
         <quartz.version>2.3.0</quartz.version>
         <spring-data.version>2.0.9.RELEASE</spring-data.version>
